@@ -1,3 +1,4 @@
+const vue = require('vue');
 const puppeteer = require('puppeteer');
 const fs = require('fs').promises;
 
@@ -36,7 +37,7 @@ function getDeepPropertyNames(input) {
     const protoKeys = getDeepPropertyNames(instance);
 
     // All the events the instance can emit
-    const eventNames = instance.events;
+    const eventNames: string[] = instance.events;
     const methodNames: string[] = [];
     const propertyNames: string[] = [];
     const includeInternal = false;
@@ -55,6 +56,31 @@ function getDeepPropertyNames(input) {
 
     console.log('methods', methodNames);
     console.log('props', propertyNames);
+
+    // This is a glorious hack to keep types for dev but get the flat configuration object for production
+    let configuration;
+    // Vue.extend() binds additional properties to the object, so feed it a copy
+    const base = vue.extend(Object.assign({}, configuration = {
+        data() {
+            return {
+                hasBeenMounted: false,
+            }
+        },
+        mounted() {
+            if (this.$isServer && this.hasBeenMounted) {
+                return;
+            }
+            this.hasBeenMounted = true;
+            /*
+            this.dropzone = new Dropzone(
+                this.$refs.dropzoneElement,
+                this.dropzoneSettings
+            );
+            */
+        }
+    }));
+
+    console.log(configuration);
 
     await browser.close();
     await jsdomCleanup();
