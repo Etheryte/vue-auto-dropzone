@@ -1,6 +1,8 @@
 const vue = require('vue');
 const puppeteer = require('puppeteer');
 const fs = require('fs').promises;
+const util = require('util');
+const stringify = require('javascript-stringify').stringify;
 
 // Dropzone requires a DOM context
 const jsdomCleanup = require('jsdom-global')()
@@ -80,7 +82,7 @@ function getDeepPropertyNames(input) {
         }
     }));
 
-    console.log(configuration);
+    console.log(stringify(configuration));
 
     await browser.close();
     await jsdomCleanup();
