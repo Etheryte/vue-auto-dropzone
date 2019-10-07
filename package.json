@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "do": "node src/node/index.ts",
+    "do": "ts-node src/node/index.ts",
     "build": "vue-cli-service build",
     "build-lib": "vue-cli-service build --target lib --name vue-auto-dropzone",
     "lint": "vue-cli-service lint",
@@ -41,6 +41,7 @@
     "puppeteer": "^1.20.0",
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
+    "ts-node": "^8.4.1",
     "typescript": "^3.4.3",
     "vue-template-compiler": "^2.6.10"
   }
