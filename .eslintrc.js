@@ -9,6 +9,7 @@ module.exports = {
     '@vue/typescript',
   ],
   rules: {
+    'indent': ['error', 4],
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'vue/comment-directive': 'off',
