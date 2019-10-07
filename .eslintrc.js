@@ -11,6 +11,7 @@ module.exports = {
   rules: {
     'indent': ['error', 4],
     'no-console': 'off',
+    'no-new-func': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'vue/comment-directive': 'off',
     'semi': ['error', 'always'],

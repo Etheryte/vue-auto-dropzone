@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "do": "ts-node src/node/index.ts",
+    "do": "ts-node src/node/index.ts && yarn lint-fix",
     "build": "vue-cli-service build",
-    "build-lib": "vue-cli-service build --target lib --name vue-auto-dropzone",
-    "lint": "vue-cli-service lint",
+    "build-lib": "vue-cli-service build --target lib --name vue-auto-dropzone components/generated.js",
+    "lint-fix": "vue-cli-service lint --fix",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
