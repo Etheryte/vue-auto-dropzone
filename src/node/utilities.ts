@@ -9,7 +9,9 @@ module.exports = {
             });
         }
 
-        // Sorted simply for an easier debugging overview
         return [...properties.keys()];
+    },
+    lexicographicCompare(a: string, b: string) {
+        return a.localeCompare(b);
     },
 };

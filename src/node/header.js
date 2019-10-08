@@ -5,3 +5,8 @@
  * Copyright (c) 2019, Karl Tarvas
  *
  */
+
+import Dropzone from 'dropzone';
+
+// Only mount manually
+Dropzone.autoDiscover = false;
