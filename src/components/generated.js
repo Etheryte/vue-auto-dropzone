@@ -6,243 +6,187 @@
  *
  */
 
-import Dropzone from 'dropzone';
-
-// Only mount manually
-Dropzone.autoDiscover = false;
-
-export default {
-    props: {
-        options: {
-            default: () => ({}),
-            validator: value => {
-                // Required object
-                return value && value === Object(value) && !Array.isArray(value);
-            },
-        },
-        includeStyling: {
-            default: true,
-            validator: value => {
-                // Nonrequired boolean
-                return typeof value === 'boolean';
-            },
-        },
-        destroyDropzone: {
-            default: true,
-            validator: value => {
-                // Nonrequired boolean
-                return typeof value === 'boolean';
-            },
+export const methodPartials = {
+    Emitter: function Emitter(...args) {
+        return this.instance.Emitter.apply(this, args);
+    },
+    URL: function URL(...args) {
+        return this.instance.URL.apply(this, args);
+    },
+    accept: function accept(...args) {
+        return this.instance.accept.apply(this, args);
+    },
+    addFile: function addFile(...args) {
+        return this.instance.addFile.apply(this, args);
+    },
+    cancelUpload: function cancelUpload(...args) {
+        return this.instance.cancelUpload.apply(this, args);
+    },
+    createThumbnail: function createThumbnail(...args) {
+        return this.instance.createThumbnail.apply(this, args);
+    },
+    createThumbnailFromUrl: function createThumbnailFromUrl(...args) {
+        return this.instance.createThumbnailFromUrl.apply(this, args);
+    },
+    destroy: function destroy(...args) {
+        return this.instance.destroy.apply(this, args);
+    },
+    disable: function disable(...args) {
+        return this.instance.disable.apply(this, args);
+    },
+    drop: function drop(...args) {
+        return this.instance.drop.apply(this, args);
+    },
+    emit: function emit(...args) {
+        return this.instance.emit.apply(this, args);
+    },
+    enable: function enable(...args) {
+        return this.instance.enable.apply(this, args);
+    },
+    enqueueFile: function enqueueFile(...args) {
+        return this.instance.enqueueFile.apply(this, args);
+    },
+    enqueueFiles: function enqueueFiles(...args) {
+        return this.instance.enqueueFiles.apply(this, args);
+    },
+    filesize: function filesize(...args) {
+        return this.instance.filesize.apply(this, args);
+    },
+    getAcceptedFiles: function getAcceptedFiles(...args) {
+        return this.instance.getAcceptedFiles.apply(this, args);
+    },
+    getActiveFiles: function getActiveFiles(...args) {
+        return this.instance.getActiveFiles.apply(this, args);
+    },
+    getAddedFiles: function getAddedFiles(...args) {
+        return this.instance.getAddedFiles.apply(this, args);
+    },
+    getExistingFallback: function getExistingFallback(...args) {
+        return this.instance.getExistingFallback.apply(this, args);
+    },
+    getFallbackForm: function getFallbackForm(...args) {
+        return this.instance.getFallbackForm.apply(this, args);
+    },
+    getFilesWithStatus: function getFilesWithStatus(...args) {
+        return this.instance.getFilesWithStatus.apply(this, args);
+    },
+    getQueuedFiles: function getQueuedFiles(...args) {
+        return this.instance.getQueuedFiles.apply(this, args);
+    },
+    getRejectedFiles: function getRejectedFiles(...args) {
+        return this.instance.getRejectedFiles.apply(this, args);
+    },
+    getUploadingFiles: function getUploadingFiles(...args) {
+        return this.instance.getUploadingFiles.apply(this, args);
+    },
+    handleFiles: function handleFiles(...args) {
+        return this.instance.handleFiles.apply(this, args);
+    },
+    init: function init(...args) {
+        return this.instance.init.apply(this, args);
+    },
+    off: function off(...args) {
+        return this.instance.off.apply(this, args);
+    },
+    on: function on(...args) {
+        return this.instance.on.apply(this, args);
+    },
+    paste: function paste(...args) {
+        return this.instance.paste.apply(this, args);
+    },
+    processFile: function processFile(...args) {
+        return this.instance.processFile.apply(this, args);
+    },
+    processFiles: function processFiles(...args) {
+        return this.instance.processFiles.apply(this, args);
+    },
+    processQueue: function processQueue(...args) {
+        return this.instance.processQueue.apply(this, args);
+    },
+    removeAllFiles: function removeAllFiles(...args) {
+        return this.instance.removeAllFiles.apply(this, args);
+    },
+    removeEventListeners: function removeEventListeners(...args) {
+        return this.instance.removeEventListeners.apply(this, args);
+    },
+    removeFile: function removeFile(...args) {
+        return this.instance.removeFile.apply(this, args);
+    },
+    resizeImage: function resizeImage(...args) {
+        return this.instance.resizeImage.apply(this, args);
+    },
+    resolveOption: function resolveOption(...args) {
+        return this.instance.resolveOption.apply(this, args);
+    },
+    setupEventListeners: function setupEventListeners(...args) {
+        return this.instance.setupEventListeners.apply(this, args);
+    },
+    submitRequest: function submitRequest(...args) {
+        return this.instance.submitRequest.apply(this, args);
+    },
+    updateTotalUploadProgress: function updateTotalUploadProgress(...args) {
+        return this.instance.updateTotalUploadProgress.apply(this, args);
+    },
+    uploadFile: function uploadFile(...args) {
+        return this.instance.uploadFile.apply(this, args);
+    },
+    uploadFiles: function uploadFiles(...args) {
+        return this.instance.uploadFiles.apply(this, args);
+    },
+};
+export const computedPartials = {
+    clickableElements: {
+        cache: false,
+        get: function clickableElements() {
+            return this.instance.clickableElements;
         },
     },
-    data() {
-        return {
-            instance: null,
-            hasBeenMounted: false,
-        };
-    },
-    mounted() {
-        if (this.$isServer && this.hasBeenMounted) {
-            return;
-        }
-        this.hasBeenMounted = true;
-        this.instance = new Dropzone(this.$el, this.$props.options);
-        // Pass every configured event through
-        this.instance.events.forEach(event => {
-            this.instance.on(event, (...args) => {
-                // eslint-disable-next-line no-useless-call
-                this.$emit.apply(this, [event, ...args]);
-            });
-        });
-    },
-    beforeDestroy() {
-        if (this.$props.destroyDropzone && this.instance) {
-            this.instance.destroy();
-            this.instance = null;
-        }
-    },
-    methods: {
-        Emitter: function Emitter(...args) {
-            return this.instance.Emitter.apply(this, args);
-        },
-        URL: function URL(...args) {
-            return this.instance.URL.apply(this, args);
-        },
-        accept: function accept(...args) {
-            return this.instance.accept.apply(this, args);
-        },
-        addFile: function addFile(...args) {
-            return this.instance.addFile.apply(this, args);
-        },
-        cancelUpload: function cancelUpload(...args) {
-            return this.instance.cancelUpload.apply(this, args);
-        },
-        createThumbnail: function createThumbnail(...args) {
-            return this.instance.createThumbnail.apply(this, args);
-        },
-        createThumbnailFromUrl: function createThumbnailFromUrl(...args) {
-            return this.instance.createThumbnailFromUrl.apply(this, args);
-        },
-        destroy: function destroy(...args) {
-            return this.instance.destroy.apply(this, args);
-        },
-        disable: function disable(...args) {
-            return this.instance.disable.apply(this, args);
-        },
-        drop: function drop(...args) {
-            return this.instance.drop.apply(this, args);
-        },
-        emit: function emit(...args) {
-            return this.instance.emit.apply(this, args);
-        },
-        enable: function enable(...args) {
-            return this.instance.enable.apply(this, args);
-        },
-        enqueueFile: function enqueueFile(...args) {
-            return this.instance.enqueueFile.apply(this, args);
-        },
-        enqueueFiles: function enqueueFiles(...args) {
-            return this.instance.enqueueFiles.apply(this, args);
-        },
-        filesize: function filesize(...args) {
-            return this.instance.filesize.apply(this, args);
-        },
-        getAcceptedFiles: function getAcceptedFiles(...args) {
-            return this.instance.getAcceptedFiles.apply(this, args);
-        },
-        getActiveFiles: function getActiveFiles(...args) {
-            return this.instance.getActiveFiles.apply(this, args);
-        },
-        getAddedFiles: function getAddedFiles(...args) {
-            return this.instance.getAddedFiles.apply(this, args);
-        },
-        getExistingFallback: function getExistingFallback(...args) {
-            return this.instance.getExistingFallback.apply(this, args);
-        },
-        getFallbackForm: function getFallbackForm(...args) {
-            return this.instance.getFallbackForm.apply(this, args);
-        },
-        getFilesWithStatus: function getFilesWithStatus(...args) {
-            return this.instance.getFilesWithStatus.apply(this, args);
-        },
-        getQueuedFiles: function getQueuedFiles(...args) {
-            return this.instance.getQueuedFiles.apply(this, args);
-        },
-        getRejectedFiles: function getRejectedFiles(...args) {
-            return this.instance.getRejectedFiles.apply(this, args);
-        },
-        getUploadingFiles: function getUploadingFiles(...args) {
-            return this.instance.getUploadingFiles.apply(this, args);
-        },
-        handleFiles: function handleFiles(...args) {
-            return this.instance.handleFiles.apply(this, args);
-        },
-        init: function init(...args) {
-            return this.instance.init.apply(this, args);
-        },
-        off: function off(...args) {
-            return this.instance.off.apply(this, args);
-        },
-        on: function on(...args) {
-            return this.instance.on.apply(this, args);
-        },
-        paste: function paste(...args) {
-            return this.instance.paste.apply(this, args);
-        },
-        processFile: function processFile(...args) {
-            return this.instance.processFile.apply(this, args);
-        },
-        processFiles: function processFiles(...args) {
-            return this.instance.processFiles.apply(this, args);
-        },
-        processQueue: function processQueue(...args) {
-            return this.instance.processQueue.apply(this, args);
-        },
-        removeAllFiles: function removeAllFiles(...args) {
-            return this.instance.removeAllFiles.apply(this, args);
-        },
-        removeEventListeners: function removeEventListeners(...args) {
-            return this.instance.removeEventListeners.apply(this, args);
-        },
-        removeFile: function removeFile(...args) {
-            return this.instance.removeFile.apply(this, args);
-        },
-        resizeImage: function resizeImage(...args) {
-            return this.instance.resizeImage.apply(this, args);
-        },
-        resolveOption: function resolveOption(...args) {
-            return this.instance.resolveOption.apply(this, args);
-        },
-        setupEventListeners: function setupEventListeners(...args) {
-            return this.instance.setupEventListeners.apply(this, args);
-        },
-        submitRequest: function submitRequest(...args) {
-            return this.instance.submitRequest.apply(this, args);
-        },
-        updateTotalUploadProgress: function updateTotalUploadProgress(...args) {
-            return this.instance.updateTotalUploadProgress.apply(this, args);
-        },
-        uploadFile: function uploadFile(...args) {
-            return this.instance.uploadFile.apply(this, args);
-        },
-        uploadFiles: function uploadFiles(...args) {
-            return this.instance.uploadFiles.apply(this, args);
+    defaultOptions: {
+        cache: false,
+        get: function defaultOptions() {
+            return this.instance.defaultOptions;
         },
     },
-    computed: {
-        clickableElements: {
-            cache: false,
-            get: function clickableElements() {
-                return this.instance.clickableElements;
-            },
+    element: {
+        cache: false,
+        get: function element() {
+            return this.instance.element;
         },
-        defaultOptions: {
-            cache: false,
-            get: function defaultOptions() {
-                return this.instance.defaultOptions;
-            },
+    },
+    events: {
+        cache: false,
+        get: function events() {
+            return this.instance.events;
         },
-        element: {
-            cache: false,
-            get: function element() {
-                return this.instance.element;
-            },
+    },
+    files: {
+        cache: false,
+        get: function files() {
+            return this.instance.files;
         },
-        events: {
-            cache: false,
-            get: function events() {
-                return this.instance.events;
-            },
+    },
+    hiddenFileInput: {
+        cache: false,
+        get: function hiddenFileInput() {
+            return this.instance.hiddenFileInput;
         },
-        files: {
-            cache: false,
-            get: function files() {
-                return this.instance.files;
-            },
+    },
+    listeners: {
+        cache: false,
+        get: function listeners() {
+            return this.instance.listeners;
         },
-        hiddenFileInput: {
-            cache: false,
-            get: function hiddenFileInput() {
-                return this.instance.hiddenFileInput;
-            },
+    },
+    previewsContainer: {
+        cache: false,
+        get: function previewsContainer() {
+            return this.instance.previewsContainer;
         },
-        listeners: {
-            cache: false,
-            get: function listeners() {
-                return this.instance.listeners;
-            },
-        },
-        previewsContainer: {
-            cache: false,
-            get: function previewsContainer() {
-                return this.instance.previewsContainer;
-            },
-        },
-        version: {
-            cache: false,
-            get: function version() {
-                return this.instance.version;
-            },
+    },
+    version: {
+        cache: false,
+        get: function version() {
+            return this.instance.version;
         },
     },
 };

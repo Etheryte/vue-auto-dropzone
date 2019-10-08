@@ -78,73 +78,13 @@ const { getDeepPropertyNames } = require('./utilities');
             return result;
         }, {});
 
-        // This is a glorious hack to keep types for dev but get the flat configuration object for production
-        let componentDefinition;
-        // Vue.extend() binds additional properties to the object, so feed it a copy
-        vue.extend(Object.assign({}, componentDefinition = {
-            props: {
-                options: {
-                    default: () => ({}),
-                    // Stringify doesn't handle native constructor values well
-                    validator: (value) => {
-                        // Required object
-                        return value && value === Object(value) && !Array.isArray(value);
-                    },
-                },
-                includeStyling: {
-                    default: true,
-                    validator: (value) => {
-                        // Nonrequired boolean
-                        return typeof value === 'boolean';
-                    },
-                },
-                destroyDropzone: {
-                    default: true,
-                    validator: (value) => {
-                        // Nonrequired boolean
-                        return typeof value === 'boolean';
-                    },
-                },
-            },
-            data() {
-                return {
-                    instance: null,
-                    hasBeenMounted: false,
-                };
-            },
-            mounted() {
-                if (this.$isServer && this.hasBeenMounted) {
-                    return;
-                }
-                this.hasBeenMounted = true;
-
-                this.instance = new Dropzone(this.$el, this.$props.options);
-                // Pass every configured event through
-                this.instance.events.forEach((event) => {
-                    this.instance.on(event, (...args) => {
-                        // eslint-disable-next-line no-useless-call
-                        this.$emit.apply(this, [event, ...args]);
-                    });
-                });
-            },
-            beforeDestroy() {
-                if (this.$props.destroyDropzone && this.instance) {
-                    this.instance.destroy();
-                    this.instance = null;
-                }
-            },
-            methods: methodPartials,
-            computed: computedPartials,
-        }));
-
-        const definitionString = stringify(componentDefinition);
         const header = await fs.readFile(fileHeaderPath);
-        // TODO: Where to put imports?
-        const component = `${header}
-        export default ${definitionString};
+        const output = `${header}
+        export const methodPartials = ${stringify(methodPartials)};
+        export const computedPartials = ${stringify(computedPartials)};
         `;
         // Fix generic stringifying output issues with default values, let ESLint handle the rest
-        const pretty = prettier.format(component);
+        const pretty = prettier.format(output);
 
         // The calling script calls ESLint in turn
         await fs.writeFile(outputFile, pretty);

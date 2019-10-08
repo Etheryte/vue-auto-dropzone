@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <vue-auto-dropzone :options="options" v-on:addedfile="log" v-on:uploadprogress="log" />
+    <vue-auto-dropzone :options="options" v-on:addedfile="log" v-on:uploadprogress="log" />
   </div>
 </template>
 
