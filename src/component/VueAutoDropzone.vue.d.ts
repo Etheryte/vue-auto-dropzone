@@ -1,7 +1,7 @@
 import GeneratedBase from './Generated.vue';
 import Dropzone, { DropzoneOptions } from 'dropzone';
 export default class VueAutoDropzone extends GeneratedBase {
-    hasBeenMounted: boolean;
+    private hasBeenMounted;
     mounted(): void;
     beforeDestroy(): void;
     getOptions(): Dropzone.DropzoneOptions;

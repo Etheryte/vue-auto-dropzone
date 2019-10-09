@@ -6799,12 +6799,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2c031242-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=template&id=76396a62&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2c031242-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=template&id=2fc54745&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{ 'dropzone': _vm.includeStyling }},[(this.$slots && this.$slots.default && this.$slots.default.length)?[(_vm.includeStyling)?_c('div',{class:{ 'dz-message': _vm.includeStyling }},[_vm._t("default",[_vm._v("Drop files here to upload")])],2):_vm._t("default",[_vm._v("Drop files here to upload")])]:_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=template&id=76396a62&
+// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=template&id=2fc54745&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/symbol/iterator.js
 var iterator = __webpack_require__("5d58");
@@ -7414,18 +7414,18 @@ vue_class_component_esm_Component.registerHooks = function registerHooks(keys) {
 
 
 
-var Generatedvue_type_script_lang_ts_GeneratedBase =
+var Generatedvue_type_script_lang_ts_Dropzone =
 /*#__PURE__*/
 function (_Vue) {
-  _inherits(GeneratedBase, _Vue);
+  _inherits(Dropzone, _Vue);
 
-  function GeneratedBase() {
-    _classCallCheck(this, GeneratedBase);
+  function Dropzone() {
+    _classCallCheck(this, Dropzone);
 
-    return _possibleConstructorReturn(this, getPrototypeOf_getPrototypeOf(GeneratedBase).apply(this, arguments));
+    return _possibleConstructorReturn(this, getPrototypeOf_getPrototypeOf(Dropzone).apply(this, arguments));
   }
 
-  _createClass(GeneratedBase, [{
+  _createClass(Dropzone, [{
     key: "Emitter",
     get: function get() {
       return this.instance.Emitter;
@@ -7808,11 +7808,11 @@ function (_Vue) {
     }
   }]);
 
-  return GeneratedBase;
+  return Dropzone;
 }(external_commonjs_vue_commonjs2_vue_root_Vue_default.a);
 
-Generatedvue_type_script_lang_ts_GeneratedBase = __decorate([vue_class_component_esm], Generatedvue_type_script_lang_ts_GeneratedBase);
-/* harmony default export */ var Generatedvue_type_script_lang_ts_ = (Generatedvue_type_script_lang_ts_GeneratedBase);
+Generatedvue_type_script_lang_ts_Dropzone = __decorate([vue_class_component_esm], Generatedvue_type_script_lang_ts_Dropzone);
+/* harmony default export */ var Generatedvue_type_script_lang_ts_ = (Generatedvue_type_script_lang_ts_Dropzone);
 // CONCATENATED MODULE: ./src/component/Generated.vue?vue&type=script&lang=ts&
  /* harmony default export */ var component_Generatedvue_type_script_lang_ts_ = (Generatedvue_type_script_lang_ts_); 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js

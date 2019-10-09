@@ -29,7 +29,10 @@ export default class App extends Vue {
     };
 
     mounted() {
-        // const foo = this.$refs.dz.
+        const foo = this.$refs.dz.addFile;
+        const bar = this.$refs.dz.version;
+        const tea = this.$refs.dz.Emitter;
+        const cup = this.$refs.dz.getOptions;
     }
 
     options = {

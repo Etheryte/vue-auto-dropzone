@@ -5,6 +5,7 @@ const vue = require('vue');
 const puppeteer = require('puppeteer');
 const stringify = require('javascript-stringify').stringify;
 
+const prettier = require('prettier');
 const Linter = require('eslint').Linter;
 const linter = new Linter();
 const linterConfig = require(path.resolve(process.env.PWD, '.eslintrc.js'));
@@ -13,7 +14,7 @@ const linterConfig = require(path.resolve(process.env.PWD, '.eslintrc.js'));
 const jsdomCleanup = require('jsdom-global')();
 const Dz = require('dropzone');
 
-const { getDeepPropertyNames } = require('./utilities');
+const { getDeepPropertyNames, getTypeHint } = require('./utilities');
 
 const stylePath = require.resolve('dropzone/dist/min/dropzone.min.css');
 const styleOutputPath = path.resolve(process.env.PWD, 'src/component/generated.css');
@@ -30,6 +31,8 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
 
         const methodNames: string[] = [];
         const propertyNames: string[] = [];
+        // Hint at types where Dropzone doesn't provide definitions
+        const typeHints: string[] = [];
         // Exclude fields we want to manually set or ignore
         const exclude = [
             // Yeah nah
@@ -41,13 +44,17 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
             // 'URL',
         ];
         const includeInternal = false;
+        // The methods etc are sourced from Dropzone so hint that in Intellisense
+        const generatedClassName = 'Dropzone';
 
+        // TODO: Implement type hints via typing live things
         protoKeys.forEach(key => {
             if (exclude.indexOf(key) !== -1) return;
             // Internal values are prefixed with an underscore
             if (!includeInternal && key.startsWith('_')) return;
 
             const value = instance[key];
+            typeHints.push(`${key}: ${getTypeHint(value)}`);
             if (typeof value === 'function') {
                 methodNames.push(key);
             } else {
@@ -64,10 +71,10 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
         const computedMethodPartials = methodNames.map((name) => {
             // Stringify doesn't expand context variables, so inline the name here instead
             return `
-                get ${name}(this: GeneratedBase) {
+                get ${name}(this: ${generatedClassName}) {
                     return this.instance.${name};
                 }
-                set ${name}(this: GeneratedBase, value) {
+                set ${name}(this: ${generatedClassName}, value) {
                     this.instance.${name} = value;
                 }
             `;
@@ -75,7 +82,7 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
 
         // For all properties, make them non-cached computed properties, e.g. just getters
         const computedPropertyPartials = propertyNames.map((name) => {
-            return `get ${name}(this: GeneratedBase) {
+            return `get ${name}(this: ${generatedClassName}) {
                 return this.instance.${name};
             }`;
         });
@@ -92,12 +99,17 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
 
         import { DropzoneInstance } from './interfaces';
 
-        // Dropzone type definitions aren't up to date
-        type UntypedKeys = Exclude<keyof GeneratedBase, keyof DropzoneInstance>;
-        type UntypedFields = Record<UntypedKeys, any>;
+        // Dropzone type definitions aren't up to date, hint the user where possible
+        interface TypeHints {
+            ${typeHints}
+        }
+
+        // Assuming every key has a hint
+        type UntypedKeys = Exclude<keyof TypeHints, keyof DropzoneInstance>;
+        type UntypedFields = Pick<TypeHints, UntypedKeys>
 
         @Component
-        export default class GeneratedBase extends Vue {
+        export default class ${generatedClassName} extends Vue {
             instance!: DropzoneInstance & UntypedFields;
 
             ${combinedPartials}
@@ -105,8 +117,12 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
         </script>
         `;
 
+        const pretty = prettier.format(output, {
+            parser: 'vue',
+        });
+
         // The calling script calls ESLint in turn
-        await fs.writeFile(scriptOutputPath, output, 'utf8');
+        await fs.writeFile(scriptOutputPath, pretty, 'utf8');
         await jsdomCleanup();
 
         // Mirror styles at the time of bundling to avoid release-out-of-sync issues

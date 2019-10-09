@@ -41,7 +41,7 @@ Dropzone.autoDiscover = false;
     },
 })
 export default class VueAutoDropzone extends GeneratedBase {
-    hasBeenMounted = false;
+    private hasBeenMounted = false;
 
     mounted() {
         // Dropzone requires window to mount

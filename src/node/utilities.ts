@@ -14,4 +14,10 @@ module.exports = {
     lexicographicCompare(a: string, b: string) {
         return a.localeCompare(b);
     },
+    getTypeHint(input: any) {
+        if (typeof input === 'undefined' || input === null) return 'any';
+        if (Array.isArray(input)) return 'any[]';
+        if (typeof input === 'function') return 'Function';
+        return typeof input;
+    },
 };
