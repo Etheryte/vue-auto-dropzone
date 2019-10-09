@@ -15,7 +15,6 @@ const jsdomCleanup = require('jsdom-global')();
 const Dropzone = require('dropzone');
 const libPath = require.resolve('dropzone');
 
-const fileHeaderPath = path.resolve(process.env.PWD, 'src/node/header.js');
 const outputFile = path.resolve(process.env.PWD, 'src/components/generated.js');
 const { getDeepPropertyNames } = require('./utilities');
 
@@ -83,8 +82,7 @@ const { getDeepPropertyNames } = require('./utilities');
             return result;
         }, {});
 
-        const header = await fs.readFile(fileHeaderPath);
-        const output = `${header}
+        const output = `// NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE WILL BE LOST WITH THE NEXT BUILD.
         export const computedMethodPartials = ${stringify(computedMethodPartials)};
         export const computedPropertyPartials = ${stringify(computedPropertyPartials)};
         `;

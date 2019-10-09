@@ -48,7 +48,8 @@ export default class VueAutoDropzone extends Vue {
     hasBeenMounted = false;
 
     mounted() {
-        if (process && !(process as any).browser) return;
+        // Dropzone requires window to mount
+        if (typeof window === 'undefined') return;
         if (this.$isServer && this.hasBeenMounted) return;
         this.hasBeenMounted = true;
 
@@ -66,6 +67,18 @@ export default class VueAutoDropzone extends Vue {
         if (!(this.$props.destroyDropzone && this.instance)) return;
         this.instance.destroy();
         this.instance = null;
+    }
+
+    getOptions() {
+        return this.instance.options;
+    }
+
+    setOptions(value) {
+        this.instance.options = value;
+    }
+
+    setOption(key, value) {
+        this.instance.options[value] = key;
     }
 };
 </script>

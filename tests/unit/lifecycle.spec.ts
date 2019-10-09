@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 import { shallowMount } from '@vue/test-utils';
+import sinon from 'sinon';
+
 import Component from '@/components/vue-auto-dropzone.vue';
 
 describe('lifecycle', () => {
@@ -9,9 +11,19 @@ describe('lifecycle', () => {
         },
     };
 
-    it('throws without URL config', () => {
+    it('throws without config', () => {
         expect(() => {
             shallowMount(Component);
+        }).to.throw();
+    });
+
+    it('throws without URL config', () => {
+        expect(() => {
+            shallowMount(Component, {
+                propsData: {
+                    options: {},
+                },
+            });
         }).to.throw('No URL provided.');
     });
 
@@ -22,18 +34,33 @@ describe('lifecycle', () => {
         expect(wrapper.text()).to.include('Drop files here to upload');
     });
 
-    it('destroys instance on unmount', () => {
+    it('supports slots', () => {
+        const wrapper = shallowMount(Component, {
+            propsData: loopbackConfig,
+            slots: {
+                default: '<div>slot content</div>',
+            },
+        });
+        expect(wrapper.text()).to.equal('slot content');
+    });
+
+    it('mirrors method overwriting to internal instance', () => {
+        const fn = () => {};
         const wrapper = shallowMount(Component, {
             propsData: loopbackConfig,
         });
-        // https://vue-test-utils.vuejs.org/api/wrapper/#destroy
+        const vm = wrapper.vm as any;
+        vm.destroy = fn;
+        expect(vm.instance.destroy).to.equal(fn);
     });
 
-    it('accepts files', () => {
-        // https://vue-test-utils.vuejs.org/api/wrapper/#trigger
-    });
-
-    it('emits basic events', () => {
-        // https://vue-test-utils.vuejs.org/api/wrapper/#emitted
+    it('destroys instance on unmount', () => {
+        const spy = sinon.stub();
+        const wrapper = shallowMount(Component, {
+            propsData: loopbackConfig,
+        });
+        (wrapper.vm as any).destroy = spy;
+        wrapper.destroy();
+        expect(spy.calledOnce).to.equal(true);
     });
 });
