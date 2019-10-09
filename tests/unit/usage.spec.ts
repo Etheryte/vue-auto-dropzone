@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import Component from '@/components/vue-auto-dropzone.vue';
 
-describe('lifecycle', () => {
+describe('usage', () => {
     const loopbackConfig = {
         options: {
             url: 'https://httpbin.org/anything',

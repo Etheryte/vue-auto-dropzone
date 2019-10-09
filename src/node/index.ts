@@ -12,16 +12,18 @@ const linterConfig = require(path.resolve(process.env.PWD, '.eslintrc.js'));
 
 // Dropzone requires a DOM context
 const jsdomCleanup = require('jsdom-global')();
-const Dropzone = require('dropzone');
-const libPath = require.resolve('dropzone');
+const Dz = require('dropzone');
 
-const outputFile = path.resolve(process.env.PWD, 'src/components/generated.js');
 const { getDeepPropertyNames } = require('./utilities');
+
+const stylePath = require.resolve('dropzone/dist/min/dropzone.min.css');
+const styleOutputPath = path.resolve(process.env.PWD, 'src/components/generated.css');
+const scriptOutputPath = path.resolve(process.env.PWD, 'src/components/generated.js');
 
 (async() => {
     try {
         // Create a placeholder instance to see what's exposed
-        const instance = new Dropzone(document.body, {
+        const instance = new Dz(document.body, {
             // URL is a required parameter, just loop it back
             url: '127.0.0.1',
         });
@@ -82,7 +84,10 @@ const { getDeepPropertyNames } = require('./utilities');
             return result;
         }, {});
 
-        const output = `// NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE WILL BE LOST WITH THE NEXT BUILD.
+        const output = `
+        /**
+         * NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST WITH THE NEXT BUILD.
+         */
         export const computedMethodPartials = ${stringify(computedMethodPartials)};
         export const computedPropertyPartials = ${stringify(computedPropertyPartials)};
         `;
@@ -90,8 +95,13 @@ const { getDeepPropertyNames } = require('./utilities');
         const pretty = prettier.format(output);
 
         // The calling script calls ESLint in turn
-        await fs.writeFile(outputFile, pretty);
+        await fs.writeFile(scriptOutputPath, pretty, 'utf8');
         await jsdomCleanup();
+
+        console.log(stylePath);
+        // Mirror styles at the time of bundling to avoid release-out-of-sync issues
+        const styles = await fs.readFile(stylePath, 'utf8');
+        await fs.writeFile(styleOutputPath, styles, 'utf8');
     } catch (e) {
         console.error(e);
         (process as any).exit(1);

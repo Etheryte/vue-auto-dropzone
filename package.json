@@ -15,15 +15,12 @@
     "test": "yarn build:component && yarn test:unit"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
     "dropzone": "^5.5.1",
-    "sinon": "^7.5.0",
-    "vue": "^2.6.10",
-    "vue-class-component": "^7.0.2",
-    "vue-property-decorator": "^8.1.0"
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@types/chai": "^4.1.0",
+    "@types/dropzone": "^5.0.6",
     "@types/mocha": "^5.2.4",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-e2e-cypress": "^3.11.0",
@@ -36,18 +33,22 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
-    "eslint": "^5.16.0",
+    "core-js": "^2.6.5",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
+    "eslint": "^5.16.0",
     "javascript-stringify": "git://github.com/Etheryte/javascript-stringify.git#f1c0c7b",
-    "jsdom": "^15.1.1",
     "jsdom-global": "^3.0.2",
+    "jsdom": "^15.1.1",
     "prettier": "^1.18.2",
     "puppeteer": "^1.20.0",
-    "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
+    "sass": "^1.18.0",
+    "sinon": "^7.5.0",
     "ts-node": "^8.4.1",
-    "typescript": "3.5.3",
+    "typescript": "3.4.3",
+    "vue-class-component": "^7.0.2",
+    "vue-property-decorator": "^8.1.0",
     "vue-template-compiler": "^2.6.10"
   }
 }

@@ -1,24 +1,30 @@
 <template>
     <div :class="{ 'dropzone': includeStyling }">
-        <div
-            v-if="this.$slots && this.$slots.default && this.$slots.default.length"
-            :class="{ 'dz-message': includeStyling }"
-        >
-            <slot>Drop files here to upload</slot>
-        </div>
+        <template v-if="this.$slots && this.$slots.default && this.$slots.default.length">
+            <div v-if="includeStyling" :class="{ 'dz-message': includeStyling }">
+                <slot>Drop files here to upload</slot>
+            </div>
+            <slot v-else>Drop files here to upload</slot>
+        </template>
     </div>
 </template>
 <script lang="ts">
-// TODO: SSR
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
 import { computedMethodPartials, computedPropertyPartials } from './generated';
 
-import Dropzone from 'dropzone';
+import Dropzone, { DropzoneOptions } from 'dropzone';
 
 // Only mount manually
 Dropzone.autoDiscover = false;
+
+interface DropzoneInstance extends Dropzone {
+    // Dropzone type definitions incorrectly identify this as static on instances
+    options: DropzoneOptions;
+    // This field is missing from the official types
+    events: string[];
+}
 
 @Component({
     props: {
@@ -44,7 +50,7 @@ Dropzone.autoDiscover = false;
     },
 })
 export default class VueAutoDropzone extends Vue {
-    instance: Dropzone | null = null;
+    instance!: DropzoneInstance;
     hasBeenMounted = false;
 
     mounted() {
@@ -53,10 +59,12 @@ export default class VueAutoDropzone extends Vue {
         if (this.$isServer && this.hasBeenMounted) return;
         this.hasBeenMounted = true;
 
-        this.instance = new Dropzone(this.$el, this.$props.options);
+        const options: DropzoneOptions = this.$props.options;
+        this.instance = new Dropzone(this.$el as HTMLElement, options) as DropzoneInstance;
+
         // Pass every configured event through
         this.instance.events.forEach((eventName) => {
-            this.instance.on(eventName, (...args) => {
+            this.instance!.on(eventName, (...args) => {
                 // eslint-disable-next-line no-useless-call
                 this.$emit.apply(this, [eventName, ...args]);
             });
@@ -66,23 +74,23 @@ export default class VueAutoDropzone extends Vue {
     beforeDestroy() {
         if (!(this.$props.destroyDropzone && this.instance)) return;
         this.instance.destroy();
-        this.instance = null;
     }
 
     getOptions() {
         return this.instance.options;
     }
 
-    setOptions(value) {
-        this.instance.options = value;
+    setOptions(value: Partial<DropzoneOptions>) {
+        Object.assign(this.instance.options, value);
     }
 
-    setOption(key, value) {
-        this.instance.options[value] = key;
+    getOption(key: keyof DropzoneOptions) {
+        return this.instance.options[key];
+    }
+
+    setOption(key: keyof DropzoneOptions, value: any) {
+        this.instance.options[key] = value;
     }
 };
 </script>
-<style lang="scss">
-// TODO: Direct ref or inline or..?
-@import url(https://rawgit.com/enyo/dropzone/master/dist/dropzone.css);
-</style>
+<style src="./generated.css"></style>

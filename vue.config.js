@@ -4,6 +4,7 @@ const banner = `
 vue-auto-dropzone
 
 Copyright (c) 2019, Karl Tarvas <info@karltarvas.com>
+Original licensing applies for dependencies, bundled and otherwise
 
 More info available: https://github.com/Etheryte/vue-auto-dropzone
 Build date: ${new Date(Date.now()).toISOString()}

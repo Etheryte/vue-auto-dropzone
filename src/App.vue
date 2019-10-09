@@ -1,11 +1,14 @@
 <template>
   <div id="app">
     <vue-auto-dropzone :options="options" v-on:addedfile="log" v-on:uploadprogress="log" />
-    <vue-auto-dropzone :options="options" v-on:addedfile="log" v-on:uploadprogress="log">
+    <vue-auto-dropzone :options="options">
         <p>Custom message</p>
     </vue-auto-dropzone>
-    <vue-auto-dropzone :options="options" :includeStyling="false" v-on:addedfile="log" v-on:uploadprogress="log">
+    <vue-auto-dropzone :options="options" :includeStyling="false">
         <p>No styling</p>
+    </vue-auto-dropzone>
+    <vue-auto-dropzone :options="options" :includeStyling="false" class="custom">
+        <p>Custom styling</p>
     </vue-auto-dropzone>
   </div>
 </template>
@@ -30,3 +33,14 @@ export default class App extends Vue {
     }
 }
 </script>
+<style lang="scss" scoped>
+.custom {
+    padding: 10px;
+    background-color: sienna;
+    cursor: pointer;
+
+    p {
+        pointer-events: none;
+    }
+}
+</style>
