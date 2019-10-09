@@ -4671,9 +4671,9 @@ javascript-stringify@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/javascript-stringify/-/javascript-stringify-1.6.0.tgz#142d111f3a6e3dae8f4a9afd77d45855b5a9cce3"
 
-javascript-stringify@^2.0.0:
+"javascript-stringify@git://github.com/Etheryte/javascript-stringify.git#f1c0c7b":
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/javascript-stringify/-/javascript-stringify-2.0.0.tgz#ef750216ae66504ffd670b68c8b8aa07bdf7b588"
+  resolved "git://github.com/Etheryte/javascript-stringify.git#f1c0c7b834fc7d0ef2e1f0cfd4dd8273557f4563"
 
 js-levenshtein@^1.1.3:
   version "1.1.6"

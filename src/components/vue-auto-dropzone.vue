@@ -1,6 +1,9 @@
 <template>
-    <div :id="id" :class="{ 'dropzone': includeStyling }">
-        <div v-if="this.$slots.default && this.$slots.default.length" :class="{ 'dz-message': includeStyling }">
+    <div :class="{ 'dropzone': includeStyling }">
+        <div
+            v-if="this.$slots && this.$slots.default && this.$slots.default.length"
+            :class="{ 'dz-message': includeStyling }"
+        >
             <slot>Drop files here to upload</slot>
         </div>
     </div>
@@ -10,7 +13,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-import { methodPartials, computedPartials } from './generated';
+import { computedMethodPartials, computedPropertyPartials } from './generated';
 
 import Dropzone from 'dropzone';
 
@@ -35,11 +38,9 @@ Dropzone.autoDiscover = false;
             default: true,
         },
     },
-    methods: {
-        ...methodPartials,
-    },
     computed: {
-        ...computedPartials,
+        ...computedMethodPartials,
+        ...computedPropertyPartials,
     },
 })
 export default class VueAutoDropzone extends Vue {

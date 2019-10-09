@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "foo": "ts-node src/node/test.ts",
     "serve": "vue-cli-service serve",
     "serve:build": "yarn build:component && yarn serve",
     "lint": "vue-cli-service lint --fix",
@@ -16,9 +17,6 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "dropzone": "^5.5.1",
-    "javascript-stringify": "^2.0.0",
-    "jsdom": "^15.1.1",
-    "jsdom-global": "^3.0.2",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0"
@@ -40,6 +38,9 @@
     "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
+    "javascript-stringify": "git://github.com/Etheryte/javascript-stringify.git#f1c0c7b",
+    "jsdom": "^15.1.1",
+    "jsdom-global": "^3.0.2",
     "prettier": "^1.18.2",
     "puppeteer": "^1.20.0",
     "sass": "^1.18.0",

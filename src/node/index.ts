@@ -55,19 +55,35 @@ const { getDeepPropertyNames } = require('./utilities');
         methodNames.sort();
         propertyNames.sort();
 
+        // TODO: Make this happen?
+        /*
+        get Emitter() {
+            return this.instance.Emitter;
+        },
+        set Emitter(value) {
+            this.instance.Emitter = value;
+        },
+        */
+
         // For Dropzone methods that we don't define, autofill them with a pass-through to the underlying instance
-        const methodPartials = methodNames.reduce((result, name) => {
-            // TODO: Types
+        // Each is a computed property getter-setter pair that updates the underlying instance
+        const computedMethodPartials = methodNames.reduce((result, name) => {
             // Stringify doesn't expand context variables, so inline the name here instead
-            const method = new Function(`return function ${name}(...args) {
-                return this.instance.${name}.apply(this, args);
-            }`)();
-            result[name] = method;
+            const computed = {
+                cache: false,
+                get: new Function(`return function ${name}() {
+                    return this.instance.${name};
+                }`)(),
+                set: new Function(`return function ${name}(value) {
+                    this.instance.${name} = value;
+                }`)(),
+            };
+            result[name] = computed;
             return result;
         }, {});
 
         // For all properties, make them non-cached computed properties, e.g. just getters
-        const computedPartials = propertyNames.reduce((result, name) => {
+        const computedPropertyPartials = propertyNames.reduce((result, name) => {
             const computed = {
                 cache: false,
                 get: new Function(`return function ${name}() {
@@ -80,8 +96,8 @@ const { getDeepPropertyNames } = require('./utilities');
 
         const header = await fs.readFile(fileHeaderPath);
         const output = `${header}
-        export const methodPartials = ${stringify(methodPartials)};
-        export const computedPartials = ${stringify(computedPartials)};
+        export const computedMethodPartials = ${stringify(computedMethodPartials)};
+        export const computedPropertyPartials = ${stringify(computedPropertyPartials)};
         `;
         // Fix generic stringifying output issues with default values, let ESLint handle the rest
         const pretty = prettier.format(output);
