@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { shallowMount } from '@vue/test-utils';
 
-import Component from '@/components/vue-auto-dropzone.vue';
+import Component from '@/component/VueAutoDropzone.vue';
 
 describe('configuration', () => {
     const loopbackConfig = {

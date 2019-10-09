@@ -5,7 +5,6 @@ const vue = require('vue');
 const puppeteer = require('puppeteer');
 const stringify = require('javascript-stringify').stringify;
 
-const prettier = require('prettier');
 const Linter = require('eslint').Linter;
 const linter = new Linter();
 const linterConfig = require(path.resolve(process.env.PWD, '.eslintrc.js'));
@@ -17,8 +16,8 @@ const Dz = require('dropzone');
 const { getDeepPropertyNames } = require('./utilities');
 
 const stylePath = require.resolve('dropzone/dist/min/dropzone.min.css');
-const styleOutputPath = path.resolve(process.env.PWD, 'src/components/generated.css');
-const scriptOutputPath = path.resolve(process.env.PWD, 'src/components/generated.js');
+const styleOutputPath = path.resolve(process.env.PWD, 'src/component/generated.css');
+const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.vue');
 
 (async() => {
     try {
@@ -33,8 +32,13 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/components/generated
         const propertyNames: string[] = [];
         // Exclude fields we want to manually set or ignore
         const exclude = [
+            // Yeah nah
             'constructor',
+            // We use this as a prop
             'options',
+            // Internal dependencies
+            // 'Emitter',
+            // 'URL',
         ];
         const includeInternal = false;
 
@@ -57,48 +61,54 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/components/generated
 
         // For Dropzone methods that we don't define, autofill them with a pass-through to the underlying instance
         // Each is a computed property getter-setter pair that updates the underlying instance
-        const computedMethodPartials = methodNames.reduce((result, name) => {
+        const computedMethodPartials = methodNames.map((name) => {
             // Stringify doesn't expand context variables, so inline the name here instead
-            const computed = {
-                cache: false,
-                get: new Function(`return function ${name}() {
+            return `
+                get ${name}(this: GeneratedBase) {
                     return this.instance.${name};
-                }`)(),
-                set: new Function(`return function ${name}(value) {
+                }
+                set ${name}(this: GeneratedBase, value) {
                     this.instance.${name} = value;
-                }`)(),
-            };
-            result[name] = computed;
-            return result;
-        }, {});
+                }
+            `;
+        });
 
         // For all properties, make them non-cached computed properties, e.g. just getters
-        const computedPropertyPartials = propertyNames.reduce((result, name) => {
-            const computed = {
-                cache: false,
-                get: new Function(`return function ${name}() {
-                    return this.instance.${name};
-                }`)(),
-            };
-            result[name] = computed;
-            return result;
-        }, {});
+        const computedPropertyPartials = propertyNames.map((name) => {
+            return `get ${name}(this: GeneratedBase) {
+                return this.instance.${name};
+            }`;
+        });
 
-        const output = `
-        /**
-         * NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST WITH THE NEXT BUILD.
-         */
-        export const computedMethodPartials = ${stringify(computedMethodPartials)};
-        export const computedPropertyPartials = ${stringify(computedPropertyPartials)};
+        const combinedPartials = ([] as string[])
+            .concat(computedMethodPartials)
+            .concat(computedPropertyPartials)
+            .join('\n');
+
+        const output = `<script lang="ts">
+        // NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST WITH THE NEXT BUILD.
+        import Vue from 'vue';
+        import Component from 'vue-class-component';
+
+        import { DropzoneInstance } from './interfaces';
+
+        // Dropzone type definitions aren't up to date
+        type UntypedKeys = Exclude<keyof GeneratedBase, keyof DropzoneInstance>;
+        type UntypedFields = Record<UntypedKeys, any>;
+
+        @Component
+        export default class GeneratedBase extends Vue {
+            instance!: DropzoneInstance & UntypedFields;
+
+            ${combinedPartials}
+        }
+        </script>
         `;
-        // Fix generic stringifying output issues with default values, let ESLint handle the rest
-        const pretty = prettier.format(output);
 
         // The calling script calls ESLint in turn
-        await fs.writeFile(scriptOutputPath, pretty, 'utf8');
+        await fs.writeFile(scriptOutputPath, output, 'utf8');
         await jsdomCleanup();
 
-        console.log(stylePath);
         // Mirror styles at the time of bundling to avoid release-out-of-sync issues
         const styles = await fs.readFile(stylePath, 'utf8');
         await fs.writeFile(styleOutputPath, styles, 'utf8');

@@ -12,19 +12,14 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-import { computedMethodPartials, computedPropertyPartials } from './generated';
+import { DropzoneInstance } from './interfaces';
+
+import GeneratedBase from './Generated.vue';
 
 import Dropzone, { DropzoneOptions } from 'dropzone';
 
 // Only mount manually
 Dropzone.autoDiscover = false;
-
-interface DropzoneInstance extends Dropzone {
-    // Dropzone type definitions incorrectly identify this as static on instances
-    options: DropzoneOptions;
-    // This field is missing from the official types
-    events: string[];
-}
 
 @Component({
     props: {
@@ -44,13 +39,8 @@ interface DropzoneInstance extends Dropzone {
             default: true,
         },
     },
-    computed: {
-        ...computedMethodPartials,
-        ...computedPropertyPartials,
-    },
 })
-export default class VueAutoDropzone extends Vue {
-    instance!: DropzoneInstance;
+export default class VueAutoDropzone extends GeneratedBase {
     hasBeenMounted = false;
 
     mounted() {
@@ -60,7 +50,7 @@ export default class VueAutoDropzone extends Vue {
         this.hasBeenMounted = true;
 
         const options: DropzoneOptions = this.$props.options;
-        this.instance = new Dropzone(this.$el as HTMLElement, options) as DropzoneInstance;
+        this.instance = new Dropzone(this.$el as HTMLElement, options) as GeneratedBase['instance'];
 
         // Pass every configured event through
         this.instance.events.forEach((eventName) => {

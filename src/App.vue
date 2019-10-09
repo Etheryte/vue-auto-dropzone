@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import VueAutoDropzone from '@/components/vue-auto-dropzone.vue';
+import VueAutoDropzone from '@/component/VueAutoDropzone.vue';
 
 @Component({
     components: {
@@ -24,6 +24,14 @@ import VueAutoDropzone from '@/components/vue-auto-dropzone.vue';
     },
 })
 export default class App extends Vue {
+    $refs!: {
+        dz: VueAutoDropzone,
+    };
+
+    mounted() {
+        // const foo = this.$refs.dz.
+    }
+
     options = {
         url: 'https://httpbin.org/anything',
     };

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { shallowMount } from '@vue/test-utils';
 import sinon from 'sinon';
 
-import Component from '@/components/vue-auto-dropzone.vue';
+import Component from '@/component/VueAutoDropzone.vue';
 
 describe('lifecycle', () => {
     const loopbackConfig = {
