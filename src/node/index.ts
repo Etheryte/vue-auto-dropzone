@@ -5,7 +5,6 @@ const vue = require('vue');
 const puppeteer = require('puppeteer');
 const stringify = require('javascript-stringify').stringify;
 
-// TODO: This or sth else, format the output component, write, then minifiy to .min
 const prettier = require('prettier');
 const Linter = require('eslint').Linter;
 const linter = new Linter();
@@ -54,16 +53,6 @@ const { getDeepPropertyNames } = require('./utilities');
         // Just for debug convenience
         methodNames.sort();
         propertyNames.sort();
-
-        // TODO: Make this happen?
-        /*
-        get Emitter() {
-            return this.instance.Emitter;
-        },
-        set Emitter(value) {
-            this.instance.Emitter = value;
-        },
-        */
 
         // For Dropzone methods that we don't define, autofill them with a pass-through to the underlying instance
         // Each is a computed property getter-setter pair that updates the underlying instance

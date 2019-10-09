@@ -25,7 +25,7 @@ Dropzone.autoDiscover = false;
         options: {
             type: Object,
             required: true,
-            default: () => ({}),
+            validator: (value) => typeof value === 'object' && !!value.url,
         },
         includeStyling: {
             type: Boolean,
@@ -48,9 +48,8 @@ export default class VueAutoDropzone extends Vue {
     hasBeenMounted = false;
 
     mounted() {
-        if (this.$isServer && this.hasBeenMounted) {
-            return;
-        }
+        if (process && !(process as any).browser) return;
+        if (this.$isServer && this.hasBeenMounted) return;
         this.hasBeenMounted = true;
 
         this.instance = new Dropzone(this.$el, this.$props.options);

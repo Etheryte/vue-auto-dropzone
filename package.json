@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint --fix",
     "build:component": "ts-node src/node/index.ts && yarn lint",
     "build:component:watch": "TODO: implement",
-    "build:lib": "vue-cli-service build --target lib --name vue-auto-dropzone src/components/vue-auto-dropzone.vue",
+    "build:lib": "vue-cli-service build --target lib --name VueAutoDropzone src/components/vue-auto-dropzone.vue",
     "build": "yarn build:component && yarn build:lib",
     "test:unit": "vue-cli-service test:unit",
     "test": "yarn build:component && yarn test:unit"

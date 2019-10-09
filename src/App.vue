@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <vue-auto-dropzone :options="options" v-on:addedfile="log" v-on:uploadprogress="log" />
-    <vue-auto-dropzone :options="options" v-on:addedfile="log" v-on:uploadprogress="log" />
+    <vue-auto-dropzone :options="options" v-on:addedfile="log" v-on:uploadprogress="log">
+        <p>Custom message</p>
+    </vue-auto-dropzone>
+    <vue-auto-dropzone :options="options" :includeStyling="false" v-on:addedfile="log" v-on:uploadprogress="log">
+        <p>No styling</p>
+    </vue-auto-dropzone>
   </div>
 </template>
 
