@@ -65,6 +65,7 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
         // Just for debug convenience
         methodNames.sort();
         propertyNames.sort();
+        typeHints.sort();
 
         // For Dropzone methods that we don't define, autofill them with a pass-through to the underlying instance
         // Each is a computed property getter-setter pair that updates the underlying instance
