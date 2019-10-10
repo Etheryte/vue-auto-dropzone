@@ -5,3 +5,11 @@ public
 src
 tests
 .*
+babel.config.js
+cypress.json
+postcss.config.js
+TODO.md
+tsconfig.json
+vue.config.js
+yarn-error.log
+yarn.lock
