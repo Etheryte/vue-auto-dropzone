@@ -1,6 +1,7 @@
 # Must have
- - types
+ - check types
  - SSR
+ - documentation
 
 # Document
 - TS is fixed to 3.4, see [this ticket](https://github.com/prisma-labs/nexus-prisma/issues/291#issuecomment-500809355)
