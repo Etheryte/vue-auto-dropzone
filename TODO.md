@@ -1,6 +1,7 @@
 # Must have
  - check types
  - SSR
+ - readme
  - documentation
 
 # Document

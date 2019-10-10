@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 
+// TODO: Use author from package instead
 const banner = `
 vue-auto-dropzone
 

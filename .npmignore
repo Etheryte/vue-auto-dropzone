@@ -1,4 +1,5 @@
 .vscode
+demo
 node_modules
 public
 src
