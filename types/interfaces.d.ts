@@ -1,5 +1,8 @@
 import { DropzoneOptions } from 'dropzone';
-export interface DropzoneInstance extends Dropzone {
+export interface IDropzoneOptions extends DropzoneOptions {
+    url: string;
+}
+export interface IDropzoneInstance extends Dropzone {
     options: DropzoneOptions;
     events: string[];
 }

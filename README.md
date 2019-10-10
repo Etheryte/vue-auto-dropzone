@@ -57,7 +57,7 @@ mounted() {
 }
 ```
 
-### Methods list
+### Method list
 ___TODO:___ Generate automatically
 
 ## Events

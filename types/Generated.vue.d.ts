@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { DropzoneInstance } from './interfaces';
+import { IDropzoneInstance } from './interfaces';
 interface TypeHints {
     Emitter: Function;
     URL: Function;
@@ -53,10 +53,10 @@ interface TypeHints {
     uploadFiles: Function;
     version: string;
 }
-declare type UntypedKeys = Exclude<keyof TypeHints, keyof DropzoneInstance>;
+declare type UntypedKeys = Exclude<keyof TypeHints, keyof IDropzoneInstance>;
 declare type UntypedFields = Pick<TypeHints, UntypedKeys>;
 export default class Dropzone extends Vue {
-    instance: DropzoneInstance & UntypedFields;
+    instance: IDropzoneInstance & UntypedFields;
     Emitter: Dropzone;
     URL: Dropzone;
     accept: Dropzone;
