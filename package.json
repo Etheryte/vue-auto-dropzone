@@ -1,15 +1,16 @@
 {
   "name": "vue-auto-dropzone",
   "version": "0.1.0",
+  "author": "Karl Tarvas",
   "private": true,
+  "main": "dist/index.umd.js",
   "scripts": {
-    "foo": "ts-node src/node/test.ts",
     "serve": "vue-cli-service serve",
     "serve:build": "yarn build:component && yarn serve",
     "lint": "vue-cli-service lint --fix",
     "build:component": "ts-node src/node/index.ts && yarn lint",
     "build:component:watch": "TODO: implement",
-    "build:lib": "vue-cli-service build --target lib --name VueAutoDropzone src/component/VueAutoDropzone.vue",
+    "build:lib": "vue-cli-service build --target lib --name index src/component/index.ts",
     "build": "yarn build:component && yarn build:lib",
     "test:unit": "vue-cli-service test:unit",
     "test": "yarn build:component && yarn test:unit"
@@ -43,6 +44,7 @@
     "jsdom": "^15.1.1",
     "prettier": "^1.18.2",
     "puppeteer": "^1.20.0",
+    "rollup": "^1.23.1",
     "sass-loader": "^7.1.0",
     "sass": "^1.18.0",
     "sinon": "^7.5.0",

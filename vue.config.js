@@ -12,7 +12,7 @@ Build hash: [hash]
 `;
 
 module.exports = {
-    productionSourceMap: false,
+    productionSourceMap: true,
     css: {
         extract: false,
     },

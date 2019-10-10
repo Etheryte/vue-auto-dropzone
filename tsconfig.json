@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "declaration": true,
-    "declarationDir": ".",
+    "declarationDir": "types",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
