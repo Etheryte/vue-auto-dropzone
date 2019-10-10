@@ -12,14 +12,15 @@
     "url": "https://github.com/Etheryte/vue-auto-dropzone/issues"
   },
   "private": false,
-  "main": "dist/index.umd.js",
+  "main": "./dist/index.umd.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:build": "yarn build:component && yarn serve",
     "lint": "vue-cli-service lint --fix",
     "build:component": "ts-node src/node/index.ts && yarn lint",
     "build:component:watch": "TODO: implement",
-    "build:lib": "vue-cli-service build --target lib --name index src/component/index.ts",
+    "build:lib": "vue-cli-service build --target lib --name index index.ts",
     "build": "yarn build:component && yarn build:lib",
     "test:unit": "vue-cli-service test:unit",
     "test": "yarn build:component && yarn test:unit"
