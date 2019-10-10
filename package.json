@@ -1,5 +1,5 @@
 {
-  "name": "@etheryte/vue-auto-dropzone",
+  "name": "vue-auto-dropzone",
   "version": "0.1.0",
   "author": "Karl Tarvas <info@karltarvas.com> (https://www.karltarvas.com)",
   "description": "Vue 2 Dropzone.js component",
@@ -45,21 +45,21 @@
     "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
     "core-js": "^2.6.5",
+    "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
-    "eslint": "^5.16.0",
     "javascript-stringify": "git://github.com/Etheryte/javascript-stringify.git#f1c0c7b",
-    "jsdom-global": "^3.0.2",
     "jsdom": "^15.1.1",
+    "jsdom-global": "^3.0.2",
     "prettier": "^1.18.2",
     "puppeteer": "^1.20.0",
     "rollup": "^1.23.1",
-    "sass-loader": "^7.1.0",
     "sass": "^1.18.0",
+    "sass-loader": "^7.1.0",
     "sinon": "^7.5.0",
     "ts-node": "^8.4.1",
     "vue-class-component": "^7.0.2",
-    "vue-property-decorator": "^8.1.0",
+    "vue-property-decorator": "^8.2.2",
     "vue-template-compiler": "^2.6.10"
   }
 }

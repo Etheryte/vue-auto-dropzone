@@ -98,7 +98,7 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
         import Vue from 'vue';
         import Component from 'vue-class-component';
 
-        import { DropzoneInstance } from './interfaces';
+        import { IDropzoneInstance } from './interfaces';
 
         // Dropzone type definitions aren't up to date, hint the user where possible
         interface TypeHints {
@@ -106,12 +106,12 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
         }
 
         // Assuming every key has a hint
-        type UntypedKeys = Exclude<keyof TypeHints, keyof DropzoneInstance>;
+        type UntypedKeys = Exclude<keyof TypeHints, keyof IDropzoneInstance>;
         type UntypedFields = Pick<TypeHints, UntypedKeys>
 
         @Component
         export default class ${generatedClassName} extends Vue {
-            instance!: DropzoneInstance & UntypedFields;
+            instance!: IDropzoneInstance & UntypedFields;
 
             ${combinedPartials}
         }

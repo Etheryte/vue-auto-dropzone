@@ -9,38 +9,40 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import { DropzoneInstance } from './interfaces';
+import { IDropzoneOptions } from './interfaces';
 
 import GeneratedBase from './Generated.vue';
 
-import Dropzone, { DropzoneOptions } from 'dropzone';
+import Dropzone from 'dropzone';
 
 // Only mount manually
 Dropzone.autoDiscover = false;
 
-@Component({
-    props: {
-        options: {
-            type: Object,
-            required: true,
-            validator: (value) => typeof value === 'object' && !!value.url,
-        },
-        includeStyling: {
-            type: Boolean,
-            required: false,
-            default: true,
-        },
-        destroyDropzone: {
-            type: Boolean,
-            required: false,
-            default: true,
-        },
-    },
-})
+@Component
 export default class VueAutoDropzone extends GeneratedBase {
+    @Prop({
+        type: Object,
+        required: true,
+        validator: (value) => typeof value === 'object' && !!value.url,
+    })
+    options!: IDropzoneOptions;
+
+    @Prop({
+        type: Boolean,
+        required: false,
+        default: true,
+    })
+    includeStyling!: Boolean;
+
+    @Prop({
+        type: Boolean,
+        required: false,
+        default: true,
+    })
+    destroyDropzone!: Boolean;
+
     private hasBeenMounted = false;
 
     mounted() {
@@ -49,8 +51,7 @@ export default class VueAutoDropzone extends GeneratedBase {
         if (this.$isServer && this.hasBeenMounted) return;
         this.hasBeenMounted = true;
 
-        const options: DropzoneOptions = this.$props.options;
-        this.instance = new Dropzone(this.$el as HTMLElement, options) as GeneratedBase['instance'];
+        this.instance = new Dropzone(this.$el as HTMLElement, this.options) as GeneratedBase['instance'];
 
         // Pass every configured event through
         this.instance.events.forEach((eventName) => {
@@ -70,15 +71,15 @@ export default class VueAutoDropzone extends GeneratedBase {
         return this.instance.options;
     }
 
-    setOptions(value: Partial<DropzoneOptions>) {
+    setOptions(value: Partial<IDropzoneOptions>) {
         Object.assign(this.instance.options, value);
     }
 
-    getOption(key: keyof DropzoneOptions) {
+    getOption(key: keyof IDropzoneOptions) {
         return this.instance.options[key];
     }
 
-    setOption(key: keyof DropzoneOptions, value: any) {
+    setOption(key: keyof IDropzoneOptions, value: any) {
         this.instance.options[key] = value;
     }
 };

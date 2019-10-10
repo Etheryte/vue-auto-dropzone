@@ -5,7 +5,7 @@ Full library coverage, Typescript support, and more.
 
 ## Installation
 ```sh
-yarn install @etheryte/vue-auto-dropzone
+yarn install vue-auto-dropzone
 ```
 
 ## Basic usage
@@ -16,7 +16,7 @@ yarn install @etheryte/vue-auto-dropzone
 <script lang="ts">
     import Vue from 'vue';
 
-    import VueAutoDropzone from '@etheryte/vue-auto-dropzone';
+    import VueAutoDropzone from 'vue-auto-dropzone';
 
     const Component = Vue.extend({
         components: {
@@ -30,7 +30,7 @@ yarn install @etheryte/vue-auto-dropzone
             };
         },
         mounted() {
-            // Dropzone instance is available after mounting
+            // The Dropzone instance is available after mounting
             const instance = this.$refs.dz;
         }
     });
@@ -79,7 +79,7 @@ ___TODO:___ Generate automatically
 
 ## Slots
 
-To override the default content template, simply use a [slot](https://vuejs.org/v2/guide/components-slots.html).  
+To override the default content template, use a [slot](https://vuejs.org/v2/guide/components-slots.html).  
 
 ```html
 <vue-auto-dropzone :options="options">

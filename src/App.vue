@@ -12,11 +12,11 @@
     </vue-auto-dropzone>
   </div>
 </template>
-
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
 import VueAutoDropzone from '@/component/VueAutoDropzone.vue';
+import { IDropzoneOptions } from '@/component/interfaces';
 
 @Component({
     components: {
@@ -35,7 +35,7 @@ export default class App extends Vue {
         const cup = this.$refs.dz.getOptions;
     }
 
-    options = {
+    options: IDropzoneOptions = {
         url: 'https://httpbin.org/anything',
     };
 
