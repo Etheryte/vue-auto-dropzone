@@ -1,9 +1,12 @@
 {
-  "name": "vue-auto-dropzone",
+  "name": "@etheryte/vue-auto-dropzone",
   "version": "0.1.0",
   "author": "Karl Tarvas <info@karltarvas.com> (https://www.karltarvas.com)",
   "description": "Vue 2 Dropzone.js component",
-  "repository": "git@github.com:Etheryte/vue-auto-dropzone.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Etheryte/vue-auto-dropzone.git"
+  },
   "homepage": "https://github.com/Etheryte/vue-auto-dropzone",
   "bugs": {
     "url": "https://github.com/Etheryte/vue-auto-dropzone/issues"

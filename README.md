@@ -1,39 +1,95 @@
 # vue-auto-dropzone
 
-## Project setup
-```
-yarn install
+A [Dropzone.js](https://www.dropzonejs.com) component for Vue.  
+Full library coverage, Typescript support, and more.
+
+## Installation
+```sh
+yarn install @etheryte/vue-auto-dropzone
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
+## Basic usage
+```html
+<template>
+    <vue-auto-dropzone ref="dz" :options="options" />
+</template>
+<script lang="ts">
+    import Vue from 'vue';
+
+    import VueAutoDropzone from '@etheryte/vue-auto-dropzone';
+
+    const Component = Vue.extend({
+        components: {
+            VueAutoDropzone,
+        },
+        data() {
+            return {
+                options: {
+                    url: 'https://httpbin.org/anything',
+                },
+            };
+        },
+        mounted() {
+            // Dropzone instance is available after mounting
+            const instance = this.$refs.dz;
+        }
+    });
+</script>
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
+## Props
+
+| Name | Type | Default | Description | Required | Notes |
+| - | - | - | - | - | - |
+| options | `Object` | `undefined` | an object containing [Dropzone configuration options](https://www.dropzonejs.com/#configuration-options) | `true` | the `url` field is mandatory |
+| includeStyling | `Boolean` | `true` | whether to include default Dropzone styles on the component | `false` | - |
+| destroyDropzone | `Boolean` | `true` |  whether to destroy the Dropzone instance on component destruction | `false` | - |
+
+
+## Methods
+
+All [Dropzone methods](https://www.dropzonejs.com/#dropzone-methods) are exposed on the component instance.
+
+```ts
+mounted() {
+    const instance = this.$refs.dz;
+    instance.disable();
+}
 ```
 
-### Run your tests
-```
-yarn run test
+### Methods list
+___TODO:___ Generate automatically
+
+## Events
+
+All [Dropzone events](https://www.dropzonejs.com/#event-list) are emitted on the component.
+
+```html
+<vue-auto-dropzone
+    ref="dz"
+    :options="options"
+    @drop="onDrop"
+    @success="onSuccess"
+/>
 ```
 
-### Lints and fixes files
-```
-yarn run lint
+### Event list
+
+___TODO:___ Generate automatically
+
+## Slots
+
+To override the default content template, simply use a [slot](https://vuejs.org/v2/guide/components-slots.html).  
+
+```html
+<vue-auto-dropzone :options="options">
+    <p>Default styles are still applied here</p>
+</vue-auto-dropzone>
 ```
 
-### Run your end-to-end tests
+To omit default styling on the slot, also specify `:include-styling="false"`.
+```html
+<vue-auto-dropzone :options="options" :include-styling="false">
+    <p>No styles are applied here</p>
+</vue-auto-dropzone>
 ```
-yarn run test:e2e
-```
-
-### Run your unit tests
-```
-yarn run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
