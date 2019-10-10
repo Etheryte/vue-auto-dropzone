@@ -2,7 +2,6 @@ const fs = require('fs').promises;
 const path = require('path');
 
 const vue = require('vue');
-const puppeteer = require('puppeteer');
 const stringify = require('javascript-stringify').stringify;
 
 const prettier = require('prettier');
