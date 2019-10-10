@@ -418,22 +418,6 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 /***/ }),
 
-/***/ "0293":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.9 Object.getPrototypeOf(O)
-var toObject = __webpack_require__("241e");
-var $getPrototypeOf = __webpack_require__("53e2");
-
-__webpack_require__("ce7e")('getPrototypeOf', function () {
-  return function getPrototypeOf(it) {
-    return $getPrototypeOf(toObject(it));
-  };
-});
-
-
-/***/ }),
-
 /***/ "0395":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -472,13 +456,6 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__("499e").default
 var update = add("4d172156", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
-/***/ "061b":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("fa99");
 
 /***/ }),
 
@@ -659,12 +636,12 @@ module.exports = function (it, S) {
 
 /***/ }),
 
-/***/ "1df8":
+/***/ "1c01":
 /***/ (function(module, exports, __webpack_require__) {
 
-// 19.1.3.19 Object.setPrototypeOf(O, proto)
-var $export = __webpack_require__("63b6");
-$export($export.S, 'Object', { setPrototypeOf: __webpack_require__("ead6").set });
+var $export = __webpack_require__("5ca1");
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export($export.S + $export.F * !__webpack_require__("9e1e"), 'Object', { defineProperty: __webpack_require__("86cc").f });
 
 
 /***/ }),
@@ -788,15 +765,6 @@ var defined = __webpack_require__("25eb");
 module.exports = function (it) {
   return Object(defined(it));
 };
-
-
-/***/ }),
-
-/***/ "25b0":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("1df8");
-module.exports = __webpack_require__("584a").Object.setPrototypeOf;
 
 
 /***/ }),
@@ -1180,18 +1148,6 @@ module.exports = function (Constructor, NAME, next) {
 
 /***/ }),
 
-/***/ "454f":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("46a7");
-var $Object = __webpack_require__("584a").Object;
-module.exports = function defineProperty(it, key, desc) {
-  return $Object.defineProperty(it, key, desc);
-};
-
-
-/***/ }),
-
 /***/ "4588":
 /***/ (function(module, exports) {
 
@@ -1230,16 +1186,6 @@ module.exports = function (bitmap, value) {
     value: value
   };
 };
-
-
-/***/ }),
-
-/***/ "46a7":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__("63b6");
-// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__("8e60"), 'Object', { defineProperty: __webpack_require__("d9f6").f });
 
 
 /***/ }),
@@ -1537,13 +1483,6 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 
-/***/ "4aa6":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("dc62");
-
-/***/ }),
-
 /***/ "4bf8":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1553,13 +1492,6 @@ module.exports = function (it) {
   return Object(defined(it));
 };
 
-
-/***/ }),
-
-/***/ "4d16":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("25b0");
 
 /***/ }),
 
@@ -5745,13 +5677,6 @@ module.exports = {};
 
 /***/ }),
 
-/***/ "85f2":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("454f");
-
-/***/ }),
-
 /***/ "86cc":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5830,16 +5755,6 @@ module.exports = Array.isArray || function isArray(arg) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("35e8");
-
-
-/***/ }),
-
-/***/ "9427":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__("63b6");
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', { create: __webpack_require__("a159") });
 
 
 /***/ }),
@@ -6330,23 +6245,6 @@ module.exports = function (object, names) {
 
 /***/ }),
 
-/***/ "ce7e":
-/***/ (function(module, exports, __webpack_require__) {
-
-// most Object methods by ES6 should accept primitives
-var $export = __webpack_require__("63b6");
-var core = __webpack_require__("584a");
-var fails = __webpack_require__("294c");
-module.exports = function (KEY, exec) {
-  var fn = (core.Object || {})[KEY] || Object[KEY];
-  var exp = {};
-  exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
-};
-
-
-/***/ }),
-
 /***/ "d3f4":
 /***/ (function(module, exports) {
 
@@ -6468,18 +6366,6 @@ var store = global[SHARED] || (global[SHARED] = {});
 
 /***/ }),
 
-/***/ "dc62":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("9427");
-var $Object = __webpack_require__("584a").Object;
-module.exports = function create(P, D) {
-  return $Object.create(P, D);
-};
-
-
-/***/ }),
-
 /***/ "e11e":
 /***/ (function(module, exports) {
 
@@ -6558,38 +6444,6 @@ module.exports = function (original) {
       if (C === null) C = undefined;
     }
   } return C === undefined ? Array : C;
-};
-
-
-/***/ }),
-
-/***/ "ead6":
-/***/ (function(module, exports, __webpack_require__) {
-
-// Works with __proto__ only. Old v8 can't work with null proto objects.
-/* eslint-disable no-proto */
-var isObject = __webpack_require__("f772");
-var anObject = __webpack_require__("e4ae");
-var check = function (O, proto) {
-  anObject(O);
-  if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
-};
-module.exports = {
-  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-    function (test, buggy, set) {
-      try {
-        set = __webpack_require__("d864")(Function.call, __webpack_require__("bf0b").f(Object.prototype, '__proto__').set, 2);
-        set(test, []);
-        buggy = !(test instanceof Array);
-      } catch (e) { buggy = true; }
-      return function setPrototypeOf(O, proto) {
-        check(O, proto);
-        if (buggy) O.__proto__ = proto;
-        else set(O, proto);
-        return O;
-      };
-    }({}, false) : undefined),
-  check: check
 };
 
 
@@ -6758,15 +6612,6 @@ module.exports = __webpack_require__("5537")('native-function-to-string', Functi
 
 /***/ }),
 
-/***/ "fa99":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("0293");
-module.exports = __webpack_require__("584a").Object.getPrototypeOf;
-
-
-/***/ }),
-
 /***/ "fab2":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6790,9 +6635,9 @@ if (typeof window !== 'undefined') {
     __webpack_require__("f6fd")
   }
 
-  var setPublicPath_i
-  if ((setPublicPath_i = window.document.currentScript) && (setPublicPath_i = setPublicPath_i.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))) {
-    __webpack_require__.p = setPublicPath_i[1] // eslint-disable-line
+  var i
+  if ((i = window.document.currentScript) && (i = i.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))) {
+    __webpack_require__.p = i[1] // eslint-disable-line
   }
 }
 
@@ -6842,101 +6687,6 @@ var web_dom_iterable = __webpack_require__("ac6a");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.for-each.js
 var es6_array_for_each = __webpack_require__("f3e2");
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/classCallCheck.js
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js
-var define_property = __webpack_require__("85f2");
-var define_property_default = /*#__PURE__*/__webpack_require__.n(define_property);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/createClass.js
-
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-
-    define_property_default()(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/assertThisInitialized.js
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/possibleConstructorReturn.js
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/get-prototype-of.js
-var get_prototype_of = __webpack_require__("061b");
-var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/set-prototype-of.js
-var set_prototype_of = __webpack_require__("4d16");
-var set_prototype_of_default = /*#__PURE__*/__webpack_require__.n(set_prototype_of);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/getPrototypeOf.js
-
-
-function getPrototypeOf_getPrototypeOf(o) {
-  getPrototypeOf_getPrototypeOf = set_prototype_of_default.a ? get_prototype_of_default.a : function _getPrototypeOf(o) {
-    return o.__proto__ || get_prototype_of_default()(o);
-  };
-  return getPrototypeOf_getPrototypeOf(o);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/create.js
-var create = __webpack_require__("4aa6");
-var create_default = /*#__PURE__*/__webpack_require__.n(create);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/setPrototypeOf.js
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = set_prototype_of_default.a || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/inherits.js
-
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = create_default()(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
 // CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7403,11 +7153,10 @@ vue_class_component_esm_Component.registerHooks = function registerHooks(keys) {
 /* harmony default export */ var vue_class_component_esm = (vue_class_component_esm_Component);
 
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.define-property.js
+var es6_object_define_property = __webpack_require__("1c01");
+
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--14-1!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/Generated.vue?vue&type=script&lang=ts&
-
-
-
-
 
  // NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST WITH THE NEXT BUILD.
 
@@ -7415,403 +7164,501 @@ vue_class_component_esm_Component.registerHooks = function registerHooks(keys) {
 
 
 var Generatedvue_type_script_lang_ts_Dropzone =
-/*#__PURE__*/
-function (_Vue) {
-  _inherits(Dropzone, _Vue);
+/** @class */
+function (_super) {
+  __extends(Dropzone, _super);
 
   function Dropzone() {
-    _classCallCheck(this, Dropzone);
-
-    return _possibleConstructorReturn(this, getPrototypeOf_getPrototypeOf(Dropzone).apply(this, arguments));
+    return _super !== null && _super.apply(this, arguments) || this;
   }
 
-  _createClass(Dropzone, [{
-    key: "Emitter",
+  Object.defineProperty(Dropzone.prototype, "Emitter", {
     get: function get() {
       return this.instance.Emitter;
     },
     set: function set(value) {
       this.instance.Emitter = value;
-    }
-  }, {
-    key: "URL",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "URL", {
     get: function get() {
       return this.instance.URL;
     },
     set: function set(value) {
       this.instance.URL = value;
-    }
-  }, {
-    key: "accept",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "accept", {
     get: function get() {
       return this.instance.accept;
     },
     set: function set(value) {
       this.instance.accept = value;
-    }
-  }, {
-    key: "addFile",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "addFile", {
     get: function get() {
       return this.instance.addFile;
     },
     set: function set(value) {
       this.instance.addFile = value;
-    }
-  }, {
-    key: "cancelUpload",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "cancelUpload", {
     get: function get() {
       return this.instance.cancelUpload;
     },
     set: function set(value) {
       this.instance.cancelUpload = value;
-    }
-  }, {
-    key: "createThumbnail",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "createThumbnail", {
     get: function get() {
       return this.instance.createThumbnail;
     },
     set: function set(value) {
       this.instance.createThumbnail = value;
-    }
-  }, {
-    key: "createThumbnailFromUrl",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "createThumbnailFromUrl", {
     get: function get() {
       return this.instance.createThumbnailFromUrl;
     },
     set: function set(value) {
       this.instance.createThumbnailFromUrl = value;
-    }
-  }, {
-    key: "destroy",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "destroy", {
     get: function get() {
       return this.instance.destroy;
     },
     set: function set(value) {
       this.instance.destroy = value;
-    }
-  }, {
-    key: "disable",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "disable", {
     get: function get() {
       return this.instance.disable;
     },
     set: function set(value) {
       this.instance.disable = value;
-    }
-  }, {
-    key: "drop",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "drop", {
     get: function get() {
       return this.instance.drop;
     },
     set: function set(value) {
       this.instance.drop = value;
-    }
-  }, {
-    key: "emit",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "emit", {
     get: function get() {
       return this.instance.emit;
     },
     set: function set(value) {
       this.instance.emit = value;
-    }
-  }, {
-    key: "enable",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "enable", {
     get: function get() {
       return this.instance.enable;
     },
     set: function set(value) {
       this.instance.enable = value;
-    }
-  }, {
-    key: "enqueueFile",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "enqueueFile", {
     get: function get() {
       return this.instance.enqueueFile;
     },
     set: function set(value) {
       this.instance.enqueueFile = value;
-    }
-  }, {
-    key: "enqueueFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "enqueueFiles", {
     get: function get() {
       return this.instance.enqueueFiles;
     },
     set: function set(value) {
       this.instance.enqueueFiles = value;
-    }
-  }, {
-    key: "filesize",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "filesize", {
     get: function get() {
       return this.instance.filesize;
     },
     set: function set(value) {
       this.instance.filesize = value;
-    }
-  }, {
-    key: "getAcceptedFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getAcceptedFiles", {
     get: function get() {
       return this.instance.getAcceptedFiles;
     },
     set: function set(value) {
       this.instance.getAcceptedFiles = value;
-    }
-  }, {
-    key: "getActiveFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getActiveFiles", {
     get: function get() {
       return this.instance.getActiveFiles;
     },
     set: function set(value) {
       this.instance.getActiveFiles = value;
-    }
-  }, {
-    key: "getAddedFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getAddedFiles", {
     get: function get() {
       return this.instance.getAddedFiles;
     },
     set: function set(value) {
       this.instance.getAddedFiles = value;
-    }
-  }, {
-    key: "getExistingFallback",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getExistingFallback", {
     get: function get() {
       return this.instance.getExistingFallback;
     },
     set: function set(value) {
       this.instance.getExistingFallback = value;
-    }
-  }, {
-    key: "getFallbackForm",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getFallbackForm", {
     get: function get() {
       return this.instance.getFallbackForm;
     },
     set: function set(value) {
       this.instance.getFallbackForm = value;
-    }
-  }, {
-    key: "getFilesWithStatus",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getFilesWithStatus", {
     get: function get() {
       return this.instance.getFilesWithStatus;
     },
     set: function set(value) {
       this.instance.getFilesWithStatus = value;
-    }
-  }, {
-    key: "getQueuedFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getQueuedFiles", {
     get: function get() {
       return this.instance.getQueuedFiles;
     },
     set: function set(value) {
       this.instance.getQueuedFiles = value;
-    }
-  }, {
-    key: "getRejectedFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getRejectedFiles", {
     get: function get() {
       return this.instance.getRejectedFiles;
     },
     set: function set(value) {
       this.instance.getRejectedFiles = value;
-    }
-  }, {
-    key: "getUploadingFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "getUploadingFiles", {
     get: function get() {
       return this.instance.getUploadingFiles;
     },
     set: function set(value) {
       this.instance.getUploadingFiles = value;
-    }
-  }, {
-    key: "handleFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "handleFiles", {
     get: function get() {
       return this.instance.handleFiles;
     },
     set: function set(value) {
       this.instance.handleFiles = value;
-    }
-  }, {
-    key: "init",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "init", {
     get: function get() {
       return this.instance.init;
     },
     set: function set(value) {
       this.instance.init = value;
-    }
-  }, {
-    key: "off",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "off", {
     get: function get() {
       return this.instance.off;
     },
     set: function set(value) {
       this.instance.off = value;
-    }
-  }, {
-    key: "on",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "on", {
     get: function get() {
       return this.instance.on;
     },
     set: function set(value) {
       this.instance.on = value;
-    }
-  }, {
-    key: "paste",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "paste", {
     get: function get() {
       return this.instance.paste;
     },
     set: function set(value) {
       this.instance.paste = value;
-    }
-  }, {
-    key: "processFile",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "processFile", {
     get: function get() {
       return this.instance.processFile;
     },
     set: function set(value) {
       this.instance.processFile = value;
-    }
-  }, {
-    key: "processFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "processFiles", {
     get: function get() {
       return this.instance.processFiles;
     },
     set: function set(value) {
       this.instance.processFiles = value;
-    }
-  }, {
-    key: "processQueue",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "processQueue", {
     get: function get() {
       return this.instance.processQueue;
     },
     set: function set(value) {
       this.instance.processQueue = value;
-    }
-  }, {
-    key: "removeAllFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "removeAllFiles", {
     get: function get() {
       return this.instance.removeAllFiles;
     },
     set: function set(value) {
       this.instance.removeAllFiles = value;
-    }
-  }, {
-    key: "removeEventListeners",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "removeEventListeners", {
     get: function get() {
       return this.instance.removeEventListeners;
     },
     set: function set(value) {
       this.instance.removeEventListeners = value;
-    }
-  }, {
-    key: "removeFile",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "removeFile", {
     get: function get() {
       return this.instance.removeFile;
     },
     set: function set(value) {
       this.instance.removeFile = value;
-    }
-  }, {
-    key: "resizeImage",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "resizeImage", {
     get: function get() {
       return this.instance.resizeImage;
     },
     set: function set(value) {
       this.instance.resizeImage = value;
-    }
-  }, {
-    key: "resolveOption",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "resolveOption", {
     get: function get() {
       return this.instance.resolveOption;
     },
     set: function set(value) {
       this.instance.resolveOption = value;
-    }
-  }, {
-    key: "setupEventListeners",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "setupEventListeners", {
     get: function get() {
       return this.instance.setupEventListeners;
     },
     set: function set(value) {
       this.instance.setupEventListeners = value;
-    }
-  }, {
-    key: "submitRequest",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "submitRequest", {
     get: function get() {
       return this.instance.submitRequest;
     },
     set: function set(value) {
       this.instance.submitRequest = value;
-    }
-  }, {
-    key: "updateTotalUploadProgress",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "updateTotalUploadProgress", {
     get: function get() {
       return this.instance.updateTotalUploadProgress;
     },
     set: function set(value) {
       this.instance.updateTotalUploadProgress = value;
-    }
-  }, {
-    key: "uploadFile",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "uploadFile", {
     get: function get() {
       return this.instance.uploadFile;
     },
     set: function set(value) {
       this.instance.uploadFile = value;
-    }
-  }, {
-    key: "uploadFiles",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "uploadFiles", {
     get: function get() {
       return this.instance.uploadFiles;
     },
     set: function set(value) {
       this.instance.uploadFiles = value;
-    }
-  }, {
-    key: "clickableElements",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "clickableElements", {
     get: function get() {
       return this.instance.clickableElements;
-    }
-  }, {
-    key: "defaultOptions",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "defaultOptions", {
     get: function get() {
       return this.instance.defaultOptions;
-    }
-  }, {
-    key: "element",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "element", {
     get: function get() {
       return this.instance.element;
-    }
-  }, {
-    key: "events",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "events", {
     get: function get() {
       return this.instance.events;
-    }
-  }, {
-    key: "files",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "files", {
     get: function get() {
       return this.instance.files;
-    }
-  }, {
-    key: "hiddenFileInput",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "hiddenFileInput", {
     get: function get() {
       return this.instance.hiddenFileInput;
-    }
-  }, {
-    key: "listeners",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "listeners", {
     get: function get() {
       return this.instance.listeners;
-    }
-  }, {
-    key: "previewsContainer",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "previewsContainer", {
     get: function get() {
       return this.instance.previewsContainer;
-    }
-  }, {
-    key: "version",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Dropzone.prototype, "version", {
     get: function get() {
       return this.instance.version;
-    }
-  }]);
-
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Dropzone = __decorate([vue_class_component_esm], Dropzone);
   return Dropzone;
 }(external_commonjs_vue_commonjs2_vue_root_Vue_default.a);
 
-Generatedvue_type_script_lang_ts_Dropzone = __decorate([vue_class_component_esm], Generatedvue_type_script_lang_ts_Dropzone);
 /* harmony default export */ var Generatedvue_type_script_lang_ts_ = (Generatedvue_type_script_lang_ts_Dropzone);
 // CONCATENATED MODULE: ./src/component/Generated.vue?vue&type=script&lang=ts&
  /* harmony default export */ var component_Generatedvue_type_script_lang_ts_ = (Generatedvue_type_script_lang_ts_); 
@@ -7942,105 +7789,91 @@ var dropzone_default = /*#__PURE__*/__webpack_require__.n(dropzone);
 
 
 
-
-
-
-
-
  // Only mount manually
 
 dropzone_default.a.autoDiscover = false;
 
 var VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone =
-/*#__PURE__*/
-function (_GeneratedBase) {
-  _inherits(VueAutoDropzone, _GeneratedBase);
+/** @class */
+function (_super) {
+  __extends(VueAutoDropzone, _super);
 
   function VueAutoDropzone() {
-    var _this;
+    var _this = _super !== null && _super.apply(this, arguments) || this;
 
-    _classCallCheck(this, VueAutoDropzone);
-
-    _this = _possibleConstructorReturn(this, getPrototypeOf_getPrototypeOf(VueAutoDropzone).apply(this, arguments));
     _this.hasBeenMounted = false;
     return _this;
   }
 
-  _createClass(VueAutoDropzone, [{
-    key: "mounted",
-    value: function mounted() {
-      var _this2 = this;
+  VueAutoDropzone.prototype.mounted = function () {
+    var _this = this; // Dropzone requires window to mount
 
-      // Dropzone requires window to mount
-      if (typeof window === 'undefined') return;
-      if (this.$isServer && this.hasBeenMounted) return;
-      this.hasBeenMounted = true;
-      var options = this.$props.options;
-      this.instance = new dropzone_default.a(this.$el, options); // Pass every configured event through
 
-      this.instance.events.forEach(function (eventName) {
-        _this2.instance.on(eventName, function () {
-          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-          }
+    if (typeof window === 'undefined') return;
+    if (this.$isServer && this.hasBeenMounted) return;
+    this.hasBeenMounted = true;
+    var options = this.$props.options;
+    this.instance = new dropzone_default.a(this.$el, options); // Pass every configured event through
 
-          // eslint-disable-next-line no-useless-call
-          _this2.$emit.apply(_this2, [eventName].concat(args));
-        });
+    this.instance.events.forEach(function (eventName) {
+      _this.instance.on(eventName, function () {
+        var args = [];
+
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        } // eslint-disable-next-line no-useless-call
+
+
+        _this.$emit.apply(_this, __spread([eventName], args));
       });
-    }
-  }, {
-    key: "beforeDestroy",
-    value: function beforeDestroy() {
-      if (!(this.$props.destroyDropzone && this.instance)) return;
-      this.instance.destroy();
-    }
-  }, {
-    key: "getOptions",
-    value: function getOptions() {
-      return this.instance.options;
-    }
-  }, {
-    key: "setOptions",
-    value: function setOptions(value) {
-      Object.assign(this.instance.options, value);
-    }
-  }, {
-    key: "getOption",
-    value: function getOption(key) {
-      return this.instance.options[key];
-    }
-  }, {
-    key: "setOption",
-    value: function setOption(key, value) {
-      this.instance.options[key] = value;
-    }
-  }]);
+    });
+  };
 
+  VueAutoDropzone.prototype.beforeDestroy = function () {
+    if (!(this.$props.destroyDropzone && this.instance)) return;
+    this.instance.destroy();
+  };
+
+  VueAutoDropzone.prototype.getOptions = function () {
+    return this.instance.options;
+  };
+
+  VueAutoDropzone.prototype.setOptions = function (value) {
+    Object.assign(this.instance.options, value);
+  };
+
+  VueAutoDropzone.prototype.getOption = function (key) {
+    return this.instance.options[key];
+  };
+
+  VueAutoDropzone.prototype.setOption = function (key, value) {
+    this.instance.options[key] = value;
+  };
+
+  VueAutoDropzone = __decorate([vue_class_component_esm({
+    props: {
+      options: {
+        type: Object,
+        required: true,
+        validator: function validator(value) {
+          return typeof_typeof(value) === 'object' && !!value.url;
+        }
+      },
+      includeStyling: {
+        type: Boolean,
+        required: false,
+        default: true
+      },
+      destroyDropzone: {
+        type: Boolean,
+        required: false,
+        default: true
+      }
+    }
+  })], VueAutoDropzone);
   return VueAutoDropzone;
 }(Generated);
 
-VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone = __decorate([vue_class_component_esm({
-  props: {
-    options: {
-      type: Object,
-      required: true,
-      validator: function validator(value) {
-        return typeof_typeof(value) === 'object' && !!value.url;
-      }
-    },
-    includeStyling: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    destroyDropzone: {
-      type: Boolean,
-      required: false,
-      default: true
-    }
-  }
-})], VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone);
 /* harmony default export */ var VueAutoDropzonevue_type_script_lang_ts_ = (VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone);
 ;
 // CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=script&lang=ts&

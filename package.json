@@ -15,12 +15,13 @@
     "test": "yarn build:component && yarn test:unit"
   },
   "dependencies": {
+    "@types/dropzone": "^5.0.6",
     "dropzone": "^5.5.1",
+    "typescript": "3.4.3",
     "vue": "^2.6.10"
   },
   "devDependencies": {
     "@types/chai": "^4.1.0",
-    "@types/dropzone": "^5.0.6",
     "@types/mocha": "^5.2.4",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-e2e-cypress": "^3.11.0",
@@ -46,7 +47,6 @@
     "sass": "^1.18.0",
     "sinon": "^7.5.0",
     "ts-node": "^8.4.1",
-    "typescript": "3.4.3",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
     "vue-template-compiler": "^2.6.10"
