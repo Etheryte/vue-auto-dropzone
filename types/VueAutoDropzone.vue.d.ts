@@ -64,7 +64,7 @@ declare type UntypedKeys = Exclude<keyof TypeHints, keyof IDropzoneInstance>;
 declare type UntypedFields = Pick<TypeHints, UntypedKeys>;
 declare type CombinedInstance = IDropzoneInstance & UntypedFields;
 export default class VueAutoDropzone extends Vue {
-    private instance;
+    instance: CombinedInstance;
     options: IDropzoneOptions;
     includeStyling: Boolean;
     destroyDropzone: Boolean;

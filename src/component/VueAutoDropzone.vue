@@ -92,7 +92,7 @@ type CombinedInstance = IDropzoneInstance & UntypedFields;
 
 @Component
 export default class VueAutoDropzone extends Vue {
-  private instance!: CombinedInstance;
+  instance!: CombinedInstance;
 
   @Prop({
       type: Object,
