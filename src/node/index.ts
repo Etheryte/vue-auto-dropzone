@@ -16,8 +16,9 @@ const Dz = require('dropzone');
 const { getDeepPropertyNames, getTypeHint } = require('./utilities');
 
 const stylePath = require.resolve('dropzone/dist/min/dropzone.min.css');
-const styleOutputPath = path.resolve(process.env.PWD, 'src/component/generated.css');
-const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.vue');
+const styleOutputPath = path.resolve(process.env.PWD, 'src/component/vueAutoDropzone.css');
+const componentBasePath = path.resolve(process.env.PWD, 'src/component/ComponentBase.vue');
+const componentOutputPath = path.resolve(process.env.PWD, 'src/component/VueAutoDropzone.vue');
 
 (async() => {
     try {
@@ -44,9 +45,8 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
         ];
         const includeInternal = false;
         // The methods etc are sourced from Dropzone so hint that in Intellisense
-        const generatedClassName = 'Dropzone';
+        const baseClassName = 'VueAutoDropzone';
 
-        // TODO: Implement type hints via typing live things
         protoKeys.forEach(key => {
             if (exclude.indexOf(key) !== -1) return;
             // Internal values are prefixed with an underscore
@@ -71,10 +71,10 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
         const computedMethodPartials = methodNames.map((name) => {
             // Stringify doesn't expand context variables, so inline the name here instead
             return `
-                get ${name}(this: ${generatedClassName}) {
+                get ${name}(this: ${baseClassName}): CombinedInstance['${name}'] {
                     return this.instance.${name};
                 }
-                set ${name}(this: ${generatedClassName}, value) {
+                set ${name}(this: ${baseClassName}, value) {
                     this.instance.${name} = value;
                 }
             `;
@@ -82,7 +82,7 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
 
         // For all properties, make them non-cached computed properties, e.g. just getters
         const computedPropertyPartials = propertyNames.map((name) => {
-            return `get ${name}(this: ${generatedClassName}) {
+            return `get ${name}(this: ${baseClassName}) {
                 return this.instance.${name};
             }`;
         });
@@ -92,37 +92,19 @@ const scriptOutputPath = path.resolve(process.env.PWD, 'src/component/Generated.
             .concat(computedPropertyPartials)
             .join('\n');
 
-        const output = `<script lang="ts">
-        // NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST WITH THE NEXT BUILD.
-        import Vue from 'vue';
-        import Component from 'vue-class-component';
+        const componentBase = await fs.readFile(componentBasePath, 'utf8');
 
-        import { IDropzoneInstance } from './interfaces';
+        const rawOutput = componentBase
+            .replace('// $$HEADER', '// NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST.')
+            .replace('// $$TYPE_HINTS', typeHints)
+            .replace('// $$COMBINED_PARTIALS', combinedPartials);
 
-        // Dropzone type definitions aren't up to date, hint the user where possible
-        interface TypeHints {
-            ${typeHints}
-        }
-
-        // Assuming every key has a hint
-        type UntypedKeys = Exclude<keyof TypeHints, keyof IDropzoneInstance>;
-        type UntypedFields = Pick<TypeHints, UntypedKeys>
-
-        @Component
-        export default class ${generatedClassName} extends Vue {
-            instance!: IDropzoneInstance & UntypedFields;
-
-            ${combinedPartials}
-        }
-        </script>
-        `;
-
-        const pretty = prettier.format(output, {
+        const output = prettier.format(rawOutput, {
             parser: 'vue',
         });
 
         // The calling script calls ESLint in turn
-        await fs.writeFile(scriptOutputPath, pretty, 'utf8');
+        await fs.writeFile(componentOutputPath, output, 'utf8');
         await jsdomCleanup();
 
         // Mirror styles at the time of bundling to avoid release-out-of-sync issues

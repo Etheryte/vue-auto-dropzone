@@ -13,14 +13,14 @@
   },
   "private": false,
   "main": "./dist/index.umd.js",
-  "types": "./types/index.d.ts",
+  "types": "./types/VueAutoDropzone.vue.d.ts",
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:build": "yarn build:component && yarn serve",
     "lint": "vue-cli-service lint --fix",
     "build:component": "ts-node src/node/index.ts && yarn lint",
     "build:component:watch": "TODO: implement",
-    "build:lib": "vue-cli-service build --target lib --name index index.ts",
+    "build:lib": "vue-cli-service build --target lib --name index src/component/VueAutoDropzone.vue",
     "build": "yarn build:component && yarn build:lib",
     "test:unit": "vue-cli-service test:unit",
     "test": "yarn build:component && yarn test:unit"
@@ -28,7 +28,7 @@
   "dependencies": {
     "@types/dropzone": "^5.0.6",
     "dropzone": "^5.5.1",
-    "typescript": "3.4.3",
+    "typescript": "3.6.4",
     "vue": "^2.6.10"
   },
   "devDependencies": {

@@ -16,7 +16,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 import VueAutoDropzone from '@/component/VueAutoDropzone.vue';
-import { IDropzoneOptions } from '@/component/interfaces';
 
 @Component({
     components: {
@@ -35,7 +34,7 @@ export default class App extends Vue {
         const cup = this.$refs.dz.getOptions;
     }
 
-    options: IDropzoneOptions = {
+    options = {
         url: 'https://httpbin.org/anything',
     };
 

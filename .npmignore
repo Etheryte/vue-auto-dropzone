@@ -2,7 +2,11 @@
 demo
 node_modules
 public
+
 src
+# Include source types
+!types/src
+
 tests
 .*
 babel.config.js
@@ -13,4 +17,3 @@ tsconfig.json
 vue.config.js
 yarn-error.log
 yarn.lock
-# TODO: Include types!

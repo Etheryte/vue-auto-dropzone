@@ -444,21 +444,6 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 /***/ }),
 
-/***/ "03d8":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("95f1");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("4d172156", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "07e3":
 /***/ (function(module, exports) {
 
@@ -5759,21 +5744,6 @@ module.exports = __webpack_require__("35e8");
 
 /***/ }),
 
-/***/ "95f1":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, "@-webkit-keyframes passing-through{0%{opacity:0;transform:translateY(40px)}30%,70%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-40px)}}@keyframes passing-through{0%{opacity:0;transform:translateY(40px)}30%,70%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-40px)}}@-webkit-keyframes slide-in{0%{opacity:0;transform:translateY(40px)}30%{opacity:1;transform:translateY(0)}}@keyframes slide-in{0%{opacity:0;transform:translateY(40px)}30%{opacity:1;transform:translateY(0)}}@-webkit-keyframes pulse{0%{transform:scale(1)}10%{transform:scale(1.1)}20%{transform:scale(1)}}@keyframes pulse{0%{transform:scale(1)}10%{transform:scale(1.1)}20%{transform:scale(1)}}.dropzone,.dropzone *{box-sizing:border-box}.dropzone{min-height:150px;border:2px solid rgba(0,0,0,.3);background:#fff;padding:20px 20px}.dropzone.dz-clickable{cursor:pointer}.dropzone.dz-clickable *{cursor:default}.dropzone.dz-clickable .dz-message,.dropzone.dz-clickable .dz-message *{cursor:pointer}.dropzone.dz-started .dz-message{display:none}.dropzone.dz-drag-hover{border-style:solid}.dropzone.dz-drag-hover .dz-message{opacity:.5}.dropzone .dz-message{text-align:center;margin:2em 0}.dropzone .dz-preview{position:relative;display:inline-block;vertical-align:top;margin:16px;min-height:100px}.dropzone .dz-preview:hover{z-index:1000}.dropzone .dz-preview.dz-file-preview .dz-image{border-radius:20px;background:#999;background:linear-gradient(180deg,#eee,#ddd)}.dropzone .dz-preview.dz-file-preview .dz-details{opacity:1}.dropzone .dz-preview.dz-image-preview{background:#fff}.dropzone .dz-preview.dz-image-preview .dz-details{transition:opacity .2s linear}.dropzone .dz-preview .dz-remove{font-size:14px;text-align:center;display:block;cursor:pointer;border:none}.dropzone .dz-preview .dz-remove:hover{text-decoration:underline}.dropzone .dz-preview:hover .dz-details{opacity:1}.dropzone .dz-preview .dz-details{z-index:20;position:absolute;top:0;left:0;opacity:0;font-size:13px;min-width:100%;max-width:100%;padding:2em 1em;text-align:center;color:rgba(0,0,0,.9);line-height:150%}.dropzone .dz-preview .dz-details .dz-size{margin-bottom:1em;font-size:16px}.dropzone .dz-preview .dz-details .dz-filename{white-space:nowrap}.dropzone .dz-preview .dz-details .dz-filename:hover span{border:1px solid hsla(0,0%,78.4%,.8);background-color:hsla(0,0%,100%,.8)}.dropzone .dz-preview .dz-details .dz-filename:not(:hover){overflow:hidden;text-overflow:ellipsis}.dropzone .dz-preview .dz-details .dz-filename:not(:hover) span{border:1px solid transparent}.dropzone .dz-preview .dz-details .dz-filename span,.dropzone .dz-preview .dz-details .dz-size span{background-color:hsla(0,0%,100%,.4);padding:0 .4em;border-radius:3px}.dropzone .dz-preview:hover .dz-image img{transform:scale(1.05);-webkit-filter:blur(8px);filter:blur(8px)}.dropzone .dz-preview .dz-image{border-radius:20px;overflow:hidden;width:120px;height:120px;position:relative;display:block;z-index:10}.dropzone .dz-preview .dz-image img{display:block}.dropzone .dz-preview.dz-success .dz-success-mark{-webkit-animation:passing-through 3s cubic-bezier(.77,0,.175,1);animation:passing-through 3s cubic-bezier(.77,0,.175,1)}.dropzone .dz-preview.dz-error .dz-error-mark{opacity:1;-webkit-animation:slide-in 3s cubic-bezier(.77,0,.175,1);animation:slide-in 3s cubic-bezier(.77,0,.175,1)}.dropzone .dz-preview .dz-error-mark,.dropzone .dz-preview .dz-success-mark{pointer-events:none;opacity:0;z-index:500;position:absolute;display:block;top:50%;left:50%;margin-left:-27px;margin-top:-27px}.dropzone .dz-preview .dz-error-mark svg,.dropzone .dz-preview .dz-success-mark svg{display:block;width:54px;height:54px}.dropzone .dz-preview.dz-processing .dz-progress{opacity:1;transition:all .2s linear}.dropzone .dz-preview.dz-complete .dz-progress{opacity:0;transition:opacity .4s ease-in}.dropzone .dz-preview:not(.dz-processing) .dz-progress{-webkit-animation:pulse 6s ease infinite;animation:pulse 6s ease infinite}.dropzone .dz-preview .dz-progress{opacity:1;z-index:1000;pointer-events:none;position:absolute;height:16px;left:50%;top:50%;margin-top:-8px;width:80px;margin-left:-40px;background:hsla(0,0%,100%,.9);-webkit-transform:scale(1);border-radius:8px;overflow:hidden}.dropzone .dz-preview .dz-progress .dz-upload{background:#333;background:linear-gradient(180deg,#666,#444);position:absolute;top:0;left:0;bottom:0;width:0;transition:width .3s ease-in-out}.dropzone .dz-preview.dz-error .dz-error-message{display:block}.dropzone .dz-preview.dz-error:hover .dz-error-message{opacity:1;pointer-events:auto}.dropzone .dz-preview .dz-error-message{pointer-events:none;z-index:1000;position:absolute;display:block;display:none;opacity:0;transition:opacity .3s ease;border-radius:8px;font-size:13px;top:130px;left:-10px;width:140px;background:#be2626;background:linear-gradient(180deg,#be2626,#a92222);padding:.5em 1.2em;color:#fff}.dropzone .dz-preview .dz-error-message:after{content:\"\";position:absolute;top:-6px;left:64px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #be2626}", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "9aa9":
 /***/ (function(module, exports) {
 
@@ -5891,6 +5861,21 @@ module.exports = Object.create || function create(O, Properties) {
   } else result = createDict();
   return Properties === undefined ? result : dPs(result, Properties);
 };
+
+
+/***/ }),
+
+/***/ "ab87":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, "@-webkit-keyframes passing-through{0%{opacity:0;transform:translateY(40px)}30%,70%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-40px)}}@keyframes passing-through{0%{opacity:0;transform:translateY(40px)}30%,70%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-40px)}}@-webkit-keyframes slide-in{0%{opacity:0;transform:translateY(40px)}30%{opacity:1;transform:translateY(0)}}@keyframes slide-in{0%{opacity:0;transform:translateY(40px)}30%{opacity:1;transform:translateY(0)}}@-webkit-keyframes pulse{0%{transform:scale(1)}10%{transform:scale(1.1)}20%{transform:scale(1)}}@keyframes pulse{0%{transform:scale(1)}10%{transform:scale(1.1)}20%{transform:scale(1)}}.dropzone,.dropzone *{box-sizing:border-box}.dropzone{min-height:150px;border:2px solid rgba(0,0,0,.3);background:#fff;padding:20px 20px}.dropzone.dz-clickable{cursor:pointer}.dropzone.dz-clickable *{cursor:default}.dropzone.dz-clickable .dz-message,.dropzone.dz-clickable .dz-message *{cursor:pointer}.dropzone.dz-started .dz-message{display:none}.dropzone.dz-drag-hover{border-style:solid}.dropzone.dz-drag-hover .dz-message{opacity:.5}.dropzone .dz-message{text-align:center;margin:2em 0}.dropzone .dz-preview{position:relative;display:inline-block;vertical-align:top;margin:16px;min-height:100px}.dropzone .dz-preview:hover{z-index:1000}.dropzone .dz-preview.dz-file-preview .dz-image{border-radius:20px;background:#999;background:linear-gradient(180deg,#eee,#ddd)}.dropzone .dz-preview.dz-file-preview .dz-details{opacity:1}.dropzone .dz-preview.dz-image-preview{background:#fff}.dropzone .dz-preview.dz-image-preview .dz-details{transition:opacity .2s linear}.dropzone .dz-preview .dz-remove{font-size:14px;text-align:center;display:block;cursor:pointer;border:none}.dropzone .dz-preview .dz-remove:hover{text-decoration:underline}.dropzone .dz-preview:hover .dz-details{opacity:1}.dropzone .dz-preview .dz-details{z-index:20;position:absolute;top:0;left:0;opacity:0;font-size:13px;min-width:100%;max-width:100%;padding:2em 1em;text-align:center;color:rgba(0,0,0,.9);line-height:150%}.dropzone .dz-preview .dz-details .dz-size{margin-bottom:1em;font-size:16px}.dropzone .dz-preview .dz-details .dz-filename{white-space:nowrap}.dropzone .dz-preview .dz-details .dz-filename:hover span{border:1px solid hsla(0,0%,78.4%,.8);background-color:hsla(0,0%,100%,.8)}.dropzone .dz-preview .dz-details .dz-filename:not(:hover){overflow:hidden;text-overflow:ellipsis}.dropzone .dz-preview .dz-details .dz-filename:not(:hover) span{border:1px solid transparent}.dropzone .dz-preview .dz-details .dz-filename span,.dropzone .dz-preview .dz-details .dz-size span{background-color:hsla(0,0%,100%,.4);padding:0 .4em;border-radius:3px}.dropzone .dz-preview:hover .dz-image img{transform:scale(1.05);-webkit-filter:blur(8px);filter:blur(8px)}.dropzone .dz-preview .dz-image{border-radius:20px;overflow:hidden;width:120px;height:120px;position:relative;display:block;z-index:10}.dropzone .dz-preview .dz-image img{display:block}.dropzone .dz-preview.dz-success .dz-success-mark{-webkit-animation:passing-through 3s cubic-bezier(.77,0,.175,1);animation:passing-through 3s cubic-bezier(.77,0,.175,1)}.dropzone .dz-preview.dz-error .dz-error-mark{opacity:1;-webkit-animation:slide-in 3s cubic-bezier(.77,0,.175,1);animation:slide-in 3s cubic-bezier(.77,0,.175,1)}.dropzone .dz-preview .dz-error-mark,.dropzone .dz-preview .dz-success-mark{pointer-events:none;opacity:0;z-index:500;position:absolute;display:block;top:50%;left:50%;margin-left:-27px;margin-top:-27px}.dropzone .dz-preview .dz-error-mark svg,.dropzone .dz-preview .dz-success-mark svg{display:block;width:54px;height:54px}.dropzone .dz-preview.dz-processing .dz-progress{opacity:1;transition:all .2s linear}.dropzone .dz-preview.dz-complete .dz-progress{opacity:0;transition:opacity .4s ease-in}.dropzone .dz-preview:not(.dz-processing) .dz-progress{-webkit-animation:pulse 6s ease infinite;animation:pulse 6s ease infinite}.dropzone .dz-preview .dz-progress{opacity:1;z-index:1000;pointer-events:none;position:absolute;height:16px;left:50%;top:50%;margin-top:-8px;width:80px;margin-left:-40px;background:hsla(0,0%,100%,.9);-webkit-transform:scale(1);border-radius:8px;overflow:hidden}.dropzone .dz-preview .dz-progress .dz-upload{background:#333;background:linear-gradient(180deg,#666,#444);position:absolute;top:0;left:0;bottom:0;width:0;transition:width .3s ease-in-out}.dropzone .dz-preview.dz-error .dz-error-message{display:block}.dropzone .dz-preview.dz-error:hover .dz-error-message{opacity:1;pointer-events:auto}.dropzone .dz-preview .dz-error-message{pointer-events:none;z-index:1000;position:absolute;display:block;display:none;opacity:0;transition:opacity .3s ease;border-radius:8px;font-size:13px;top:130px;left:-10px;width:140px;background:#be2626;background:linear-gradient(180deg,#be2626,#a92222);padding:.5em 1.2em;color:#fff}.dropzone .dz-preview .dz-error-message:after{content:\"\";position:absolute;top:-6px;left:64px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #be2626}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -6124,6 +6109,17 @@ module.exports = Object.keys || function keys(O) {
 
 /***/ }),
 
+/***/ "c4d2":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_vueAutoDropzone_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d88f");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_vueAutoDropzone_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_vueAutoDropzone_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_vueAutoDropzone_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "c69a":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6265,17 +6261,6 @@ module.exports = function (done, value) {
 
 /***/ }),
 
-/***/ "d6f5":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_generated_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("03d8");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_generated_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_generated_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_generated_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "d864":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6300,6 +6285,21 @@ module.exports = function (fn, that, length) {
   };
 };
 
+
+/***/ }),
+
+/***/ "d88f":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("ab87");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("7fb54b36", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -6644,12 +6644,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"7cf9d108-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=template&id=13243f10&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{ 'dropzone': _vm.includeStyling }},[(this.$slots && this.$slots.default && this.$slots.default.length)?[(_vm.includeStyling)?_c('div',{class:{ 'dz-message': _vm.includeStyling }},[_vm._t("default",[_vm._v("Drop files here to upload")])],2):_vm._t("default",[_vm._v("Drop files here to upload")])]:_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"7cf9d108-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=template&id=adbe4342&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{ dropzone: _vm.includeStyling }},[(this.$slots && this.$slots.default && this.$slots.default.length)?[(_vm.includeStyling)?_c('div',{class:{ 'dz-message': _vm.includeStyling }},[_vm._t("default",[_vm._v("Drop files here to upload")])],2):_vm._t("default",[_vm._v("Drop files here to upload")])]:_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=template&id=13243f10&
+// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=template&id=adbe4342&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/symbol/iterator.js
 var iterator = __webpack_require__("5d58");
@@ -6678,6 +6678,9 @@ function typeof_typeof(obj) {
 
   return typeof_typeof(obj);
 }
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.define-property.js
+var es6_object_define_property = __webpack_require__("1c01");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.assign.js
 var es6_object_assign = __webpack_require__("f751");
 
@@ -7402,26 +7405,81 @@ function isPromise(obj) {
     return obj instanceof Promise || (obj && typeof obj.then === 'function');
 }
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.define-property.js
-var es6_object_define_property = __webpack_require__("1c01");
+// EXTERNAL MODULE: ./node_modules/dropzone/dist/dropzone.js
+var dropzone = __webpack_require__("79e3");
+var dropzone_default = /*#__PURE__*/__webpack_require__.n(dropzone);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--14-1!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/Generated.vue?vue&type=script&lang=ts&
-
- // NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST WITH THE NEXT BUILD.
-
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--14-1!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=script&lang=ts&
 
 
 
-var Generatedvue_type_script_lang_ts_Dropzone =
+
+
+ // NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST.
+
+
+ // Only mount manually
+
+dropzone_default.a.autoDiscover = false;
+
+var VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone =
 /** @class */
 function (_super) {
-  __extends(Dropzone, _super);
+  __extends(VueAutoDropzone, _super);
 
-  function Dropzone() {
-    return _super !== null && _super.apply(this, arguments) || this;
+  function VueAutoDropzone() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.hasBeenMounted = false;
+    return _this;
   }
 
-  Object.defineProperty(Dropzone.prototype, "Emitter", {
+  VueAutoDropzone.prototype.mounted = function () {
+    var _this = this; // Dropzone requires window to mount
+
+
+    if (typeof window === 'undefined') return;
+    if (this.$isServer && this.hasBeenMounted) return;
+    this.hasBeenMounted = true;
+    this.instance = new dropzone_default.a(this.$el, this.options); // Pass every configured event through
+
+    this.instance.events.forEach(function (eventName) {
+      _this.instance.on(eventName, function () {
+        var args = [];
+
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        } // eslint-disable-next-line no-useless-call
+
+
+        _this.$emit.apply(_this, __spread([eventName], args));
+      });
+    });
+  };
+
+  VueAutoDropzone.prototype.beforeDestroy = function () {
+    if (!(this.$props.destroyDropzone && this.instance)) return;
+    this.instance.destroy();
+  };
+
+  VueAutoDropzone.prototype.getOptions = function () {
+    return this.instance.options;
+  };
+
+  VueAutoDropzone.prototype.setOptions = function (value) {
+    Object.assign(this.instance.options, value);
+  };
+
+  VueAutoDropzone.prototype.getOption = function (key) {
+    return this.instance.options[key];
+  };
+
+  VueAutoDropzone.prototype.setOption = function (key, value) {
+    // @ts-ignore
+    this.instance.options[key] = value;
+  };
+
+  Object.defineProperty(VueAutoDropzone.prototype, "Emitter", {
     get: function get() {
       return this.instance.Emitter;
     },
@@ -7431,7 +7489,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "URL", {
+  Object.defineProperty(VueAutoDropzone.prototype, "URL", {
     get: function get() {
       return this.instance.URL;
     },
@@ -7441,7 +7499,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "accept", {
+  Object.defineProperty(VueAutoDropzone.prototype, "accept", {
     get: function get() {
       return this.instance.accept;
     },
@@ -7451,7 +7509,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "addFile", {
+  Object.defineProperty(VueAutoDropzone.prototype, "addFile", {
     get: function get() {
       return this.instance.addFile;
     },
@@ -7461,7 +7519,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "cancelUpload", {
+  Object.defineProperty(VueAutoDropzone.prototype, "cancelUpload", {
     get: function get() {
       return this.instance.cancelUpload;
     },
@@ -7471,7 +7529,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "createThumbnail", {
+  Object.defineProperty(VueAutoDropzone.prototype, "createThumbnail", {
     get: function get() {
       return this.instance.createThumbnail;
     },
@@ -7481,7 +7539,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "createThumbnailFromUrl", {
+  Object.defineProperty(VueAutoDropzone.prototype, "createThumbnailFromUrl", {
     get: function get() {
       return this.instance.createThumbnailFromUrl;
     },
@@ -7491,7 +7549,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "destroy", {
+  Object.defineProperty(VueAutoDropzone.prototype, "destroy", {
     get: function get() {
       return this.instance.destroy;
     },
@@ -7501,7 +7559,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "disable", {
+  Object.defineProperty(VueAutoDropzone.prototype, "disable", {
     get: function get() {
       return this.instance.disable;
     },
@@ -7511,7 +7569,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "drop", {
+  Object.defineProperty(VueAutoDropzone.prototype, "drop", {
     get: function get() {
       return this.instance.drop;
     },
@@ -7521,7 +7579,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "emit", {
+  Object.defineProperty(VueAutoDropzone.prototype, "emit", {
     get: function get() {
       return this.instance.emit;
     },
@@ -7531,7 +7589,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "enable", {
+  Object.defineProperty(VueAutoDropzone.prototype, "enable", {
     get: function get() {
       return this.instance.enable;
     },
@@ -7541,7 +7599,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "enqueueFile", {
+  Object.defineProperty(VueAutoDropzone.prototype, "enqueueFile", {
     get: function get() {
       return this.instance.enqueueFile;
     },
@@ -7551,7 +7609,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "enqueueFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "enqueueFiles", {
     get: function get() {
       return this.instance.enqueueFiles;
     },
@@ -7561,7 +7619,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "filesize", {
+  Object.defineProperty(VueAutoDropzone.prototype, "filesize", {
     get: function get() {
       return this.instance.filesize;
     },
@@ -7571,7 +7629,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getAcceptedFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getAcceptedFiles", {
     get: function get() {
       return this.instance.getAcceptedFiles;
     },
@@ -7581,7 +7639,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getActiveFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getActiveFiles", {
     get: function get() {
       return this.instance.getActiveFiles;
     },
@@ -7591,7 +7649,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getAddedFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getAddedFiles", {
     get: function get() {
       return this.instance.getAddedFiles;
     },
@@ -7601,7 +7659,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getExistingFallback", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getExistingFallback", {
     get: function get() {
       return this.instance.getExistingFallback;
     },
@@ -7611,7 +7669,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getFallbackForm", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getFallbackForm", {
     get: function get() {
       return this.instance.getFallbackForm;
     },
@@ -7621,7 +7679,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getFilesWithStatus", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getFilesWithStatus", {
     get: function get() {
       return this.instance.getFilesWithStatus;
     },
@@ -7631,7 +7689,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getQueuedFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getQueuedFiles", {
     get: function get() {
       return this.instance.getQueuedFiles;
     },
@@ -7641,7 +7699,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getRejectedFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getRejectedFiles", {
     get: function get() {
       return this.instance.getRejectedFiles;
     },
@@ -7651,7 +7709,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "getUploadingFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "getUploadingFiles", {
     get: function get() {
       return this.instance.getUploadingFiles;
     },
@@ -7661,7 +7719,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "handleFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "handleFiles", {
     get: function get() {
       return this.instance.handleFiles;
     },
@@ -7671,7 +7729,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "init", {
+  Object.defineProperty(VueAutoDropzone.prototype, "init", {
     get: function get() {
       return this.instance.init;
     },
@@ -7681,7 +7739,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "off", {
+  Object.defineProperty(VueAutoDropzone.prototype, "off", {
     get: function get() {
       return this.instance.off;
     },
@@ -7691,7 +7749,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "on", {
+  Object.defineProperty(VueAutoDropzone.prototype, "on", {
     get: function get() {
       return this.instance.on;
     },
@@ -7701,7 +7759,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "paste", {
+  Object.defineProperty(VueAutoDropzone.prototype, "paste", {
     get: function get() {
       return this.instance.paste;
     },
@@ -7711,7 +7769,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "processFile", {
+  Object.defineProperty(VueAutoDropzone.prototype, "processFile", {
     get: function get() {
       return this.instance.processFile;
     },
@@ -7721,7 +7779,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "processFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "processFiles", {
     get: function get() {
       return this.instance.processFiles;
     },
@@ -7731,7 +7789,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "processQueue", {
+  Object.defineProperty(VueAutoDropzone.prototype, "processQueue", {
     get: function get() {
       return this.instance.processQueue;
     },
@@ -7741,7 +7799,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "removeAllFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "removeAllFiles", {
     get: function get() {
       return this.instance.removeAllFiles;
     },
@@ -7751,7 +7809,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "removeEventListeners", {
+  Object.defineProperty(VueAutoDropzone.prototype, "removeEventListeners", {
     get: function get() {
       return this.instance.removeEventListeners;
     },
@@ -7761,7 +7819,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "removeFile", {
+  Object.defineProperty(VueAutoDropzone.prototype, "removeFile", {
     get: function get() {
       return this.instance.removeFile;
     },
@@ -7771,7 +7829,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "resizeImage", {
+  Object.defineProperty(VueAutoDropzone.prototype, "resizeImage", {
     get: function get() {
       return this.instance.resizeImage;
     },
@@ -7781,7 +7839,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "resolveOption", {
+  Object.defineProperty(VueAutoDropzone.prototype, "resolveOption", {
     get: function get() {
       return this.instance.resolveOption;
     },
@@ -7791,7 +7849,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "setupEventListeners", {
+  Object.defineProperty(VueAutoDropzone.prototype, "setupEventListeners", {
     get: function get() {
       return this.instance.setupEventListeners;
     },
@@ -7801,7 +7859,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "submitRequest", {
+  Object.defineProperty(VueAutoDropzone.prototype, "submitRequest", {
     get: function get() {
       return this.instance.submitRequest;
     },
@@ -7811,7 +7869,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "updateTotalUploadProgress", {
+  Object.defineProperty(VueAutoDropzone.prototype, "updateTotalUploadProgress", {
     get: function get() {
       return this.instance.updateTotalUploadProgress;
     },
@@ -7821,7 +7879,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "uploadFile", {
+  Object.defineProperty(VueAutoDropzone.prototype, "uploadFile", {
     get: function get() {
       return this.instance.uploadFile;
     },
@@ -7831,7 +7889,7 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "uploadFiles", {
+  Object.defineProperty(VueAutoDropzone.prototype, "uploadFiles", {
     get: function get() {
       return this.instance.uploadFiles;
     },
@@ -7841,76 +7899,100 @@ function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "clickableElements", {
+  Object.defineProperty(VueAutoDropzone.prototype, "clickableElements", {
     get: function get() {
       return this.instance.clickableElements;
     },
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "defaultOptions", {
+  Object.defineProperty(VueAutoDropzone.prototype, "defaultOptions", {
     get: function get() {
       return this.instance.defaultOptions;
     },
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "element", {
+  Object.defineProperty(VueAutoDropzone.prototype, "element", {
     get: function get() {
       return this.instance.element;
     },
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "events", {
+  Object.defineProperty(VueAutoDropzone.prototype, "events", {
     get: function get() {
       return this.instance.events;
     },
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "files", {
+  Object.defineProperty(VueAutoDropzone.prototype, "files", {
     get: function get() {
       return this.instance.files;
     },
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "hiddenFileInput", {
+  Object.defineProperty(VueAutoDropzone.prototype, "hiddenFileInput", {
     get: function get() {
       return this.instance.hiddenFileInput;
     },
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "listeners", {
+  Object.defineProperty(VueAutoDropzone.prototype, "listeners", {
     get: function get() {
       return this.instance.listeners;
     },
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "previewsContainer", {
+  Object.defineProperty(VueAutoDropzone.prototype, "previewsContainer", {
     get: function get() {
       return this.instance.previewsContainer;
     },
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(Dropzone.prototype, "version", {
+  Object.defineProperty(VueAutoDropzone.prototype, "version", {
     get: function get() {
       return this.instance.version;
     },
     enumerable: true,
     configurable: true
   });
-  Dropzone = __decorate([vue_class_component_esm], Dropzone);
-  return Dropzone;
+
+  __decorate([Prop({
+    type: Object,
+    required: true,
+    validator: function validator(value) {
+      return typeof_typeof(value) === 'object' && !!value.url;
+    }
+  })], VueAutoDropzone.prototype, "options", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    required: false,
+    default: true
+  })], VueAutoDropzone.prototype, "includeStyling", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    required: false,
+    default: true
+  })], VueAutoDropzone.prototype, "destroyDropzone", void 0);
+
+  VueAutoDropzone = __decorate([vue_class_component_esm], VueAutoDropzone);
+  return VueAutoDropzone;
 }(external_commonjs_vue_commonjs2_vue_root_Vue_default.a);
 
-/* harmony default export */ var Generatedvue_type_script_lang_ts_ = (Generatedvue_type_script_lang_ts_Dropzone);
-// CONCATENATED MODULE: ./src/component/Generated.vue?vue&type=script&lang=ts&
- /* harmony default export */ var component_Generatedvue_type_script_lang_ts_ = (Generatedvue_type_script_lang_ts_); 
+/* harmony default export */ var VueAutoDropzonevue_type_script_lang_ts_ = (VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone);
+// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=script&lang=ts&
+ /* harmony default export */ var component_VueAutoDropzonevue_type_script_lang_ts_ = (VueAutoDropzonevue_type_script_lang_ts_); 
+// EXTERNAL MODULE: ./src/component/vueAutoDropzone.css?vue&type=style&index=0&lang=css&
+var vueAutoDropzonevue_type_style_index_0_lang_css_ = __webpack_require__("c4d2");
+
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
 
@@ -8006,129 +8088,6 @@ function normalizeComponent (
   }
 }
 
-// CONCATENATED MODULE: ./src/component/Generated.vue
-var Generated_render, Generated_staticRenderFns
-
-
-
-
-/* normalize component */
-
-var component = normalizeComponent(
-  component_Generatedvue_type_script_lang_ts_,
-  Generated_render,
-  Generated_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* harmony default export */ var Generated = (component.exports);
-// EXTERNAL MODULE: ./node_modules/dropzone/dist/dropzone.js
-var dropzone = __webpack_require__("79e3");
-var dropzone_default = /*#__PURE__*/__webpack_require__.n(dropzone);
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--14-1!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=script&lang=ts&
-
-
-
-
-
-
-
- // Only mount manually
-
-dropzone_default.a.autoDiscover = false;
-
-var VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone =
-/** @class */
-function (_super) {
-  __extends(VueAutoDropzone, _super);
-
-  function VueAutoDropzone() {
-    var _this = _super !== null && _super.apply(this, arguments) || this;
-
-    _this.hasBeenMounted = false;
-    return _this;
-  }
-
-  VueAutoDropzone.prototype.mounted = function () {
-    var _this = this; // Dropzone requires window to mount
-
-
-    if (typeof window === 'undefined') return;
-    if (this.$isServer && this.hasBeenMounted) return;
-    this.hasBeenMounted = true;
-    this.instance = new dropzone_default.a(this.$el, this.options); // Pass every configured event through
-
-    this.instance.events.forEach(function (eventName) {
-      _this.instance.on(eventName, function () {
-        var args = [];
-
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
-        } // eslint-disable-next-line no-useless-call
-
-
-        _this.$emit.apply(_this, __spread([eventName], args));
-      });
-    });
-  };
-
-  VueAutoDropzone.prototype.beforeDestroy = function () {
-    if (!(this.$props.destroyDropzone && this.instance)) return;
-    this.instance.destroy();
-  };
-
-  VueAutoDropzone.prototype.getOptions = function () {
-    return this.instance.options;
-  };
-
-  VueAutoDropzone.prototype.setOptions = function (value) {
-    Object.assign(this.instance.options, value);
-  };
-
-  VueAutoDropzone.prototype.getOption = function (key) {
-    return this.instance.options[key];
-  };
-
-  VueAutoDropzone.prototype.setOption = function (key, value) {
-    this.instance.options[key] = value;
-  };
-
-  __decorate([Prop({
-    type: Object,
-    required: true,
-    validator: function validator(value) {
-      return typeof_typeof(value) === 'object' && !!value.url;
-    }
-  })], VueAutoDropzone.prototype, "options", void 0);
-
-  __decorate([Prop({
-    type: Boolean,
-    required: false,
-    default: true
-  })], VueAutoDropzone.prototype, "includeStyling", void 0);
-
-  __decorate([Prop({
-    type: Boolean,
-    required: false,
-    default: true
-  })], VueAutoDropzone.prototype, "destroyDropzone", void 0);
-
-  VueAutoDropzone = __decorate([vue_class_component_esm], VueAutoDropzone);
-  return VueAutoDropzone;
-}(Generated);
-
-/* harmony default export */ var VueAutoDropzonevue_type_script_lang_ts_ = (VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone);
-;
-// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=script&lang=ts&
- /* harmony default export */ var component_VueAutoDropzonevue_type_script_lang_ts_ = (VueAutoDropzonevue_type_script_lang_ts_); 
-// EXTERNAL MODULE: ./src/component/generated.css?vue&type=style&index=0&lang=css&
-var generatedvue_type_style_index_0_lang_css_ = __webpack_require__("d6f5");
-
 // CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue
 
 
@@ -8138,7 +8097,7 @@ var generatedvue_type_style_index_0_lang_css_ = __webpack_require__("d6f5");
 
 /* normalize component */
 
-var VueAutoDropzone_component = normalizeComponent(
+var component = normalizeComponent(
   component_VueAutoDropzonevue_type_script_lang_ts_,
   render,
   staticRenderFns,
@@ -8149,18 +8108,15 @@ var VueAutoDropzone_component = normalizeComponent(
   
 )
 
-/* harmony default export */ var component_VueAutoDropzone = (VueAutoDropzone_component.exports);
-// CONCATENATED MODULE: ./index.ts
-
-/* harmony default export */ var index = (component_VueAutoDropzone);
+/* harmony default export */ var component_VueAutoDropzone = (component.exports);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 
 
-/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (index);
+/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (component_VueAutoDropzone);
 
 
 
 /***/ })
 
-/******/ });
+/******/ })["default"];
 //# sourceMappingURL=index.common.js.map
