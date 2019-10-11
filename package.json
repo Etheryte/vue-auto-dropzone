@@ -19,6 +19,7 @@
     "serve:build": "yarn build:component && yarn serve",
     "lint": "vue-cli-service lint --fix",
     "build:component": "ts-node src/node/index.ts && yarn lint",
+    "build:comments": "ts-node src/node/comments.ts",
     "build:component:watch": "TODO: implement",
     "build:lib": "vue-cli-service build --target lib --name index src/component/VueAutoDropzone.vue",
     "build": "yarn build:component && yarn build:lib",
@@ -32,6 +33,8 @@
     "vue": "^2.6.10"
   },
   "devDependencies": {
+    "@babel/parser": "^7.6.4",
+    "@babel/traverse": "^7.6.3",
     "@types/chai": "^4.1.0",
     "@types/mocha": "^5.2.4",
     "@vue/cli-plugin-babel": "^3.11.0",

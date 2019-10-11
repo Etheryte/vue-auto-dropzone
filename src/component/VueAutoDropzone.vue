@@ -159,6 +159,7 @@ export default class VueAutoDropzone extends Vue {
       this.instance.options[key] = value;
   }
 
+  /** **Internal:** Dropzone `on()`/`off()` event handling class */
   get Emitter(this: VueAutoDropzone): CombinedInstance['Emitter'] {
       return this.instance.Emitter;
   }
@@ -167,6 +168,7 @@ export default class VueAutoDropzone extends Vue {
       this.instance.Emitter = value;
   }
 
+  /** The [`URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL) constructor */
   get URL(this: VueAutoDropzone): CombinedInstance['URL'] {
       return this.instance.URL;
   }

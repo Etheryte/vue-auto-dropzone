@@ -1,26 +1,24 @@
-const fs = require('fs').promises;
-const path = require('path');
-
-const vue = require('vue');
-const stringify = require('javascript-stringify').stringify;
-
-const prettier = require('prettier');
-const Linter = require('eslint').Linter;
-const linter = new Linter();
-const linterConfig = require(path.resolve(process.env.PWD, '.eslintrc.js'));
-
-// Dropzone requires a DOM context
-const jsdomCleanup = require('jsdom-global')();
-const Dz = require('dropzone');
-
-const { getDeepPropertyNames, getTypeHint } = require('./utilities');
-
-const stylePath = require.resolve('dropzone/dist/min/dropzone.min.css');
-const styleOutputPath = path.resolve(process.env.PWD, 'src/component/vueAutoDropzone.css');
-const componentBasePath = path.resolve(process.env.PWD, 'src/component/ComponentBase.vue');
-const componentOutputPath = path.resolve(process.env.PWD, 'src/component/VueAutoDropzone.vue');
-
 (async() => {
+    const fs = require('fs').promises;
+    const path = require('path');
+
+    const stringify = require('javascript-stringify').stringify;
+
+    const prettier = require('prettier');
+
+    // Dropzone requires a DOM context
+    const jsdomCleanup = require('jsdom-global')();
+    const Dz = require('dropzone');
+
+    const { getDeepPropertyNames, getTypeHint } = require('./utilities');
+    const getComments = require('./comments');
+
+    const comments = require(path.resolve(process.env.PWD, 'src/component/comments.ts'));
+    const stylePath = require.resolve('dropzone/dist/min/dropzone.min.css');
+    const styleOutputPath = path.resolve(process.env.PWD, 'src/component/vueAutoDropzone.css');
+    const componentBasePath = path.resolve(process.env.PWD, 'src/component/ComponentBase.vue');
+    const componentOutputPath = path.resolve(process.env.PWD, 'src/component/VueAutoDropzone.vue');
+
     try {
         // Create a placeholder instance to see what's exposed
         const instance = new Dz(document.body, {
@@ -66,11 +64,15 @@ const componentOutputPath = path.resolve(process.env.PWD, 'src/component/VueAuto
         propertyNames.sort();
         typeHints.sort();
 
+        const sourceComments = getComments([...methodNames, ...propertyNames].sort());
+        console.log(sourceComments);
+
         // For Dropzone methods that we don't define, autofill them with a pass-through to the underlying instance
         // Each is a computed property getter-setter pair that updates the underlying instance
         const computedMethodPartials = methodNames.map((name) => {
             // Stringify doesn't expand context variables, so inline the name here instead
             return `
+                ${comments[name] ? `/** ${comments[name]} */` : ''}
                 get ${name}(this: ${baseClassName}): CombinedInstance['${name}'] {
                     return this.instance.${name};
                 }
@@ -82,9 +84,12 @@ const componentOutputPath = path.resolve(process.env.PWD, 'src/component/VueAuto
 
         // For all properties, make them non-cached computed properties, e.g. just getters
         const computedPropertyPartials = propertyNames.map((name) => {
-            return `get ${name}(this: ${baseClassName}) {
-                return this.instance.${name};
-            }`;
+            return `
+                ${comments[name] ? `/** ${comments[name]} */` : ''}
+                get ${name}(this: ${baseClassName}) {
+                    return this.instance.${name};
+                }
+            `;
         });
 
         const combinedPartials = ([] as string[])
