@@ -1,6 +1,6 @@
 {
   "name": "vue-auto-dropzone",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Karl Tarvas <info@karltarvas.com> (https://www.karltarvas.com)",
   "description": "Vue 2 Dropzone.js component",
   "repository": {
