@@ -1,4 +1,4 @@
-# vue-auto-dropzone
+# vue-auto-dropzone (beta)
 
 A [Dropzone.js](https://www.dropzonejs.com) component for Vue.  
 Full library coverage, improved Typescript support, slots, and more.
