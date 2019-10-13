@@ -1,7 +1,7 @@
 # vue-auto-dropzone
 
-A [Dropzone.js](https://www.dropzonejs.com) component for Vue. Automatic build-time bundle based on a given Dropzone release.    
-Full library coverage, improved Typescript support, and more.
+A [Dropzone.js](https://www.dropzonejs.com) component for Vue.  
+Full library coverage, improved Typescript support, slots, and more.
 
 ## Installation
 ```sh
@@ -25,7 +25,6 @@ yarn install vue-auto-dropzone
         data() {
             return {
                 options: {
-                    // The url is the only mandatory option
                     url: 'https://httpbin.org/anything',
                 },
             };
@@ -40,11 +39,11 @@ yarn install vue-auto-dropzone
 
 ## Props
 
-| Name | Type | Default | Description | Required | Notes |
-| --- | --- | --- | --- | --- | --- |
+| Name | Type | Default | Description | Required |
+| --- | --- | --- | --- | --- |
 | options | `Object` | `undefined` | an object containing [Dropzone configuration options](https://www.dropzonejs.com/#configuration-options) | `true` | the `url` field is mandatory |
-| includeStyling | `Boolean` | `true` | whether to include default Dropzone styles on the component | `false` | - |
-| destroyDropzone | `Boolean` | `true` |  whether to destroy the Dropzone instance on component destruction | `false` | - |
+| includeStyling | `Boolean` | `true` | whether to include default Dropzone styles on the component | `false` |
+| destroyDropzone | `Boolean` | `true` |  whether to destroy the Dropzone instance on component destruction | `false` |
 
 
 ## Methods

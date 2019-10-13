@@ -11,23 +11,18 @@ module.exports = async function getComments(identifierNames: string[]) {
 
         const comments: any = {};
 
+        console.log(identifierNames);
+
         let prevNode, node;
         traverse(ast, {
             enter(path) {
                 node = path.node;
                 if (
-                    // If we're in an object
-                    prevNode && prevNode.type === 'ObjectProperty' &&
-                    // The object has comments
-                    prevNode.leadingComments &&
-                    // And the identifier is one of the ones we're looking for
                     node.type === 'Identifier' && identifierNames.indexOf(node.name) !== -1
                 ) {
-                    const comments = prevNode.leadingComments.filter(x => x.type === 'CommentBlock');
-                    if (comments.length) {
-                        console.log('found', node.name);
-                        console.log(comments);
-                    }
+                    // console.log(node.name, prevNode.type);
+                    // console.log(node);
+                    // console.log('===');
                 }
                 prevNode = node;
             },

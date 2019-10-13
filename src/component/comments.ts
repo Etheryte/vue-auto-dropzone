@@ -1,7 +1,6 @@
 module.exports = {
     Emitter: '**Internal:** Dropzone `on()`/`off()` event handling class',
     URL: 'The [`URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL) constructor',
-    /*
     accept: '',
     addFile: '',
     cancelUpload: '',
@@ -51,5 +50,4 @@ module.exports = {
     uploadFile: '',
     uploadFiles: '',
     version: '',
-    */
 };

@@ -11,13 +11,16 @@ module.exports = {
 
         return [...properties.keys()];
     },
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    },
     lexicographicCompare(a: string, b: string) {
         return a.localeCompare(b);
     },
     getTypeHint(input: any) {
         if (typeof input === 'undefined' || input === null) return 'any';
         if (Array.isArray(input)) return 'any[]';
-        if (typeof input === 'function') return 'Function';
+        if (typeof input === 'function') return '(...args: any[]) => any';
         return typeof input;
     },
 };

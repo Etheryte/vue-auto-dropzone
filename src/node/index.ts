@@ -10,7 +10,7 @@
     const jsdomCleanup = require('jsdom-global')();
     const Dz = require('dropzone');
 
-    const { getDeepPropertyNames, getTypeHint } = require('./utilities');
+    const { getDeepPropertyNames, getTypeHint, capitalizeFirstLetter } = require('./utilities');
     const getComments = require('./comments');
 
     const comments = require(path.resolve(process.env.PWD, 'src/component/comments.ts'));
@@ -35,11 +35,20 @@
         const exclude = [
             // Yeah nah
             'constructor',
+            // Internal dependencies
+            'Emitter',
+            'URL',
             // We use this as a prop
             'options',
-            // Internal dependencies
-            // 'Emitter',
-            // 'URL',
+            // We override this to make it reactive
+            'files',
+            // We provide these as getters
+            'getAcceptedFiles',
+            'getRejectedFiles',
+            'getQueuedFiles',
+            'getUploadingFiles',
+            'getAddedFiles',
+            'getActiveFiles',
         ];
         const includeInternal = false;
         // The methods etc are sourced from Dropzone so hint that in Intellisense
@@ -64,19 +73,22 @@
         propertyNames.sort();
         typeHints.sort();
 
-        const sourceComments = getComments([...methodNames, ...propertyNames].sort());
-        console.log(sourceComments);
+        // TODO: Obsolete?
+        // const sourceComments = getComments([...methodNames, ...propertyNames].sort());
+        // console.log(sourceComments);
 
         // For Dropzone methods that we don't define, autofill them with a pass-through to the underlying instance
         // Each is a computed property getter-setter pair that updates the underlying instance
         const computedMethodPartials = methodNames.map((name) => {
             // Stringify doesn't expand context variables, so inline the name here instead
+            //  CombinedInstance['${name}']
             return `
                 ${comments[name] ? `/** ${comments[name]} */` : ''}
-                get ${name}(this: ${baseClassName}): CombinedInstance['${name}'] {
-                    return this.instance.${name};
+                ${name}(...args: Parameters<CombinedInstance['${name}']>) {
+                    return this.instance.${name}.apply(this, args);
                 }
-                set ${name}(this: ${baseClassName}, value) {
+                /** Overwrite Dropzone's internal \`${name}()\` method */
+                set${capitalizeFirstLetter(name)}(value: CombinedInstance['${name}']) {
                     this.instance.${name} = value;
                 }
             `;

@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <vue-auto-dropzone :options="options" v-on:addedfile="log" v-on:uploadprogress="log" />
+    <vue-auto-dropzone :options="options">
+        <template v-slot:files="{ files }">
+            foobar <pre>{{files.length}}</pre>
+        </template>
+    </vue-auto-dropzone>
+    <hr />
+    <vue-auto-dropzone ref="dz" :options="options" />
     <vue-auto-dropzone :options="options">
         <p>Custom message</p>
     </vue-auto-dropzone>
@@ -29,9 +35,6 @@ export default class App extends Vue {
 
     mounted() {
         const foo = this.$refs.dz.addFile;
-        const bar = this.$refs.dz.version;
-        const tea = this.$refs.dz.Emitter;
-        const cup = this.$refs.dz.getOptions;
     }
 
     options = {
