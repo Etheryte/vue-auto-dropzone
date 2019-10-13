@@ -8,18 +8,6 @@ export default function getInstance(
     options: IDropzoneOptions,
     hasSlots: boolean
 ): any {
-    // Method overrides that can't be class-bound
-    function patchUploadprogress(original?: IDropzoneOptions['uploadprogress']) {
-        return function uploadprogress(file: DropzoneFile, progress: any, bytesSent: any) {
-            console.log(file, progress, bytesSent);
-
-            // Call the original definition, if any, when done
-            if (original) {
-                return original(file, progress, bytesSent);
-            }
-        };
-    }
-
     let fragment: DocumentFragment | undefined = document.createDocumentFragment();
     // ???
     // (fragment as any).getAttribute = () => undefined;
@@ -35,7 +23,7 @@ export default function getInstance(
         private originalPreviewscontainer;
 
         constructor(element: HTMLElement, options: IDropzoneOptions) {
-            options.uploadprogress = patchUploadprogress(options.uploadprogress);
+            console.log('c has', hasSlots);
             // If no option is defined for the container, make it slottable
             if (hasSlots && !options.previewsContainer) {
                 options.previewsContainer = fragment as any;

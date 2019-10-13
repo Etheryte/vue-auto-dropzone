@@ -1,21 +1,21 @@
 <template>
   <div id="app">
-    <vue-auto-dropzone :options="options">
+    <vue-auto-dropzone ref="dz" :options="options">
         <template v-slot:files="{ files }">
             foobar <pre>{{files.length}}</pre>
         </template>
     </vue-auto-dropzone>
+
     <hr />
-    <vue-auto-dropzone ref="dz" :options="options" />
-    <vue-auto-dropzone :options="options">
-        <p>Custom message</p>
-    </vue-auto-dropzone>
-    <vue-auto-dropzone :options="options" :includeStyling="false">
-        <p>No styling</p>
-    </vue-auto-dropzone>
+    <vue-auto-dropzone :options="options" />
+    <section>
+        <h2>No styling</h2>
+        <vue-auto-dropzone :options="options" :includeStyling="false" />
+    </section>
     <vue-auto-dropzone :options="options" :includeStyling="false" class="custom">
         <p>Custom styling</p>
     </vue-auto-dropzone>
+
   </div>
 </template>
 <script lang="ts">
@@ -34,7 +34,7 @@ export default class App extends Vue {
     };
 
     mounted() {
-        const foo = this.$refs.dz.addFile;
+        console.log(this.$refs.dz, this.$refs.dz.$slots, this.$refs.dz.$scopedSlots);
     }
 
     options = {

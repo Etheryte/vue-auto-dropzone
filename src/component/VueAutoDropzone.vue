@@ -1,12 +1,6 @@
 <template>
   <div :class="{ dropzone: includeStyling }">
-    <template v-if="this.hasSlots">
-      <div v-if="includeStyling" :class="{ 'dz-message': includeStyling }">
-        <slot>Drop files here to upload</slot>
-      </div>
-      <slot v-else>Drop files here to upload</slot>
-    </template>
-    <slot name="files" v-bind="slotScope"></slot>
+    <slot v-if="hasDefaultSlot" v-bind="slotScope" />
   </div>
 </template>
 <script lang="ts">
@@ -121,7 +115,7 @@ export default class VueAutoDropzone extends Vue {
       this as any,
       this.$el as HTMLElement,
       this.options,
-      this.hasSlots
+      this.hasDefaultSlot
       );
 
       // Pass every configured event through
@@ -138,18 +132,14 @@ export default class VueAutoDropzone extends Vue {
       this.instance.destroy();
   }
 
-  get hasSlots() {
-      const hasSlots =
-      this.$slots &&
-      (this.$slots.default || this.$slots.message || this.$slots.files);
-      console.log('hasSlots', hasSlots);
+  get hasDefaultSlot() {
+      const hasDefaultSlot = Boolean(this.$slots && this.$slots.default);
       // NB! Update instance as a side-effect
       if (this.instance) {
-      // TODO: Types?
-          console.log('toggle', hasSlots);
-          (this.instance as any).useFragment(hasSlots);
+      // TODO: Types
+          (this.instance as any).useFragment(hasDefaultSlot);
       }
-      return Boolean(hasSlots);
+      return hasDefaultSlot;
   }
 
   get slotScope() {
