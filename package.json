@@ -30,6 +30,7 @@
     "@types/dropzone": "^5.0.6",
     "dropzone": "^5.5.1",
     "typescript": "3.6.4",
+    "underscore": "^1.9.1",
     "vue": "^2.6.10"
   },
   "devDependencies": {

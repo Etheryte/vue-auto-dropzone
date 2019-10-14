@@ -1,21 +1,32 @@
 <template>
   <div id="app">
-    <vue-auto-dropzone ref="dz" :options="options">
-        <template v-slot:files="{ files }">
-            foobar <pre>{{files.length}}</pre>
-        </template>
-    </vue-auto-dropzone>
-
-    <hr />
-    <vue-auto-dropzone :options="options" />
+    <section>
+        <h2>Slots</h2>
+        <vue-auto-dropzone ref="dz" :options="options" v-slot="{ files, uploadingFiles, acceptedFiles, rejectedFiles, urls }">
+            <div>
+                <p>{{files.length}} files in total</p>
+                <p>{{uploadingFiles.length}} uploading</p>
+                <p>{{acceptedFiles.length}} accepted</p>
+                <p>{{rejectedFiles.length}} rejected</p>
+            </div>
+            <div v-for="(file, index) in files" :key="index">
+                <img v-if="file.dataURL" :src="file.dataURL" :alt="file.name" />
+                <span v-else>Loading...</span>
+            </div>
+        </vue-auto-dropzone>
+    </section>
+    <section>
+        <h2>Default</h2>
+        <vue-auto-dropzone :options="options" />
+    </section>
     <section>
         <h2>No styling</h2>
         <vue-auto-dropzone :options="options" :includeStyling="false" />
     </section>
-    <vue-auto-dropzone :options="options" :includeStyling="false" class="custom">
-        <p>Custom styling</p>
-    </vue-auto-dropzone>
-
+    <section>
+        <h2>Custom styling</h2>
+        <vue-auto-dropzone :options="options" :includeStyling="false" class="custom" />
+    </section>
   </div>
 </template>
 <script lang="ts">
@@ -48,12 +59,14 @@ export default class App extends Vue {
 </script>
 <style lang="scss" scoped>
 .custom {
-    padding: 10px;
-    background-color: sienna;
-    cursor: pointer;
+    padding: 20px;
+    background-color: cornflowerblue;
+    color: white;
+    font-family: sans-serif;
+}
 
-    p {
-        pointer-events: none;
-    }
+img {
+    max-height: 100px;
+    max-width: 100px;
 }
 </style>

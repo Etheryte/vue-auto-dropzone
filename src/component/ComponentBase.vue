@@ -1,13 +1,23 @@
 <template>
-    <div :class="{ 'dropzone': includeStyling }">
+    <div
+        class="vue-auto-dropzone"
+        :class="{ 'dropzone': includeStyling, 'is-clickable': !hasDefaultSlot }"
+    >
         <slot v-if="hasDefaultSlot" v-bind="slotScope" />
+        <div
+            v-bind:class="{ 'is-hidden': hasDefaultSlot, 'dz-default dz-message': includeStyling }"
+        >
+            <slot name="message">Drop files here to upload</slot>
+        </div>
+        <pre>urls: {{urls}}</pre>
     </div>
 </template>
 <script lang="ts">
 // $$HEADER
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import Dropzone, { DropzoneOptions } from 'dropzone';
+import Dropzone, { DropzoneOptions, DropzoneFile } from 'dropzone';
+import { debounce } from 'underscore';
 
 import getInstance from './DropzoneInstance';
 
@@ -75,10 +85,24 @@ export default class VueAutoDropzone extends Vue {
         // Pass every configured event through
         this.instance.events.forEach((eventName) => {
             this.instance.on(eventName, (...args) => {
+                // Dropzone is nigh unobservable, just manually fire updates when it fires events
+                this.$forceUpdate();
                 // eslint-disable-next-line no-useless-call
                 this.$emit.apply(this, [eventName, ...args]);
+                console.log('on', eventName, this.files && this.files.map(f => (f as any).dataURL));
             });
         });
+
+        // TODO: NB! This breaks reactivity?
+        const _push = this.files.push;
+        this.files.push = function observablePush(...args) {
+            console.log('push', args);
+            const observableArgs = args.map(a => {
+                (a as any).dataURL = (a as any).dataURL || null;
+                return Vue.observable(a);
+            });
+            return _push.apply(this, observableArgs);
+        };
     }
 
     beforeDestroy() {
@@ -87,7 +111,10 @@ export default class VueAutoDropzone extends Vue {
     }
 
     get hasDefaultSlot() {
-        const hasDefaultSlot = Boolean(this.$slots && this.$slots.default);
+        const hasDefaultSlot = Boolean(
+            (this.$slots && this.$slots.default) ||
+            (this.$scopedSlots && this.$scopedSlots.default)
+        );
         // NB! Update instance as a side-effect
         if (this.instance) {
             // TODO: Types
@@ -97,9 +124,20 @@ export default class VueAutoDropzone extends Vue {
     }
 
     get slotScope() {
+        // TODO: Generate
         return {
+            urls: this.urls,
             files: this.files,
+            acceptedFiles: this.acceptedFiles,
+            rejectedFiles: this.rejectedFiles,
+            queuedFiles: this.queuedFiles,
+            uploadingFiles: this.uploadingFiles,
         };
+    }
+
+    // TODO: Testing only
+    get urls() {
+        return this.files.map(f => (f as any).dataURL);
     }
 
     /** Array of all accepted files */
@@ -156,3 +194,24 @@ export default class VueAutoDropzone extends Vue {
 };
 </script>
 <style src="./vueAutoDropzone.css"></style>
+<style lang="scss" scoped>
+.vue-auto-dropzone {
+    // Suppress children's pointer events so all of the parent is clickable for initiating uploads
+    &.is-clickable {
+        cursor: pointer;
+
+        > * {
+            pointer-events: none;
+        }
+    }
+}
+
+.is-hidden {
+    display: block;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+</style>
