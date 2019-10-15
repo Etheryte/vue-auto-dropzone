@@ -10,7 +10,7 @@
                 <p>{{rejectedFiles.length}} rejected</p>
             </div>
             <div v-for="file in files" :key="file.upload.uuid">
-                <p>{{file.name}}</p>
+                <p>{{file.name}}: {{file.upload.progress}}%</p>
                 <img v-if="file.dataURL" :src="file.dataURL" :alt="file.name" />
                 <span v-else>Loading...</span>
             </div>

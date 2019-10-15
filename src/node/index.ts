@@ -48,8 +48,8 @@
             'getActiveFiles',
         ];
         const includeInternal = false;
-        // The methods etc are sourced from Dropzone so hint that in Intellisense
         const baseClassName = 'VueAutoDropzone';
+        const defaultMessage = instance.options.dictDefaultMessage;
 
         protoKeys.forEach(key => {
             if (exclude.indexOf(key) !== -1) return;
@@ -82,10 +82,12 @@
             return `
                 ${comments[name] ? `/** ${comments[name]} */` : ''}
                 ${name}(...args: Parameters<CombinedInstance['${name}']>) {
+                    if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
                     return this.instance.${name}.apply(this, args);
                 }
                 /** Overwrite Dropzone's internal \`${name}()\` method */
                 set${capitalizeFirstLetter(name)}(value: CombinedInstance['${name}']) {
+                    if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
                     this.instance.${name} = value;
                 }
             `;
@@ -95,7 +97,9 @@
         const computedPropertyPartials = propertyNames.map((name) => {
             return `
                 ${comments[name] ? `/** ${comments[name]} */` : ''}
+                @NoCache
                 get ${name}(this: ${baseClassName}) {
+                    if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
                     return this.instance.${name};
                 }
             `;
@@ -111,6 +115,7 @@
         const rawOutput = componentBase
             .replace('// $$HEADER', '// NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST.')
             .replace('// $$TYPE_HINTS', typeHints)
+            .replace('// $$DEFAULT_MESSAGE', defaultMessage)
             .replace('// $$COMBINED_PARTIALS', combinedPartials);
 
         const output = prettier.format(rawOutput, {

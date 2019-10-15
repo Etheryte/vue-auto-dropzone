@@ -3,13 +3,16 @@
         class="vue-auto-dropzone"
         :class="{ 'dropzone': includeStyling, 'is-clickable': !hasDefaultSlot }"
     >
-        <slot v-if="hasDefaultSlot" v-bind="slotScope" />
-        <div
-            v-bind:class="{ 'is-hidden': hasDefaultSlot, 'dz-default dz-message': includeStyling }"
-        >
-            <slot name="message">Drop files here to upload</slot>
-        </div>
-        <pre>urls: {{urls}}</pre>
+        <!-- Placeholder until we mount -->
+        <div v-if="!instance" class="dz-default dz-message">{{ defaultMessage }}</div>
+        <template v-else>
+            <slot v-if="hasDefaultSlot" v-bind="slotScope" />
+            <div
+                v-bind:class="{ 'is-hidden': hasDefaultSlot, 'dz-default dz-message': includeStyling }"
+            >
+                <slot name="message">{{ defaultMessage }}</slot>
+            </div>
+        </template>
     </div>
 </template>
 <script lang="ts">
@@ -64,8 +67,9 @@ export type CombinedInstance = IDropzoneInstance & UntypedFields;
 
 @Component
 export default class VueAutoDropzone extends Vue {
-    instance!: CombinedInstance;
+    instance: CombinedInstance | null = null;
     files: IDropzoneFile[] = [];
+    defaultMessage = '// $$DEFAULT_MESSAGE';
 
     @Prop({
         type: Object,
@@ -100,13 +104,13 @@ export default class VueAutoDropzone extends Vue {
         this.instance = getInstance(this as any, this.$el as HTMLElement, this.options, this.hasDefaultSlot);
 
         // Pass every configured event through
-        this.instance.events.forEach((eventName) => {
-            this.instance.on(eventName, (...args) => {
+        this.instance!.events.forEach((eventName) => {
+            this.instance!.on(eventName, (...args) => {
                 // Dropzone is nigh unobservable, just manually fire updates when it fires events
                 this.$forceUpdate();
+                // Reemit events on the Vue component
                 // eslint-disable-next-line no-useless-call
                 this.$emit.apply(this, [eventName, ...args]);
-                console.log('on', eventName, this.files && this.files.map(f => (f as any).dataURL));
             });
         });
     }
@@ -132,21 +136,18 @@ export default class VueAutoDropzone extends Vue {
     // Here and elsewhere, Dropzone uses direct assignment and mutations that we can't observe without a Proxy, cache nothing
     @NoCache
     get slotScope() {
-        // TODO: Generate
         return {
-            urls: this.urls,
             files: this.files,
             acceptedFiles: this.acceptedFiles,
             rejectedFiles: this.rejectedFiles,
             queuedFiles: this.queuedFiles,
             uploadingFiles: this.uploadingFiles,
+            addedFiles: this.addedFiles,
+            activeFiles: this.activeFiles,
+            // TODO: Test
+            clickableElements: (this as any).clickableElements,
+            // TODO: Do we need anything else in the scope?
         };
-    }
-
-    // TODO: Testing only
-    @NoCache
-    get urls() {
-        return this.files.map(file => (file as any).dataURL);
     }
 
     /** Array of all accepted files */
@@ -187,21 +188,25 @@ export default class VueAutoDropzone extends Vue {
 
     /** Get all Dropzone options */
     getOptions() {
+        if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
         return this.instance.options;
     }
 
     /** Overwrite multiple Dropzone options at once via `Object.assign()` */
     setOptions(value: Partial<IDropzoneOptions>) {
+        if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
         Object.assign(this.instance.options, value);
     }
 
     /** Get a single Dropzone option by key */
     getOption(key: keyof IDropzoneOptions) {
+        if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
         return this.instance.options[key];
     }
 
     /** Set a single Dropzone option */
     setOption<T extends keyof IDropzoneOptions>(key: T, value: IDropzoneOptions[T]) {
+        if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
         this.instance.options[key] = value;
     }
 

@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import Dropzone from 'dropzone';
 
 import VueAutoDropzone, { IDropzoneOptions, IDropzoneInstance } from './VueAutoDropzone.vue';
@@ -22,7 +21,7 @@ export default function getInstance(
         private originalPreviewscontainer;
 
         constructor(element: HTMLElement, options: IDropzoneOptions) {
-            // console.log('c has', hasSlots);
+            console.log('c has', hasSlots);
             // If no option is defined for the container, make it slottable
             if (hasSlots && !options.previewsContainer) {
                 // console.log('use fragment');
@@ -30,12 +29,6 @@ export default function getInstance(
             }
 
             super(element, options);
-
-            // TODO: Obsolete?
-            // Make certain methods semi-reactive
-            // this.makeObserved('addFile');
-            // this.makeObserved('_enqueueThumbnail');
-            // this.makeObserved('handleFiles');
         }
 
         destroy() {
@@ -45,7 +38,7 @@ export default function getInstance(
         }
 
         useFragment(hasSlots: boolean) {
-            // console.log('usefragment', hasSlots);
+            console.log('usefragment', hasSlots);
             if (hasSlots) {
                 if (this.options.previewsContainer !== fragment) {
                     this.originalPreviewscontainer = this.options.previewsContainer;
@@ -57,19 +50,6 @@ export default function getInstance(
                     this.originalPreviewscontainer = undefined;
                 }
             }
-        }
-
-        makeObserved(methodName: string, mapper?: Function) {
-            const original = this[methodName] as Function;
-            this[methodName] = ({
-                // Make a named function
-                [methodName](...args) {
-                    const reactiveArgs = args.map(a => {
-                        return Vue.observable(mapper ? mapper(a) : a);
-                    });
-                    return original.apply(this, reactiveArgs);
-                },
-            }[methodName]) as any;
         }
 
         get files() {
