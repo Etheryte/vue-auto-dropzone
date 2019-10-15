@@ -85,13 +85,6 @@ export default class VueAutoDropzone extends Vue {
     })
     includeStyling!: Boolean;
 
-    @Prop({
-        type: Boolean,
-        required: false,
-        default: true,
-    })
-    destroyDropzone!: Boolean;
-
     private hasBeenMounted = false;
 
     mounted() {
@@ -116,7 +109,7 @@ export default class VueAutoDropzone extends Vue {
     }
 
     beforeDestroy() {
-        if (!(this.$props.destroyDropzone && this.instance)) return;
+        if (!this.instance) return;
         this.instance.destroy();
     }
 
@@ -133,23 +126,12 @@ export default class VueAutoDropzone extends Vue {
         return hasDefaultSlot;
     }
 
-    // Here and elsewhere, Dropzone uses direct assignment and mutations that we can't observe without a Proxy, cache nothing
-    @NoCache
+    // Just mirror the whole instance through for the slot scope. I'm pretty sure this will come back to bite me.
     get slotScope() {
-        return {
-            files: this.files,
-            acceptedFiles: this.acceptedFiles,
-            rejectedFiles: this.rejectedFiles,
-            queuedFiles: this.queuedFiles,
-            uploadingFiles: this.uploadingFiles,
-            addedFiles: this.addedFiles,
-            activeFiles: this.activeFiles,
-            // TODO: Test
-            clickableElements: (this as any).clickableElements,
-            // TODO: Do we need anything else in the scope?
-        };
+        return this;
     }
 
+    // Here and elsewhere, Dropzone uses direct assignment and mutations that we can't observe without a Proxy, cache nothing
     /** Array of all accepted files */
     @NoCache
     get acceptedFiles() {

@@ -1,7 +1,7 @@
 # vue-auto-dropzone (beta)
 
 A [Dropzone.js](https://www.dropzonejs.com) component for Vue.  
-Full library coverage, improved Typescript support, slots, and more.
+Typescript support, native slots, and more.
 
 ## Installation
 ```sh
@@ -43,12 +43,12 @@ yarn install vue-auto-dropzone
 | --- | --- | --- | --- | --- |
 | options | `Object` | `undefined` | an object containing [Dropzone configuration options](https://www.dropzonejs.com/#configuration-options) | `true` | the `url` field is mandatory |
 | includeStyling | `Boolean` | `true` | whether to include default Dropzone styles on the component | `false` |
-| destroyDropzone | `Boolean` | `true` |  whether to destroy the Dropzone instance on component destruction | `false` |
 
 
 ## Methods
 
-All [Dropzone methods](https://www.dropzonejs.com/#dropzone-methods) are exposed on the component instance.
+All [Dropzone methods](https://www.dropzonejs.com/#dropzone-methods) are exposed on the component instance, along with some convenience additions.  
+The instance is available once the component is [mounted](https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram).
 
 ```ts
 mounted() {
