@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import Dropzone, { DropzoneFile } from 'dropzone';
+import Dropzone from 'dropzone';
 
-import VueAutoDropzone, { IDropzoneOptions, IDropzoneInstance, CombinedInstance } from './VueAutoDropzone.vue';
+import VueAutoDropzone, { IDropzoneOptions, IDropzoneInstance } from './VueAutoDropzone.vue';
 
 export default function getInstance(
     vm: VueAutoDropzone,
@@ -10,8 +10,6 @@ export default function getInstance(
     hasSlots: boolean
 ): any {
     let fragment: DocumentFragment | undefined = document.createDocumentFragment();
-    // ???
-    // (fragment as any).getAttribute = () => undefined;
 
     // Extend Dropzone to make certain values reactive
     // Side note, I hope you enjoy this scoping hack
@@ -33,18 +31,9 @@ export default function getInstance(
 
             super(element, options);
 
-            // If no custom handler is used, bind our own reactivity
-            if (!options.uploadprogress) {
-                // this.options.uploadprogress = this.uploadprogress;
-            }
-
-            // Make addFile reactive
-            this.makeObserved('addFile' /*, (file) => {
-                return Object.assign(file, {
-                    upload: null,
-                    dataURL: null,
-                });
-            } */);
+            // TODO: Obsolete?
+            // Make certain methods semi-reactive
+            // this.makeObserved('addFile');
             // this.makeObserved('_enqueueThumbnail');
             // this.makeObserved('handleFiles');
         }
@@ -87,15 +76,8 @@ export default function getInstance(
             return vm.files;
         }
 
-        // TODO: Does this work?
-        set files(value: CombinedInstance['files']) {
-            console.log('set', value);
-            const mappedValue = value.map(x => {
-                console.log(x);
-                (x as any).dataURL = (x as any).dataURL || 'null';
-                return Vue.observable(x);
-            });
-            vm.files.splice(0, vm.files.length, ...mappedValue);
+        set files(value: VueAutoDropzone['files']) {
+            vm.files.splice(0, vm.files.length, ...value);
         }
     }
 

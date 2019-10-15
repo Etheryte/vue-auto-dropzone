@@ -2,8 +2,6 @@
     const fs = require('fs').promises;
     const path = require('path');
 
-    const stringify = require('javascript-stringify').stringify;
-
     const prettier = require('prettier');
 
     // Dropzone requires a DOM context
@@ -11,7 +9,6 @@
     const Dz = require('dropzone');
 
     const { getDeepPropertyNames, getTypeHint, capitalizeFirstLetter } = require('./utilities');
-    const getComments = require('./comments');
 
     const comments = require(path.resolve(process.env.PWD, 'src/component/comments.ts'));
     const stylePath = require.resolve('dropzone/dist/min/dropzone.min.css');

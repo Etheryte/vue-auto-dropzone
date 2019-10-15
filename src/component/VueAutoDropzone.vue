@@ -23,6 +23,7 @@ import Dropzone, { DropzoneOptions, DropzoneFile } from 'dropzone';
 import { debounce } from 'underscore';
 
 import getInstance from './DropzoneInstance';
+import NoCache from './NoCache';
 
 // Only mount manually
 Dropzone.autoDiscover = false;
@@ -36,6 +37,22 @@ export interface IDropzoneInstance extends Dropzone {
   options: IDropzoneOptions;
   // This field is missing from the official types
   events: string[];
+}
+
+interface IUpload {
+  uuid: string;
+  /** File upload progress, number `0..100` */
+  progress: number;
+  total: number;
+  bytesSent: number;
+  fileName: string;
+  chunked: boolean;
+  totalChunkCount: number;
+}
+
+interface IDropzoneFile extends DropzoneFile {
+  dataURL?: string;
+  upload: IUpload;
 }
 
 // Dropzone type definitions aren't up to date, hint the user where possible
@@ -92,7 +109,7 @@ export type CombinedInstance = IDropzoneInstance & UntypedFields;
 @Component
 export default class VueAutoDropzone extends Vue {
   instance!: CombinedInstance;
-  files: CombinedInstance['files'] = [];
+  files: IDropzoneFile[] = [];
 
   @Prop({
       type: Object,
@@ -145,17 +162,6 @@ export default class VueAutoDropzone extends Vue {
               );
           });
       });
-
-      // TODO: Investigate and generalize this approach
-      const _push = this.files.push;
-      this.files.push = function observablePush(...args) {
-          console.log('push', args);
-          const observableArgs = args.map(a => {
-              (a as any).dataURL = (a as any).dataURL || null;
-              return Vue.observable(a);
-          });
-          return _push.apply(this, observableArgs);
-      };
   }
 
   beforeDestroy() {
@@ -176,6 +182,8 @@ export default class VueAutoDropzone extends Vue {
       return hasDefaultSlot;
   }
 
+  // Here and elsewhere, Dropzone uses direct assignment and mutations that we can't observe without a Proxy, cache nothing
+  @NoCache
   get slotScope() {
       // TODO: Generate
       return {
@@ -189,36 +197,43 @@ export default class VueAutoDropzone extends Vue {
   }
 
   // TODO: Testing only
+  @NoCache
   get urls() {
-      return this.files.map(f => (f as any).dataURL);
+      return this.files.map(file => (file as any).dataURL);
   }
 
   /** Array of all accepted files */
+  @NoCache
   get acceptedFiles() {
       return this.files.filter(file => file.accepted);
   }
 
   /** Array of all rejected files */
+  @NoCache
   get rejectedFiles() {
       return this.files.filter(file => !file.accepted);
   }
 
   /** Array of all files queued for upload */
+  @NoCache
   get queuedFiles() {
       return this.files.filter(file => file.status === Dropzone.QUEUED);
   }
 
   /** Array of all files currently uploading */
+  @NoCache
   get uploadingFiles() {
       return this.files.filter(file => file.status === Dropzone.UPLOADING);
   }
 
   /** Array of all added files */
+  @NoCache
   get addedFiles() {
       return this.files.filter(file => file.status === Dropzone.ADDED);
   }
 
   /** Array of all queued or currently uploading files */
+  @NoCache
   get activeFiles() {
       return this.files.filter(
           file =>

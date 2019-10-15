@@ -9,7 +9,8 @@
                 <p>{{acceptedFiles.length}} accepted</p>
                 <p>{{rejectedFiles.length}} rejected</p>
             </div>
-            <div v-for="(file, index) in files" :key="index">
+            <div v-for="file in files" :key="file.upload.uuid">
+                <p>{{file.name}}</p>
                 <img v-if="file.dataURL" :src="file.dataURL" :alt="file.name" />
                 <span v-else>Loading...</span>
             </div>
@@ -45,7 +46,7 @@ export default class App extends Vue {
     };
 
     mounted() {
-        console.log(this.$refs.dz, this.$refs.dz.$slots, this.$refs.dz.$scopedSlots);
+        console.log(this.$refs.dz);
     }
 
     options = {
