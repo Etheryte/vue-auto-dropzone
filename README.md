@@ -79,6 +79,10 @@ ___TODO:___ Generate automatically
 
 ## Slots
 
+All content is configurable by slots.
+
+___TODO:___ Update
+<!--
 To override the default content template, use a [slot](https://vuejs.org/v2/guide/components-slots.html).  
 
 ```html
@@ -93,3 +97,9 @@ To omit default styling on the slot, also specify `:include-styling="false"`.
     <p>No styles are applied here</p>
 </vue-auto-dropzone>
 ```
+-->
+
+# Contributing
+
+Currently, this repo is iterating reasonably fast and the style is subject to change over time.  
+Pull requests are discouraged, but issue reports and feature requests are very welcome.  
