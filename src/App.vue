@@ -1,25 +1,29 @@
 <template>
   <div id="app">
-    <section>
+      <section>
         <h2>Slots</h2>
-        <vue-auto-dropzone ref="dz" :options="options" v-slot="{ files, uploadingFiles, acceptedFiles, rejectedFiles, urls }">
+        <vue-auto-dropzone :options="options" v-slot="{ files, uploadingFiles, acceptedFiles, rejectedFiles, removeFile }" :include-styling="false">
             <div>
                 <p>{{files.length}} files in total</p>
                 <p>{{uploadingFiles.length}} uploading</p>
                 <p>{{acceptedFiles.length}} accepted</p>
                 <p>{{rejectedFiles.length}} rejected</p>
             </div>
-            <div v-for="file in files" :key="file.upload.uuid">
-                <p>{{file.name}}: {{file.upload.progress}}%</p>
+            <p v-if="!files.length">Give me fuel, give me files</p>
+            <figure v-for="file in files" :key="file.upload.uuid" @click="removeFile(file)">
                 <img v-if="file.dataURL" :src="file.dataURL" :alt="file.name" />
-                <span v-else>Loading...</span>
-            </div>
+                <figcaption>
+                    {{file.name}}
+                    <span v-if="file.upload.progress !== 100">{{ file.upload.progress.toFixed(0) }}%</span>
+                </figcaption>
+            </figure>
         </vue-auto-dropzone>
     </section>
     <section>
         <h2>Default</h2>
-        <vue-auto-dropzone :options="options" />
+        <vue-auto-dropzone ref="dz" :options="options" />
     </section>
+    <!--
     <section>
         <h2>No styling</h2>
         <vue-auto-dropzone :options="options" :includeStyling="false" />
@@ -28,6 +32,7 @@
         <h2>Custom styling</h2>
         <vue-auto-dropzone :options="options" :includeStyling="false" class="custom" />
     </section>
+    -->
   </div>
 </template>
 <script lang="ts">

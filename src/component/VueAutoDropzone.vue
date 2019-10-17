@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="vue-auto-dropzone"
-    :class="{ dropzone: includeStyling, 'is-clickable': !hasDefaultSlot }"
-  >
+  <div class="vue-auto-dropzone" :class="{ dropzone: includeStyling }">
     <!-- Placeholder until we mount -->
     <div v-if="!instance" class="dz-default dz-message">
       {{ defaultMessage }}
@@ -247,7 +244,7 @@ export default class VueAutoDropzone extends Vue {
 
   accept(...args: Parameters<CombinedInstance['accept']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.accept.apply(this, args);
+      return this.instance.accept.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `accept()` method */
@@ -258,7 +255,7 @@ export default class VueAutoDropzone extends Vue {
 
   addFile(...args: Parameters<CombinedInstance['addFile']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.addFile.apply(this, args);
+      return this.instance.addFile.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `addFile()` method */
@@ -269,7 +266,7 @@ export default class VueAutoDropzone extends Vue {
 
   cancelUpload(...args: Parameters<CombinedInstance['cancelUpload']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.cancelUpload.apply(this, args);
+      return this.instance.cancelUpload.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `cancelUpload()` method */
@@ -280,7 +277,7 @@ export default class VueAutoDropzone extends Vue {
 
   createThumbnail(...args: Parameters<CombinedInstance['createThumbnail']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.createThumbnail.apply(this, args);
+      return this.instance.createThumbnail.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `createThumbnail()` method */
@@ -293,7 +290,7 @@ export default class VueAutoDropzone extends Vue {
       ...args: Parameters<CombinedInstance['createThumbnailFromUrl']>
   ) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.createThumbnailFromUrl.apply(this, args);
+      return this.instance.createThumbnailFromUrl.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `createThumbnailFromUrl()` method */
@@ -304,7 +301,7 @@ export default class VueAutoDropzone extends Vue {
 
   destroy(...args: Parameters<CombinedInstance['destroy']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.destroy.apply(this, args);
+      return this.instance.destroy.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `destroy()` method */
@@ -315,7 +312,7 @@ export default class VueAutoDropzone extends Vue {
 
   disable(...args: Parameters<CombinedInstance['disable']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.disable.apply(this, args);
+      return this.instance.disable.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `disable()` method */
@@ -326,7 +323,7 @@ export default class VueAutoDropzone extends Vue {
 
   drop(...args: Parameters<CombinedInstance['drop']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.drop.apply(this, args);
+      return this.instance.drop.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `drop()` method */
@@ -337,7 +334,7 @@ export default class VueAutoDropzone extends Vue {
 
   emit(...args: Parameters<CombinedInstance['emit']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.emit.apply(this, args);
+      return this.instance.emit.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `emit()` method */
@@ -348,7 +345,7 @@ export default class VueAutoDropzone extends Vue {
 
   enable(...args: Parameters<CombinedInstance['enable']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.enable.apply(this, args);
+      return this.instance.enable.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `enable()` method */
@@ -359,7 +356,7 @@ export default class VueAutoDropzone extends Vue {
 
   enqueueFile(...args: Parameters<CombinedInstance['enqueueFile']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.enqueueFile.apply(this, args);
+      return this.instance.enqueueFile.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `enqueueFile()` method */
@@ -370,7 +367,7 @@ export default class VueAutoDropzone extends Vue {
 
   enqueueFiles(...args: Parameters<CombinedInstance['enqueueFiles']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.enqueueFiles.apply(this, args);
+      return this.instance.enqueueFiles.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `enqueueFiles()` method */
@@ -381,7 +378,7 @@ export default class VueAutoDropzone extends Vue {
 
   filesize(...args: Parameters<CombinedInstance['filesize']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.filesize.apply(this, args);
+      return this.instance.filesize.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `filesize()` method */
@@ -394,7 +391,7 @@ export default class VueAutoDropzone extends Vue {
       ...args: Parameters<CombinedInstance['getExistingFallback']>
   ) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.getExistingFallback.apply(this, args);
+      return this.instance.getExistingFallback.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `getExistingFallback()` method */
@@ -405,7 +402,7 @@ export default class VueAutoDropzone extends Vue {
 
   getFallbackForm(...args: Parameters<CombinedInstance['getFallbackForm']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.getFallbackForm.apply(this, args);
+      return this.instance.getFallbackForm.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `getFallbackForm()` method */
@@ -418,7 +415,7 @@ export default class VueAutoDropzone extends Vue {
       ...args: Parameters<CombinedInstance['getFilesWithStatus']>
   ) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.getFilesWithStatus.apply(this, args);
+      return this.instance.getFilesWithStatus.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `getFilesWithStatus()` method */
@@ -429,7 +426,7 @@ export default class VueAutoDropzone extends Vue {
 
   handleFiles(...args: Parameters<CombinedInstance['handleFiles']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.handleFiles.apply(this, args);
+      return this.instance.handleFiles.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `handleFiles()` method */
@@ -440,7 +437,7 @@ export default class VueAutoDropzone extends Vue {
 
   off(...args: Parameters<CombinedInstance['off']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.off.apply(this, args);
+      return this.instance.off.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `off()` method */
@@ -451,7 +448,7 @@ export default class VueAutoDropzone extends Vue {
 
   on(...args: Parameters<CombinedInstance['on']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.on.apply(this, args);
+      return this.instance.on.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `on()` method */
@@ -462,7 +459,7 @@ export default class VueAutoDropzone extends Vue {
 
   paste(...args: Parameters<CombinedInstance['paste']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.paste.apply(this, args);
+      return this.instance.paste.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `paste()` method */
@@ -473,7 +470,7 @@ export default class VueAutoDropzone extends Vue {
 
   processFile(...args: Parameters<CombinedInstance['processFile']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.processFile.apply(this, args);
+      return this.instance.processFile.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `processFile()` method */
@@ -484,7 +481,7 @@ export default class VueAutoDropzone extends Vue {
 
   processFiles(...args: Parameters<CombinedInstance['processFiles']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.processFiles.apply(this, args);
+      return this.instance.processFiles.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `processFiles()` method */
@@ -495,7 +492,7 @@ export default class VueAutoDropzone extends Vue {
 
   processQueue(...args: Parameters<CombinedInstance['processQueue']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.processQueue.apply(this, args);
+      return this.instance.processQueue.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `processQueue()` method */
@@ -506,7 +503,7 @@ export default class VueAutoDropzone extends Vue {
 
   removeAllFiles(...args: Parameters<CombinedInstance['removeAllFiles']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.removeAllFiles.apply(this, args);
+      return this.instance.removeAllFiles.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `removeAllFiles()` method */
@@ -519,7 +516,7 @@ export default class VueAutoDropzone extends Vue {
       ...args: Parameters<CombinedInstance['removeEventListeners']>
   ) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.removeEventListeners.apply(this, args);
+      return this.instance.removeEventListeners.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `removeEventListeners()` method */
@@ -530,7 +527,7 @@ export default class VueAutoDropzone extends Vue {
 
   removeFile(...args: Parameters<CombinedInstance['removeFile']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.removeFile.apply(this, args);
+      return this.instance.removeFile.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `removeFile()` method */
@@ -541,7 +538,7 @@ export default class VueAutoDropzone extends Vue {
 
   resizeImage(...args: Parameters<CombinedInstance['resizeImage']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.resizeImage.apply(this, args);
+      return this.instance.resizeImage.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `resizeImage()` method */
@@ -552,7 +549,7 @@ export default class VueAutoDropzone extends Vue {
 
   resolveOption(...args: Parameters<CombinedInstance['resolveOption']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.resolveOption.apply(this, args);
+      return this.instance.resolveOption.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `resolveOption()` method */
@@ -565,7 +562,7 @@ export default class VueAutoDropzone extends Vue {
       ...args: Parameters<CombinedInstance['setupEventListeners']>
   ) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.setupEventListeners.apply(this, args);
+      return this.instance.setupEventListeners.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `setupEventListeners()` method */
@@ -576,7 +573,7 @@ export default class VueAutoDropzone extends Vue {
 
   submitRequest(...args: Parameters<CombinedInstance['submitRequest']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.submitRequest.apply(this, args);
+      return this.instance.submitRequest.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `submitRequest()` method */
@@ -589,7 +586,7 @@ export default class VueAutoDropzone extends Vue {
       ...args: Parameters<CombinedInstance['updateTotalUploadProgress']>
   ) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.updateTotalUploadProgress.apply(this, args);
+      return this.instance.updateTotalUploadProgress.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `updateTotalUploadProgress()` method */
@@ -602,7 +599,7 @@ export default class VueAutoDropzone extends Vue {
 
   uploadFile(...args: Parameters<CombinedInstance['uploadFile']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.uploadFile.apply(this, args);
+      return this.instance.uploadFile.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `uploadFile()` method */
@@ -613,7 +610,7 @@ export default class VueAutoDropzone extends Vue {
 
   uploadFiles(...args: Parameters<CombinedInstance['uploadFiles']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.uploadFiles.apply(this, args);
+      return this.instance.uploadFiles.apply(this.instance, args);
   }
 
   /** Overwrite Dropzone's internal `uploadFiles()` method */
@@ -655,17 +652,6 @@ export default class VueAutoDropzone extends Vue {
 </script>
 <style src="./vueAutoDropzone.css"></style>
 <style lang="scss" scoped>
-.vue-auto-dropzone {
-  // Suppress children's pointer events so all of the parent is clickable for initiating uploads
-  &.is-clickable {
-    cursor: pointer;
-
-    > * {
-      pointer-events: none;
-    }
-  }
-}
-
 .is-hidden {
   display: block;
   width: 0;

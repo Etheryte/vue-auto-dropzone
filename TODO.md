@@ -1,7 +1,7 @@
 # Must have
  - nonslot zones are broken
  - SSR
- - docs: manually cover the rest
+ - docs: slot
  - .manuallyAddFile(file, fileUrl)?
 
 # Document

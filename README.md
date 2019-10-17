@@ -1,4 +1,4 @@
-# vue-auto-dropzone (beta)
+# vue-auto-dropzone
 
 A [Dropzone.js](https://www.dropzonejs.com) component for Vue.  
 Typescript support, native slots, and more.
@@ -39,32 +39,44 @@ yarn install vue-auto-dropzone
 
 ## Slots
 
-All content is configurable by slots.
-
-___TODO:___ Update
-<!--
-To override the default content template, use a [slot](https://vuejs.org/v2/guide/components-slots.html).  
+All content is configurable by [slots](https://vuejs.org/v2/guide/components-slots.html).  
+Slots receive the instance itself as their [scope](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots), meaning all relevant fields are directly accessible.  
+To omit default styling on the slot, also specify `:include-styling="false"`.  
 
 ```html
-<vue-auto-dropzone :options="options">
-    <p>Default styles are still applied here</p>
-</vue-auto-dropzone>
-```
+<vue-auto-dropzone :options="options" :include-styling="false" v-slot="{ files, removeFile }">
+    <p v-if="!files.length">Give me fuel, give me files</p>
 
-To omit default styling on the slot, also specify `:include-styling="false"`.
-```html
-<vue-auto-dropzone :options="options" :include-styling="false">
-    <p>No styles are applied here</p>
+    <figure v-for="file in files" :key="file.upload.uuid" @click="removeFile(file)">
+        <img v-if="file.dataURL" :src="file.dataURL" :alt="file.name" />
+        <figcaption>
+            {{file.name}}
+            <span v-if="file.upload.progress !== 100">{{ file.upload.progress.toFixed(0) }}%</span>
+        </figcaption>
+    </figure>
 </vue-auto-dropzone>
 ```
--->
 
 ## Props
 
 | Name | Type | Default | Description | Required |
 | --- | --- | --- | --- | --- |
-| options | `Object` | `undefined` | an object containing [Dropzone configuration options](https://www.dropzonejs.com/#configuration-options) | `true` | the `url` field is mandatory |
-| includeStyling | `Boolean` | `true` | whether to include default Dropzone styles on the component | `false` |
+| `options` | `Object` | `undefined` | an object containing [Dropzone configuration options](https://www.dropzonejs.com/#configuration-options) | `true` | the `url` field is mandatory |
+| `includeStyling` | `Boolean` | `true` | whether to include default Dropzone styles on the component | `false` |
+
+
+## Events
+
+All [Dropzone events](https://www.dropzonejs.com/#event-list) are emitted on the component with identical names and parameters.  
+Use [standard Vue event handling](https://vuejs.org/v2/guide/events.html) to listen for events and respond to them.
+
+```html
+<vue-auto-dropzone
+    :options="options"
+    @drop="onDrop"
+    @success="onSuccess"
+/>
+```
 
 ## Properties
 
@@ -81,19 +93,18 @@ mounted() {
 
 | Name | Description |
 | --- | --- |
-| files | Array of all files |
-| acceptedFiles | Array of all accepted files |
-| rejectedFiles | Array of all rejected files |
-| queuedFiles | Array of all files queued for upload |
-| uploadingFiles | Array of all files currently uploading |
-| addedFiles | Array of all added files |
-| activeFiles | Array of all queued or currently uploading files |
-| |
-| defaultOptions | Object containing default [Dropzone configuration values](https://www.dropzonejs.com/#configuration-options) |
-| events | Array of all event names the instance supports |
-| hiddenFileInput | A reference to the [input element used by Dropzone](https://www.dropzonejs.com/#config-hiddenInputContainer) |
-| listeners | Array of all elements with relevant listeners used by Dropzone |
-| version | Bundled Dropzone version |
+| `files` | Array of all files |
+| `acceptedFiles` | Array of all accepted files |
+| `rejectedFiles` | Array of all rejected files |
+| `queuedFiles` | Array of all files queued for upload |
+| `uploadingFiles` | Array of all files currently uploading |
+| `addedFiles` | Array of all added files |
+| `activeFiles` | Array of all queued or currently uploading files |
+| `defaultOptions` | Object containing default [Dropzone configuration values](https://www.dropzonejs.com/#configuration-options) |
+| `events` | Array of all event names the instance supports |
+| `hiddenFileInput` | A reference to the [input element used by Dropzone](https://www.dropzonejs.com/#config-hiddenInputContainer) |
+| `listeners` | Array of all elements with relevant listeners used by Dropzone |
+| `version` | Bundled Dropzone version |
 
 ## Methods
 
@@ -115,14 +126,12 @@ mounted() {
 | `setOptions(value: Partial\<IDropzoneOptions\>)` | Set multiple configuration options at a time |
 | `getOption(key: keyof IDropzoneOptions)` | Get the value of a single configuration option by key |
 | `setOption(key: keyof IDropzoneOptions, value: any)` | Set a single configuration option |
-| |
 | `removeFile(file: File)` | Remove the given file |
 | `removeAllFiles(includeUploading = false)` | Remove all currently not uploading files, call `removeAllFiles(true)` to also remove actively uploading files |
 | `processQueue()` | Process the upload queue when [`autoProcessQueue` is disabled](https://www.dropzonejs.com/#config-autoProcessQueue) |
 | `disable()` | Disable the instance, also removes event listeners etc |
 | `enable()` | Reenable the instance |
 | `createThumbnailFromUrl(file: File, sourceUrl: string, callback?: () => any, crossOrigin?: boolean)` | Create a thumbnail to [display files already stored on the server](https://github.com/enyo/dropzone/wiki/FAQ#how-to-show-files-already-stored-on-server) |
-| |
 | `setParams()` | Override [the `params()` function](https://www.dropzonejs.com/#config-params) |
 | `setAccept()` | Override [the `accept()` function](https://www.dropzonejs.com/#config-accept) |
 | `setChunksUploaded()` | Override [the `chunksUploaded()` function](https://www.dropzonejs.com/#config-chunksUploaded) |
@@ -132,19 +141,6 @@ mounted() {
 
 Additional methods on the instance expose the internal Dropzone instance, but those are officially unsupported as they may with a new Dropzone release.  
 All exposed internals come with corresponding setters similar to those shown above.
-
-## Events
-
-All [Dropzone events](https://www.dropzonejs.com/#event-list) are emitted on the component with identical names and parameters.  
-Use [standard Vue event handling](https://vuejs.org/v2/guide/events.html) to listen for events and respond to them.
-
-```html
-<vue-auto-dropzone
-    :options="options"
-    @drop="onDrop"
-    @success="onSuccess"
-/>
-```
 
 ## Contributing
 

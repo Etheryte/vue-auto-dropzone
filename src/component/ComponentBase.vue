@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="vue-auto-dropzone"
-        :class="{ 'dropzone': includeStyling, 'is-clickable': !hasDefaultSlot }"
-    >
+    <div class="vue-auto-dropzone" :class="{ 'dropzone': includeStyling }">
         <!-- Placeholder until we mount -->
         <div v-if="!instance" class="dz-default dz-message">{{ defaultMessage }}</div>
         <template v-else>
@@ -197,17 +194,6 @@ export default class VueAutoDropzone extends Vue {
 </script>
 <style src="./vueAutoDropzone.css"></style>
 <style lang="scss" scoped>
-.vue-auto-dropzone {
-    // Suppress children's pointer events so all of the parent is clickable for initiating uploads
-    &.is-clickable {
-        cursor: pointer;
-
-        > * {
-            pointer-events: none;
-        }
-    }
-}
-
 .is-hidden {
     display: block;
     width: 0;

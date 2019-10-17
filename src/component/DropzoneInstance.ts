@@ -21,14 +21,15 @@ export default function getInstance(
         private originalPreviewscontainer;
 
         constructor(element: HTMLElement, options: IDropzoneOptions) {
-            console.log('c has', hasSlots);
+            // Make a copy since we need to modify properties internally
+            const internalOptions = JSON.parse(JSON.stringify(options));
+
             // If no option is defined for the container, make it slottable
             if (hasSlots && !options.previewsContainer) {
-                // console.log('use fragment');
-                options.previewsContainer = fragment as any;
+                internalOptions.previewsContainer = fragment as any;
             }
 
-            super(element, options);
+            super(element, internalOptions);
         }
 
         destroy() {
@@ -38,7 +39,6 @@ export default function getInstance(
         }
 
         useFragment(hasSlots: boolean) {
-            console.log('usefragment', hasSlots);
             if (hasSlots) {
                 if (this.options.previewsContainer !== fragment) {
                     this.originalPreviewscontainer = this.options.previewsContainer;

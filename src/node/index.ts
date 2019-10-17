@@ -89,7 +89,7 @@
                 ${comments[name] ? `/** ${comments[name]} */` : ''}
                 ${name}(...args: Parameters<CombinedInstance['${name}']>) {
                     if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-                    return this.instance.${name}.apply(this, args);
+                    return this.instance.${name}.apply(this.instance, args);
                 }
                 /** Overwrite Dropzone's internal \`${name}()\` method */
                 set${capitalizeFirstLetter(name)}(value: CombinedInstance['${name}']) {
