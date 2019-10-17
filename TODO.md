@@ -1,8 +1,5 @@
 # Must have
- - file slot / previewTemplate as a slot
- - check types
  - SSR
- - licence
  - docs: automatically bundle Dropzone docs as much as possible?
  - docs: manually cover the rest
  - .manuallyAddFile(file, fileUrl)?

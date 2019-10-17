@@ -177,12 +177,12 @@ export default class VueAutoDropzone extends Vue {
       return hasDefaultSlot;
   }
 
-  // Here and elsewhere, Dropzone uses direct assignment and mutations that we can't observe without a Proxy, cache nothing
-  @NoCache
+  // Just mirror the whole instance through for the slot scope. I'm pretty sure this will come back to bite me.
   get slotScope() {
       return this;
   }
 
+  // Here and elsewhere, Dropzone uses direct assignment and mutations that we can't observe without a Proxy, cache nothing
   /** Array of all accepted files */
   @NoCache
   get acceptedFiles() {

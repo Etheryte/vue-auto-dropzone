@@ -37,6 +37,28 @@ yarn install vue-auto-dropzone
 </script>
 ```
 
+## Slots
+
+All content is configurable by slots.
+
+___TODO:___ Update
+<!--
+To override the default content template, use a [slot](https://vuejs.org/v2/guide/components-slots.html).  
+
+```html
+<vue-auto-dropzone :options="options">
+    <p>Default styles are still applied here</p>
+</vue-auto-dropzone>
+```
+
+To omit default styling on the slot, also specify `:include-styling="false"`.
+```html
+<vue-auto-dropzone :options="options" :include-styling="false">
+    <p>No styles are applied here</p>
+</vue-auto-dropzone>
+```
+-->
+
 ## Props
 
 | Name | Type | Default | Description | Required |
@@ -77,29 +99,7 @@ All [Dropzone events](https://www.dropzonejs.com/#event-list) are emitted on the
 
 ___TODO:___ Generate automatically
 
-## Slots
-
-All content is configurable by slots.
-
-___TODO:___ Update
-<!--
-To override the default content template, use a [slot](https://vuejs.org/v2/guide/components-slots.html).  
-
-```html
-<vue-auto-dropzone :options="options">
-    <p>Default styles are still applied here</p>
-</vue-auto-dropzone>
-```
-
-To omit default styling on the slot, also specify `:include-styling="false"`.
-```html
-<vue-auto-dropzone :options="options" :include-styling="false">
-    <p>No styles are applied here</p>
-</vue-auto-dropzone>
-```
--->
-
-# Contributing
+## Contributing
 
 Currently, this repo is iterating reasonably fast and the style is subject to change over time.  
 Pull requests are discouraged, but issue reports and feature requests are very welcome.  
