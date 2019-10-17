@@ -67,7 +67,7 @@ export type CombinedInstance = IDropzoneInstance & UntypedFields;
 
 @Component
 export default class VueAutoDropzone extends Vue {
-    instance: CombinedInstance | null = null;
+    private instance: CombinedInstance | null = null;
     files: IDropzoneFile[] = [];
     defaultMessage = '// $$DEFAULT_MESSAGE';
 

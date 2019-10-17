@@ -31,7 +31,7 @@ yarn install vue-auto-dropzone
         },
         mounted() {
             // The Dropzone instance is available after mounting
-            const instance = this.$refs.dz;
+            const dz = this.$refs.dz;
         }
     });
 </script>
@@ -66,38 +66,85 @@ To omit default styling on the slot, also specify `:include-styling="false"`.
 | options | `Object` | `undefined` | an object containing [Dropzone configuration options](https://www.dropzonejs.com/#configuration-options) | `true` | the `url` field is mandatory |
 | includeStyling | `Boolean` | `true` | whether to include default Dropzone styles on the component | `false` |
 
+## Properties
+
+Properties are exposed directly on the component.
+
+```ts
+mounted() {
+    const dz = this.$refs.dz;
+    const files = dz.files;
+}
+```
+
+### Property list
+
+| Name | Description |
+| --- | --- |
+| files | Array of all files |
+| acceptedFiles | Array of all accepted files |
+| rejectedFiles | Array of all rejected files |
+| queuedFiles | Array of all files queued for upload |
+| uploadingFiles | Array of all files currently uploading |
+| addedFiles | Array of all added files |
+| activeFiles | Array of all queued or currently uploading files |
+| |
+| defaultOptions | Object containing default [Dropzone configuration values](https://www.dropzonejs.com/#configuration-options) |
+| events | Array of all event names the instance supports |
+| hiddenFileInput | A reference to the [input element used by Dropzone](https://www.dropzonejs.com/#config-hiddenInputContainer) |
+| listeners | Array of all elements with relevant listeners used by Dropzone |
+| version | Bundled Dropzone version |
 
 ## Methods
 
-All [Dropzone methods](https://www.dropzonejs.com/#dropzone-methods) are exposed on the component instance, along with some convenience additions.  
+Methods are exposed directly on the component.  
 The instance is available once the component is [mounted](https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram).
 
 ```ts
 mounted() {
-    const instance = this.$refs.dz;
-    instance.disable();
+    const dz = this.$refs.dz;
+    dz.disable();
 }
 ```
 
 ### Method list
-___TODO:___ Generate automatically
+
+| Method | Description |
+| --- | --- |
+| `getOptions()` | Get all currently set [Dropzone configuration values](https://www.dropzonejs.com/#configuration-options) |
+| `setOptions(value: Partial\<IDropzoneOptions\>)` | Set multiple configuration options at a time |
+| `getOption(key: keyof IDropzoneOptions)` | Get the value of a single configuration option by key |
+| `setOption(key: keyof IDropzoneOptions, value: any)` | Set a single configuration option |
+| |
+| `removeFile(file: File)` | Remove the given file |
+| `removeAllFiles(includeUploading = false)` | Remove all currently not uploading files, call `removeAllFiles(true)` to also remove actively uploading files |
+| `processQueue()` | Process the upload queue when [`autoProcessQueue` is disabled](https://www.dropzonejs.com/#config-autoProcessQueue) |
+| `disable()` | Disable the instance, also removes event listeners etc |
+| `enable()` | Reenable the instance |
+| `createThumbnailFromUrl(file: File, sourceUrl: string, callback?: () => any, crossOrigin?: boolean)` | Create a thumbnail to [display files already stored on the server](https://github.com/enyo/dropzone/wiki/FAQ#how-to-show-files-already-stored-on-server) |
+| |
+| `setParams()` | Override [the `params()` function](https://www.dropzonejs.com/#config-params) |
+| `setAccept()` | Override [the `accept()` function](https://www.dropzonejs.com/#config-accept) |
+| `setChunksUploaded()` | Override [the `chunksUploaded()` function](https://www.dropzonejs.com/#config-chunksUploaded) |
+| `setFallback()` | Override [the `fallback()` function](https://www.dropzonejs.com/#config-fallback) |
+| `setResize()` | Override [the `resize()` function](https://www.dropzonejs.com/#config-resize) |
+| `setTransformFile()` | Override [the `transformFile()` function](https://www.dropzonejs.com/#config-transformFile) |
+
+Additional methods on the instance expose the internal Dropzone instance, but those are officially unsupported as they may with a new Dropzone release.  
+All exposed internals come with corresponding setters similar to those shown above.
 
 ## Events
 
-All [Dropzone events](https://www.dropzonejs.com/#event-list) are emitted on the component.
+All [Dropzone events](https://www.dropzonejs.com/#event-list) are emitted on the component with identical names and parameters.  
+Use [standard Vue event handling](https://vuejs.org/v2/guide/events.html) to listen for events and respond to them.
 
 ```html
 <vue-auto-dropzone
-    ref="dz"
     :options="options"
     @drop="onDrop"
     @success="onSuccess"
 />
 ```
-
-### Event list
-
-___TODO:___ Generate automatically
 
 ## Contributing
 

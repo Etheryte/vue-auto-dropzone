@@ -1,6 +1,6 @@
 # Must have
+ - nonslot zones are broken
  - SSR
- - docs: automatically bundle Dropzone docs as much as possible?
  - docs: manually cover the rest
  - .manuallyAddFile(file, fileUrl)?
 

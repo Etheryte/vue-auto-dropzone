@@ -65,14 +65,12 @@ interface TypeHints {
   accept: (...args: any[]) => any;
   addFile: (...args: any[]) => any;
   cancelUpload: (...args: any[]) => any;
-  clickableElements: any[];
   createThumbnail: (...args: any[]) => any;
   createThumbnailFromUrl: (...args: any[]) => any;
   defaultOptions: object;
   destroy: (...args: any[]) => any;
   disable: (...args: any[]) => any;
   drop: (...args: any[]) => any;
-  element: object;
   emit: (...args: any[]) => any;
   enable: (...args: any[]) => any;
   enqueueFile: (...args: any[]) => any;
@@ -84,12 +82,10 @@ interface TypeHints {
   getFilesWithStatus: (...args: any[]) => any;
   handleFiles: (...args: any[]) => any;
   hiddenFileInput: object;
-  init: (...args: any[]) => any;
   listeners: any[];
   off: (...args: any[]) => any;
   on: (...args: any[]) => any;
   paste: (...args: any[]) => any;
-  previewsContainer: object;
   processFile: (...args: any[]) => any;
   processFiles: (...args: any[]) => any;
   processQueue: (...args: any[]) => any;
@@ -113,7 +109,7 @@ export type CombinedInstance = IDropzoneInstance & UntypedFields;
 
 @Component
 export default class VueAutoDropzone extends Vue {
-  instance: CombinedInstance | null = null;
+  private instance: CombinedInstance | null = null;
   files: IDropzoneFile[] = [];
   defaultMessage = 'Drop files here to upload';
 
@@ -442,17 +438,6 @@ export default class VueAutoDropzone extends Vue {
       this.instance.handleFiles = value;
   }
 
-  init(...args: Parameters<CombinedInstance['init']>) {
-      if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.init.apply(this, args);
-  }
-
-  /** Overwrite Dropzone's internal `init()` method */
-  setInit(value: CombinedInstance['init']) {
-      if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      this.instance.init = value;
-  }
-
   off(...args: Parameters<CombinedInstance['off']>) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
       return this.instance.off.apply(this, args);
@@ -638,21 +623,9 @@ export default class VueAutoDropzone extends Vue {
   }
 
   @NoCache
-  get clickableElements(this: VueAutoDropzone) {
-      if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.clickableElements;
-  }
-
-  @NoCache
   get defaultOptions(this: VueAutoDropzone) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
       return this.instance.defaultOptions;
-  }
-
-  @NoCache
-  get element(this: VueAutoDropzone) {
-      if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.element;
   }
 
   @NoCache
@@ -671,12 +644,6 @@ export default class VueAutoDropzone extends Vue {
   get listeners(this: VueAutoDropzone) {
       if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
       return this.instance.listeners;
-  }
-
-  @NoCache
-  get previewsContainer(this: VueAutoDropzone) {
-      if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
-      return this.instance.previewsContainer;
   }
 
   @NoCache

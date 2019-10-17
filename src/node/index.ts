@@ -46,6 +46,12 @@
             'getUploadingFiles',
             'getAddedFiles',
             'getActiveFiles',
+            // Internal logic
+            'clickableElements',
+            'element', // Use $el instead
+            'previewsContainer', // Can be the container or a fragment, don't expose
+            'previewTemplate', // Use slots instead
+            'init', // Use Vue hooks instead
         ];
         const includeInternal = false;
         const baseClassName = 'VueAutoDropzone';
