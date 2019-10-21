@@ -39,6 +39,8 @@
             'options',
             // We override this to make it reactive
             'files',
+            // We provide this as a more general public method
+            'addFile',
             // We provide these as getters
             'getAcceptedFiles',
             'getRejectedFiles',
@@ -76,10 +78,6 @@
         propertyNames.sort();
         typeHints.sort();
 
-        // TODO: Obsolete?
-        // const sourceComments = getComments([...methodNames, ...propertyNames].sort());
-        // console.log(sourceComments);
-
         // For Dropzone methods that we don't define, autofill them with a pass-through to the underlying instance
         // Each is a computed property getter-setter pair that updates the underlying instance
         const computedMethodPartials = methodNames.map((name) => {
@@ -88,12 +86,12 @@
             return `
                 ${comments[name] ? `/** ${comments[name]} */` : ''}
                 ${name}(...args: Parameters<CombinedInstance['${name}']>) {
-                    if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
+                    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
                     return this.instance.${name}.apply(this.instance, args);
                 }
                 /** Overwrite Dropzone's internal \`${name}()\` method */
                 set${capitalizeFirstLetter(name)}(value: CombinedInstance['${name}']) {
-                    if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
+                    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
                     this.instance.${name} = value;
                 }
             `;
@@ -105,7 +103,7 @@
                 ${comments[name] ? `/** ${comments[name]} */` : ''}
                 @NoCache
                 get ${name}(this: ${baseClassName}) {
-                    if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
+                    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
                     return this.instance.${name};
                 }
             `;

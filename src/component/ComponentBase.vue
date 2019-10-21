@@ -21,6 +21,7 @@ import { debounce } from 'underscore';
 
 import getInstance from './DropzoneInstance';
 import NoCache from './NoCache';
+import urltoFile from './fileUtil';
 
 // Only mount manually
 Dropzone.autoDiscover = false;
@@ -52,6 +53,8 @@ interface IDropzoneFile extends DropzoneFile {
     upload: IUpload;
 }
 
+type FileOrDataString = Dropzone.DropzoneFile | File | string;
+
 // Dropzone type definitions aren't up to date, hint the user where possible
 interface TypeHints {
     // $$TYPE_HINTS
@@ -61,6 +64,8 @@ interface TypeHints {
 type UntypedKeys = Exclude<keyof TypeHints, keyof IDropzoneInstance>;
 type UntypedFields = Pick<TypeHints, UntypedKeys>;
 export type CombinedInstance = IDropzoneInstance & UntypedFields;
+
+const uninitiatedInstanceMessage = 'Dropzone instance is uninitiated';
 
 @Component
 export default class VueAutoDropzone extends Vue {
@@ -165,27 +170,48 @@ export default class VueAutoDropzone extends Vue {
         return this.files.filter(file => file.status === Dropzone.QUEUED || file.status === Dropzone.UPLOADING);
     }
 
+    /** Manually add a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type */
+    async addFile<T extends FileOrDataString>(
+        fileOrDataString: T,
+        fileName?: T extends string ? string : never,
+        mimeType?: T extends string ? string : never,
+    ) {
+        if (typeof fileOrDataString === 'string') {
+            const file = await urltoFile(fileOrDataString, fileName, mimeType);
+            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+            // The missing fields get added internally
+            return this.instance.addFile(file as DropzoneFile);
+        } else {
+            // Manual check to let the user know they can't set the name and mime for File instances
+            if (fileName || mimeType) {
+                throw new TypeError('File.name and File.type are readonly properties');
+            }
+            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+            return this.instance.addFile(fileOrDataString as DropzoneFile);
+        }
+    }
+
     /** Get all Dropzone options */
     getOptions() {
-        if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
+        if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
         return this.instance.options;
     }
 
     /** Overwrite multiple Dropzone options at once via `Object.assign()` */
     setOptions(value: Partial<IDropzoneOptions>) {
-        if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
+        if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
         Object.assign(this.instance.options, value);
     }
 
     /** Get a single Dropzone option by key */
     getOption(key: keyof IDropzoneOptions) {
-        if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
+        if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
         return this.instance.options[key];
     }
 
     /** Set a single Dropzone option */
     setOption<T extends keyof IDropzoneOptions>(key: T, value: IDropzoneOptions[T]) {
-        if (!this.instance) throw new TypeError('Dropzone instance is uninitiated');
+        if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
         this.instance.options[key] = value;
     }
 
