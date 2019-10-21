@@ -123,10 +123,10 @@ mounted() {
 | Method | Description |
 | --- | --- |
 | `getOptions()` | Get all currently set [Dropzone configuration values](https://www.dropzonejs.com/#configuration-options) |
-| `setOptions(value: Partial\<IDropzoneOptions\>)` | Set multiple configuration options at a time |
+| `setOptions(value: Partial<IDropzoneOptions>)` | Set multiple configuration options at a time |
 | `getOption(key: keyof IDropzoneOptions)` | Get the value of a single configuration option by key |
 | `setOption(key: keyof IDropzoneOptions, value: any)` | Set a single configuration option |
-| `addFile(file: File | string, fileName?: string, mimeType?: string)` | Manually add a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type |
+| `addFile(file: File|string, fileName?: string, mimeType?: string)` | Manually add a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type |
 | `removeFile(file: File)` | Remove the given file |
 | `removeAllFiles(includeUploading = false)` | Remove all currently not uploading files, call `removeAllFiles(true)` to also remove actively uploading files |
 | `processQueue()` | Process the upload queue when [`autoProcessQueue` is disabled](https://www.dropzonejs.com/#config-autoProcessQueue) |
