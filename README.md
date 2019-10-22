@@ -63,6 +63,7 @@ To omit default styling on the slot, also specify `:include-styling="false"`.
 | --- | --- | --- | --- | --- |
 | `options` | `Object` | `undefined` | an object containing [Dropzone configuration options](https://www.dropzonejs.com/#configuration-options) | `true` | the `url` field is mandatory |
 | `includeStyling` | `Boolean` | `true` | whether to include default Dropzone styles on the component | `false` |
+| `destroyDropzone` | `Boolean` | `true` | whether to destroy the Dropzone instance on component unmount | `false` |
 
 
 ## Events
