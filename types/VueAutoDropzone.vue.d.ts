@@ -70,6 +70,7 @@ export default class VueAutoDropzone extends Vue {
     defaultMessage: string;
     options: IDropzoneOptions;
     includeStyling: Boolean;
+    destroyDropzone: Boolean;
     private hasBeenMounted;
     mounted(): void;
     beforeDestroy(): void;

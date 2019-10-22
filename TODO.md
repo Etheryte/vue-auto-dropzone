@@ -1,6 +1,5 @@
 # Must have
  - SSR
- - .manuallyAddFile(file, fileUrl)?
  - fix header banner
 
 # Document

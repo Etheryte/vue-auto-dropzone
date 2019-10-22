@@ -128,6 +128,13 @@ export default class VueAutoDropzone extends Vue {
   })
   includeStyling!: Boolean;
 
+  @Prop({
+      type: Boolean,
+      required: false,
+      default: true,
+  })
+  destroyDropzone!: Boolean;
+
   private hasBeenMounted = false;
 
   mounted() {
@@ -157,7 +164,7 @@ export default class VueAutoDropzone extends Vue {
   }
 
   beforeDestroy() {
-      if (!this.instance) return;
+      if (!this.instance || !this.$props.destroyDropzone) return;
       this.instance.destroy();
   }
 
