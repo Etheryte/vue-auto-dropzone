@@ -464,6 +464,23 @@ module.exports = function (it, key) {
 
 /***/ }),
 
+/***/ "09fa":
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://tc39.github.io/ecma262/#sec-toindex
+var toInteger = __webpack_require__("4588");
+var toLength = __webpack_require__("9def");
+module.exports = function (it) {
+  if (it === undefined) return 0;
+  var number = toInteger(it);
+  var length = toLength(number);
+  if (number !== length) throw RangeError('Wrong length!');
+  return length;
+};
+
+
+/***/ }),
+
 /***/ "0a49":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -515,6 +532,27 @@ module.exports = function (TYPE, $create) {
 
 /***/ }),
 
+/***/ "0bfb":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 21.2.5.3 get RegExp.prototype.flags
+var anObject = __webpack_require__("cb7c");
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.unicode) result += 'u';
+  if (that.sticky) result += 'y';
+  return result;
+};
+
+
+/***/ }),
+
 /***/ "0d58":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -524,6 +562,41 @@ var enumBugKeys = __webpack_require__("e11e");
 
 module.exports = Object.keys || function keys(O) {
   return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
+/***/ "0f88":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("7726");
+var hide = __webpack_require__("32e9");
+var uid = __webpack_require__("ca5a");
+var TYPED = uid('typed_array');
+var VIEW = uid('view');
+var ABV = !!(global.ArrayBuffer && global.DataView);
+var CONSTR = ABV;
+var i = 0;
+var l = 9;
+var Typed;
+
+var TypedArrayConstructors = (
+  'Int8Array,Uint8Array,Uint8ClampedArray,Int16Array,Uint16Array,Int32Array,Uint32Array,Float32Array,Float64Array'
+).split(',');
+
+while (i < l) {
+  if (Typed = global[TypedArrayConstructors[i++]]) {
+    hide(Typed.prototype, TYPED, true);
+    hide(Typed.prototype, VIEW, true);
+  } else CONSTR = false;
+}
+
+module.exports = {
+  ABV: ABV,
+  CONSTR: CONSTR,
+  TYPED: TYPED,
+  VIEW: VIEW
 };
 
 
@@ -550,6 +623,29 @@ module.exports = function (index, length) {
 var cof = __webpack_require__("2d95");
 module.exports = Array.isArray || function isArray(arg) {
   return cof(arg) == 'Array';
+};
+
+
+/***/ }),
+
+/***/ "11e9":
+/***/ (function(module, exports, __webpack_require__) {
+
+var pIE = __webpack_require__("52a7");
+var createDesc = __webpack_require__("4630");
+var toIObject = __webpack_require__("6821");
+var toPrimitive = __webpack_require__("6a99");
+var has = __webpack_require__("69a8");
+var IE8_DOM_DEFINE = __webpack_require__("c69a");
+var gOPD = Object.getOwnPropertyDescriptor;
+
+exports.f = __webpack_require__("9e1e") ? gOPD : function getOwnPropertyDescriptor(O, P) {
+  O = toIObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return gOPD(O, P);
+  } catch (e) { /* empty */ }
+  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
 };
 
 
@@ -751,6 +847,36 @@ function toComment(sourceMap) {
 
 /***/ }),
 
+/***/ "23c6":
+/***/ (function(module, exports, __webpack_require__) {
+
+// getting tag from 19.1.3.6 Object.prototype.toString()
+var cof = __webpack_require__("2d95");
+var TAG = __webpack_require__("2b4c")('toStringTag');
+// ES3 wrong here
+var ARG = cof(function () { return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (e) { /* empty */ }
+};
+
+module.exports = function (it) {
+  var O, T, B;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+    // builtinTag case
+    : ARG ? cof(O)
+    // ES3 arguments fallback
+    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+};
+
+
+/***/ }),
+
 /***/ "241e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -779,6 +905,21 @@ module.exports = function (it) {
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
+
+
+/***/ }),
+
+/***/ "27ee":
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof = __webpack_require__("23c6");
+var ITERATOR = __webpack_require__("2b4c")('iterator');
+var Iterators = __webpack_require__("84f2");
+module.exports = __webpack_require__("8378").getIteratorMethod = function (it) {
+  if (it != undefined) return it[ITERATOR]
+    || it['@@iterator']
+    || Iterators[classof(it)];
+};
 
 
 /***/ }),
@@ -1052,6 +1193,33 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 /***/ }),
 
+/***/ "33a4":
+/***/ (function(module, exports, __webpack_require__) {
+
+// check on default Array iterator
+var Iterators = __webpack_require__("84f2");
+var ITERATOR = __webpack_require__("2b4c")('iterator');
+var ArrayProto = Array.prototype;
+
+module.exports = function (it) {
+  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
+};
+
+
+/***/ }),
+
+/***/ "34ef":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("ec30")('Uint8', 1, function (init) {
+  return function Uint8Array(data, byteOffset, length) {
+    return init(this, data, byteOffset, length);
+  };
+});
+
+
+/***/ }),
+
 /***/ "355d":
 /***/ (function(module, exports) {
 
@@ -1075,6 +1243,29 @@ module.exports = __webpack_require__("8e60") ? function (object, key, value) {
 
 /***/ }),
 
+/***/ "36bd":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// 22.1.3.6 Array.prototype.fill(value, start = 0, end = this.length)
+
+var toObject = __webpack_require__("4bf8");
+var toAbsoluteIndex = __webpack_require__("77f1");
+var toLength = __webpack_require__("9def");
+module.exports = function fill(value /* , start = 0, end = @length */) {
+  var O = toObject(this);
+  var length = toLength(O.length);
+  var aLen = arguments.length;
+  var index = toAbsoluteIndex(aLen > 1 ? arguments[1] : undefined, length);
+  var end = aLen > 2 ? arguments[2] : undefined;
+  var endPos = end === undefined ? length : toAbsoluteIndex(end, length);
+  while (endPos > index) O[index++] = value;
+  return O;
+};
+
+
+/***/ }),
+
 /***/ "36c3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1084,6 +1275,18 @@ var defined = __webpack_require__("25eb");
 module.exports = function (it) {
   return IObject(defined(it));
 };
+
+
+/***/ }),
+
+/***/ "3846":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 21.2.5.3 get RegExp.prototype.flags()
+if (__webpack_require__("9e1e") && /./g.flags != 'g') __webpack_require__("86cc").f(RegExp.prototype, 'flags', {
+  configurable: true,
+  get: __webpack_require__("0bfb")
+});
 
 
 /***/ }),
@@ -1585,6 +1788,21 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 /***/ }),
 
+/***/ "59de":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("88e6");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("634377f7", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "5b4e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1661,6 +1879,35 @@ $export.W = 32;  // wrap
 $export.U = 64;  // safe
 $export.R = 128; // real proto method for `library`
 module.exports = $export;
+
+
+/***/ }),
+
+/***/ "5cc5":
+/***/ (function(module, exports, __webpack_require__) {
+
+var ITERATOR = __webpack_require__("2b4c")('iterator');
+var SAFE_CLOSING = false;
+
+try {
+  var riter = [7][ITERATOR]();
+  riter['return'] = function () { SAFE_CLOSING = true; };
+  // eslint-disable-next-line no-throw-literal
+  Array.from(riter, function () { throw 2; });
+} catch (e) { /* empty */ }
+
+module.exports = function (exec, skipClosing) {
+  if (!skipClosing && !SAFE_CLOSING) return false;
+  var safe = false;
+  try {
+    var arr = [7];
+    var iter = arr[ITERATOR]();
+    iter.next = function () { return { done: safe = true }; };
+    arr[ITERATOR] = function () { return iter; };
+    exec(arr);
+  } catch (e) { /* empty */ }
+  return safe;
+};
 
 
 /***/ }),
@@ -1907,6 +2154,39 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "6b54":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+__webpack_require__("3846");
+var anObject = __webpack_require__("cb7c");
+var $flags = __webpack_require__("0bfb");
+var DESCRIPTORS = __webpack_require__("9e1e");
+var TO_STRING = 'toString';
+var $toString = /./[TO_STRING];
+
+var define = function (fn) {
+  __webpack_require__("2aba")(RegExp.prototype, TO_STRING, fn, true);
+};
+
+// 21.2.5.14 RegExp.prototype.toString()
+if (__webpack_require__("79e5")(function () { return $toString.call({ source: 'a', flags: 'b' }) != '/a/b'; })) {
+  define(function toString() {
+    var R = anObject(this);
+    return '/'.concat(R.source, '/',
+      'flags' in R ? R.flags : !DESCRIPTORS && R instanceof RegExp ? $flags.call(R) : undefined);
+  });
+// FF44- RegExp#toString has a wrong name
+} else if ($toString.name != TO_STRING) {
+  define(function toString() {
+    return $toString.call(this);
+  });
+}
+
+
+/***/ }),
+
 /***/ "6c1c":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2021,6 +2301,17 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
   : Function('return this')();
 if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
+
+/***/ }),
+
+/***/ "77c3":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_72c2b3dd_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("59de");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_72c2b3dd_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_72c2b3dd_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_72c2b3dd_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -5612,6 +5903,27 @@ module.exports = function (exec) {
 
 /***/ }),
 
+/***/ "7a56":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var global = __webpack_require__("7726");
+var dP = __webpack_require__("86cc");
+var DESCRIPTORS = __webpack_require__("9e1e");
+var SPECIES = __webpack_require__("2b4c")('species');
+
+module.exports = function (KEY) {
+  var C = global[KEY];
+  if (DESCRIPTORS && C && !C[SPECIES]) dP.f(C, SPECIES, {
+    configurable: true,
+    get: function () { return this; }
+  });
+};
+
+
+/***/ }),
+
 /***/ "7e90":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5694,6 +6006,40 @@ exports.f = __webpack_require__("9e1e") ? Object.defineProperty : function defin
 
 /***/ }),
 
+/***/ "87b3":
+/***/ (function(module, exports, __webpack_require__) {
+
+var DateProto = Date.prototype;
+var INVALID_DATE = 'Invalid Date';
+var TO_STRING = 'toString';
+var $toString = DateProto[TO_STRING];
+var getTime = DateProto.getTime;
+if (new Date(NaN) + '' != INVALID_DATE) {
+  __webpack_require__("2aba")(DateProto, TO_STRING, function toString() {
+    var value = getTime.call(this);
+    // eslint-disable-next-line no-self-compare
+    return value === value ? $toString.call(this) : INVALID_DATE;
+  });
+}
+
+
+/***/ }),
+
+/***/ "88e6":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".is-hidden[data-v-72c2b3dd]{display:block;width:0;height:0;margin:0;padding:0;overflow:hidden}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
@@ -5740,6 +6086,20 @@ module.exports = function (Constructor, NAME, next) {
 var cof = __webpack_require__("6b4c");
 module.exports = Array.isArray || function isArray(arg) {
   return cof(arg) == 'Array';
+};
+
+
+/***/ }),
+
+/***/ "9093":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys = __webpack_require__("ce10");
+var hiddenKeys = __webpack_require__("e11e").concat('length', 'prototype');
+
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return $keys(O, hiddenKeys);
 };
 
 
@@ -5986,6 +6346,40 @@ module.exports = function (it) {
 /***/ (function(module, exports) {
 
 module.exports = true;
+
+
+/***/ }),
+
+/***/ "ba92":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// 22.1.3.3 Array.prototype.copyWithin(target, start, end = this.length)
+
+var toObject = __webpack_require__("4bf8");
+var toAbsoluteIndex = __webpack_require__("77f1");
+var toLength = __webpack_require__("9def");
+
+module.exports = [].copyWithin || function copyWithin(target /* = 0 */, start /* = 0, end = @length */) {
+  var O = toObject(this);
+  var len = toLength(O.length);
+  var to = toAbsoluteIndex(target, len);
+  var from = toAbsoluteIndex(start, len);
+  var end = arguments.length > 2 ? arguments[2] : undefined;
+  var count = Math.min((end === undefined ? len : toAbsoluteIndex(end, len)) - from, len - to);
+  var inc = 1;
+  if (from < to && to < from + count) {
+    inc = -1;
+    from += count - 1;
+    to += count - 1;
+  }
+  while (count-- > 0) {
+    if (from in O) O[to] = O[from];
+    else delete O[to];
+    to += inc;
+    from += inc;
+  } return O;
+};
 
 
 /***/ }),
@@ -6250,6 +6644,24 @@ module.exports = function (object, names) {
 
 /***/ }),
 
+/***/ "d25f":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $export = __webpack_require__("5ca1");
+var $filter = __webpack_require__("0a49")(2);
+
+$export($export.P + $export.F * !__webpack_require__("2f21")([].filter, true), 'Array', {
+  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
+  filter: function filter(callbackfn /* , thisArg */) {
+    return $filter(this, callbackfn, arguments[1]);
+  }
+});
+
+
+/***/ }),
+
 /***/ "d3f4":
 /***/ (function(module, exports) {
 
@@ -6375,6 +6787,18 @@ var store = global[SHARED] || (global[SHARED] = {});
 
 /***/ }),
 
+/***/ "dcbc":
+/***/ (function(module, exports, __webpack_require__) {
+
+var redefine = __webpack_require__("2aba");
+module.exports = function (target, src, safe) {
+  for (var key in src) redefine(target, key, src[key], safe);
+  return target;
+};
+
+
+/***/ }),
+
 /***/ "e11e":
 /***/ (function(module, exports) {
 
@@ -6458,6 +6882,22 @@ module.exports = function (original) {
 
 /***/ }),
 
+/***/ "ebd6":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+var anObject = __webpack_require__("cb7c");
+var aFunction = __webpack_require__("d8e8");
+var SPECIES = __webpack_require__("2b4c")('species');
+module.exports = function (O, D) {
+  var C = anObject(O).constructor;
+  var S;
+  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
+};
+
+
+/***/ }),
+
 /***/ "ebfd":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6518,6 +6958,778 @@ var meta = module.exports = {
 
 /***/ }),
 
+/***/ "ec30":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+if (__webpack_require__("9e1e")) {
+  var LIBRARY = __webpack_require__("2d00");
+  var global = __webpack_require__("7726");
+  var fails = __webpack_require__("79e5");
+  var $export = __webpack_require__("5ca1");
+  var $typed = __webpack_require__("0f88");
+  var $buffer = __webpack_require__("ed0b");
+  var ctx = __webpack_require__("9b43");
+  var anInstance = __webpack_require__("f605");
+  var propertyDesc = __webpack_require__("4630");
+  var hide = __webpack_require__("32e9");
+  var redefineAll = __webpack_require__("dcbc");
+  var toInteger = __webpack_require__("4588");
+  var toLength = __webpack_require__("9def");
+  var toIndex = __webpack_require__("09fa");
+  var toAbsoluteIndex = __webpack_require__("77f1");
+  var toPrimitive = __webpack_require__("6a99");
+  var has = __webpack_require__("69a8");
+  var classof = __webpack_require__("23c6");
+  var isObject = __webpack_require__("d3f4");
+  var toObject = __webpack_require__("4bf8");
+  var isArrayIter = __webpack_require__("33a4");
+  var create = __webpack_require__("2aeb");
+  var getPrototypeOf = __webpack_require__("38fd");
+  var gOPN = __webpack_require__("9093").f;
+  var getIterFn = __webpack_require__("27ee");
+  var uid = __webpack_require__("ca5a");
+  var wks = __webpack_require__("2b4c");
+  var createArrayMethod = __webpack_require__("0a49");
+  var createArrayIncludes = __webpack_require__("c366");
+  var speciesConstructor = __webpack_require__("ebd6");
+  var ArrayIterators = __webpack_require__("cadf");
+  var Iterators = __webpack_require__("84f2");
+  var $iterDetect = __webpack_require__("5cc5");
+  var setSpecies = __webpack_require__("7a56");
+  var arrayFill = __webpack_require__("36bd");
+  var arrayCopyWithin = __webpack_require__("ba92");
+  var $DP = __webpack_require__("86cc");
+  var $GOPD = __webpack_require__("11e9");
+  var dP = $DP.f;
+  var gOPD = $GOPD.f;
+  var RangeError = global.RangeError;
+  var TypeError = global.TypeError;
+  var Uint8Array = global.Uint8Array;
+  var ARRAY_BUFFER = 'ArrayBuffer';
+  var SHARED_BUFFER = 'Shared' + ARRAY_BUFFER;
+  var BYTES_PER_ELEMENT = 'BYTES_PER_ELEMENT';
+  var PROTOTYPE = 'prototype';
+  var ArrayProto = Array[PROTOTYPE];
+  var $ArrayBuffer = $buffer.ArrayBuffer;
+  var $DataView = $buffer.DataView;
+  var arrayForEach = createArrayMethod(0);
+  var arrayFilter = createArrayMethod(2);
+  var arraySome = createArrayMethod(3);
+  var arrayEvery = createArrayMethod(4);
+  var arrayFind = createArrayMethod(5);
+  var arrayFindIndex = createArrayMethod(6);
+  var arrayIncludes = createArrayIncludes(true);
+  var arrayIndexOf = createArrayIncludes(false);
+  var arrayValues = ArrayIterators.values;
+  var arrayKeys = ArrayIterators.keys;
+  var arrayEntries = ArrayIterators.entries;
+  var arrayLastIndexOf = ArrayProto.lastIndexOf;
+  var arrayReduce = ArrayProto.reduce;
+  var arrayReduceRight = ArrayProto.reduceRight;
+  var arrayJoin = ArrayProto.join;
+  var arraySort = ArrayProto.sort;
+  var arraySlice = ArrayProto.slice;
+  var arrayToString = ArrayProto.toString;
+  var arrayToLocaleString = ArrayProto.toLocaleString;
+  var ITERATOR = wks('iterator');
+  var TAG = wks('toStringTag');
+  var TYPED_CONSTRUCTOR = uid('typed_constructor');
+  var DEF_CONSTRUCTOR = uid('def_constructor');
+  var ALL_CONSTRUCTORS = $typed.CONSTR;
+  var TYPED_ARRAY = $typed.TYPED;
+  var VIEW = $typed.VIEW;
+  var WRONG_LENGTH = 'Wrong length!';
+
+  var $map = createArrayMethod(1, function (O, length) {
+    return allocate(speciesConstructor(O, O[DEF_CONSTRUCTOR]), length);
+  });
+
+  var LITTLE_ENDIAN = fails(function () {
+    // eslint-disable-next-line no-undef
+    return new Uint8Array(new Uint16Array([1]).buffer)[0] === 1;
+  });
+
+  var FORCED_SET = !!Uint8Array && !!Uint8Array[PROTOTYPE].set && fails(function () {
+    new Uint8Array(1).set({});
+  });
+
+  var toOffset = function (it, BYTES) {
+    var offset = toInteger(it);
+    if (offset < 0 || offset % BYTES) throw RangeError('Wrong offset!');
+    return offset;
+  };
+
+  var validate = function (it) {
+    if (isObject(it) && TYPED_ARRAY in it) return it;
+    throw TypeError(it + ' is not a typed array!');
+  };
+
+  var allocate = function (C, length) {
+    if (!(isObject(C) && TYPED_CONSTRUCTOR in C)) {
+      throw TypeError('It is not a typed array constructor!');
+    } return new C(length);
+  };
+
+  var speciesFromList = function (O, list) {
+    return fromList(speciesConstructor(O, O[DEF_CONSTRUCTOR]), list);
+  };
+
+  var fromList = function (C, list) {
+    var index = 0;
+    var length = list.length;
+    var result = allocate(C, length);
+    while (length > index) result[index] = list[index++];
+    return result;
+  };
+
+  var addGetter = function (it, key, internal) {
+    dP(it, key, { get: function () { return this._d[internal]; } });
+  };
+
+  var $from = function from(source /* , mapfn, thisArg */) {
+    var O = toObject(source);
+    var aLen = arguments.length;
+    var mapfn = aLen > 1 ? arguments[1] : undefined;
+    var mapping = mapfn !== undefined;
+    var iterFn = getIterFn(O);
+    var i, length, values, result, step, iterator;
+    if (iterFn != undefined && !isArrayIter(iterFn)) {
+      for (iterator = iterFn.call(O), values = [], i = 0; !(step = iterator.next()).done; i++) {
+        values.push(step.value);
+      } O = values;
+    }
+    if (mapping && aLen > 2) mapfn = ctx(mapfn, arguments[2], 2);
+    for (i = 0, length = toLength(O.length), result = allocate(this, length); length > i; i++) {
+      result[i] = mapping ? mapfn(O[i], i) : O[i];
+    }
+    return result;
+  };
+
+  var $of = function of(/* ...items */) {
+    var index = 0;
+    var length = arguments.length;
+    var result = allocate(this, length);
+    while (length > index) result[index] = arguments[index++];
+    return result;
+  };
+
+  // iOS Safari 6.x fails here
+  var TO_LOCALE_BUG = !!Uint8Array && fails(function () { arrayToLocaleString.call(new Uint8Array(1)); });
+
+  var $toLocaleString = function toLocaleString() {
+    return arrayToLocaleString.apply(TO_LOCALE_BUG ? arraySlice.call(validate(this)) : validate(this), arguments);
+  };
+
+  var proto = {
+    copyWithin: function copyWithin(target, start /* , end */) {
+      return arrayCopyWithin.call(validate(this), target, start, arguments.length > 2 ? arguments[2] : undefined);
+    },
+    every: function every(callbackfn /* , thisArg */) {
+      return arrayEvery(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    fill: function fill(value /* , start, end */) { // eslint-disable-line no-unused-vars
+      return arrayFill.apply(validate(this), arguments);
+    },
+    filter: function filter(callbackfn /* , thisArg */) {
+      return speciesFromList(this, arrayFilter(validate(this), callbackfn,
+        arguments.length > 1 ? arguments[1] : undefined));
+    },
+    find: function find(predicate /* , thisArg */) {
+      return arrayFind(validate(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    findIndex: function findIndex(predicate /* , thisArg */) {
+      return arrayFindIndex(validate(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    forEach: function forEach(callbackfn /* , thisArg */) {
+      arrayForEach(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    indexOf: function indexOf(searchElement /* , fromIndex */) {
+      return arrayIndexOf(validate(this), searchElement, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    includes: function includes(searchElement /* , fromIndex */) {
+      return arrayIncludes(validate(this), searchElement, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    join: function join(separator) { // eslint-disable-line no-unused-vars
+      return arrayJoin.apply(validate(this), arguments);
+    },
+    lastIndexOf: function lastIndexOf(searchElement /* , fromIndex */) { // eslint-disable-line no-unused-vars
+      return arrayLastIndexOf.apply(validate(this), arguments);
+    },
+    map: function map(mapfn /* , thisArg */) {
+      return $map(validate(this), mapfn, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    reduce: function reduce(callbackfn /* , initialValue */) { // eslint-disable-line no-unused-vars
+      return arrayReduce.apply(validate(this), arguments);
+    },
+    reduceRight: function reduceRight(callbackfn /* , initialValue */) { // eslint-disable-line no-unused-vars
+      return arrayReduceRight.apply(validate(this), arguments);
+    },
+    reverse: function reverse() {
+      var that = this;
+      var length = validate(that).length;
+      var middle = Math.floor(length / 2);
+      var index = 0;
+      var value;
+      while (index < middle) {
+        value = that[index];
+        that[index++] = that[--length];
+        that[length] = value;
+      } return that;
+    },
+    some: function some(callbackfn /* , thisArg */) {
+      return arraySome(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    sort: function sort(comparefn) {
+      return arraySort.call(validate(this), comparefn);
+    },
+    subarray: function subarray(begin, end) {
+      var O = validate(this);
+      var length = O.length;
+      var $begin = toAbsoluteIndex(begin, length);
+      return new (speciesConstructor(O, O[DEF_CONSTRUCTOR]))(
+        O.buffer,
+        O.byteOffset + $begin * O.BYTES_PER_ELEMENT,
+        toLength((end === undefined ? length : toAbsoluteIndex(end, length)) - $begin)
+      );
+    }
+  };
+
+  var $slice = function slice(start, end) {
+    return speciesFromList(this, arraySlice.call(validate(this), start, end));
+  };
+
+  var $set = function set(arrayLike /* , offset */) {
+    validate(this);
+    var offset = toOffset(arguments[1], 1);
+    var length = this.length;
+    var src = toObject(arrayLike);
+    var len = toLength(src.length);
+    var index = 0;
+    if (len + offset > length) throw RangeError(WRONG_LENGTH);
+    while (index < len) this[offset + index] = src[index++];
+  };
+
+  var $iterators = {
+    entries: function entries() {
+      return arrayEntries.call(validate(this));
+    },
+    keys: function keys() {
+      return arrayKeys.call(validate(this));
+    },
+    values: function values() {
+      return arrayValues.call(validate(this));
+    }
+  };
+
+  var isTAIndex = function (target, key) {
+    return isObject(target)
+      && target[TYPED_ARRAY]
+      && typeof key != 'symbol'
+      && key in target
+      && String(+key) == String(key);
+  };
+  var $getDesc = function getOwnPropertyDescriptor(target, key) {
+    return isTAIndex(target, key = toPrimitive(key, true))
+      ? propertyDesc(2, target[key])
+      : gOPD(target, key);
+  };
+  var $setDesc = function defineProperty(target, key, desc) {
+    if (isTAIndex(target, key = toPrimitive(key, true))
+      && isObject(desc)
+      && has(desc, 'value')
+      && !has(desc, 'get')
+      && !has(desc, 'set')
+      // TODO: add validation descriptor w/o calling accessors
+      && !desc.configurable
+      && (!has(desc, 'writable') || desc.writable)
+      && (!has(desc, 'enumerable') || desc.enumerable)
+    ) {
+      target[key] = desc.value;
+      return target;
+    } return dP(target, key, desc);
+  };
+
+  if (!ALL_CONSTRUCTORS) {
+    $GOPD.f = $getDesc;
+    $DP.f = $setDesc;
+  }
+
+  $export($export.S + $export.F * !ALL_CONSTRUCTORS, 'Object', {
+    getOwnPropertyDescriptor: $getDesc,
+    defineProperty: $setDesc
+  });
+
+  if (fails(function () { arrayToString.call({}); })) {
+    arrayToString = arrayToLocaleString = function toString() {
+      return arrayJoin.call(this);
+    };
+  }
+
+  var $TypedArrayPrototype$ = redefineAll({}, proto);
+  redefineAll($TypedArrayPrototype$, $iterators);
+  hide($TypedArrayPrototype$, ITERATOR, $iterators.values);
+  redefineAll($TypedArrayPrototype$, {
+    slice: $slice,
+    set: $set,
+    constructor: function () { /* noop */ },
+    toString: arrayToString,
+    toLocaleString: $toLocaleString
+  });
+  addGetter($TypedArrayPrototype$, 'buffer', 'b');
+  addGetter($TypedArrayPrototype$, 'byteOffset', 'o');
+  addGetter($TypedArrayPrototype$, 'byteLength', 'l');
+  addGetter($TypedArrayPrototype$, 'length', 'e');
+  dP($TypedArrayPrototype$, TAG, {
+    get: function () { return this[TYPED_ARRAY]; }
+  });
+
+  // eslint-disable-next-line max-statements
+  module.exports = function (KEY, BYTES, wrapper, CLAMPED) {
+    CLAMPED = !!CLAMPED;
+    var NAME = KEY + (CLAMPED ? 'Clamped' : '') + 'Array';
+    var GETTER = 'get' + KEY;
+    var SETTER = 'set' + KEY;
+    var TypedArray = global[NAME];
+    var Base = TypedArray || {};
+    var TAC = TypedArray && getPrototypeOf(TypedArray);
+    var FORCED = !TypedArray || !$typed.ABV;
+    var O = {};
+    var TypedArrayPrototype = TypedArray && TypedArray[PROTOTYPE];
+    var getter = function (that, index) {
+      var data = that._d;
+      return data.v[GETTER](index * BYTES + data.o, LITTLE_ENDIAN);
+    };
+    var setter = function (that, index, value) {
+      var data = that._d;
+      if (CLAMPED) value = (value = Math.round(value)) < 0 ? 0 : value > 0xff ? 0xff : value & 0xff;
+      data.v[SETTER](index * BYTES + data.o, value, LITTLE_ENDIAN);
+    };
+    var addElement = function (that, index) {
+      dP(that, index, {
+        get: function () {
+          return getter(this, index);
+        },
+        set: function (value) {
+          return setter(this, index, value);
+        },
+        enumerable: true
+      });
+    };
+    if (FORCED) {
+      TypedArray = wrapper(function (that, data, $offset, $length) {
+        anInstance(that, TypedArray, NAME, '_d');
+        var index = 0;
+        var offset = 0;
+        var buffer, byteLength, length, klass;
+        if (!isObject(data)) {
+          length = toIndex(data);
+          byteLength = length * BYTES;
+          buffer = new $ArrayBuffer(byteLength);
+        } else if (data instanceof $ArrayBuffer || (klass = classof(data)) == ARRAY_BUFFER || klass == SHARED_BUFFER) {
+          buffer = data;
+          offset = toOffset($offset, BYTES);
+          var $len = data.byteLength;
+          if ($length === undefined) {
+            if ($len % BYTES) throw RangeError(WRONG_LENGTH);
+            byteLength = $len - offset;
+            if (byteLength < 0) throw RangeError(WRONG_LENGTH);
+          } else {
+            byteLength = toLength($length) * BYTES;
+            if (byteLength + offset > $len) throw RangeError(WRONG_LENGTH);
+          }
+          length = byteLength / BYTES;
+        } else if (TYPED_ARRAY in data) {
+          return fromList(TypedArray, data);
+        } else {
+          return $from.call(TypedArray, data);
+        }
+        hide(that, '_d', {
+          b: buffer,
+          o: offset,
+          l: byteLength,
+          e: length,
+          v: new $DataView(buffer)
+        });
+        while (index < length) addElement(that, index++);
+      });
+      TypedArrayPrototype = TypedArray[PROTOTYPE] = create($TypedArrayPrototype$);
+      hide(TypedArrayPrototype, 'constructor', TypedArray);
+    } else if (!fails(function () {
+      TypedArray(1);
+    }) || !fails(function () {
+      new TypedArray(-1); // eslint-disable-line no-new
+    }) || !$iterDetect(function (iter) {
+      new TypedArray(); // eslint-disable-line no-new
+      new TypedArray(null); // eslint-disable-line no-new
+      new TypedArray(1.5); // eslint-disable-line no-new
+      new TypedArray(iter); // eslint-disable-line no-new
+    }, true)) {
+      TypedArray = wrapper(function (that, data, $offset, $length) {
+        anInstance(that, TypedArray, NAME);
+        var klass;
+        // `ws` module bug, temporarily remove validation length for Uint8Array
+        // https://github.com/websockets/ws/pull/645
+        if (!isObject(data)) return new Base(toIndex(data));
+        if (data instanceof $ArrayBuffer || (klass = classof(data)) == ARRAY_BUFFER || klass == SHARED_BUFFER) {
+          return $length !== undefined
+            ? new Base(data, toOffset($offset, BYTES), $length)
+            : $offset !== undefined
+              ? new Base(data, toOffset($offset, BYTES))
+              : new Base(data);
+        }
+        if (TYPED_ARRAY in data) return fromList(TypedArray, data);
+        return $from.call(TypedArray, data);
+      });
+      arrayForEach(TAC !== Function.prototype ? gOPN(Base).concat(gOPN(TAC)) : gOPN(Base), function (key) {
+        if (!(key in TypedArray)) hide(TypedArray, key, Base[key]);
+      });
+      TypedArray[PROTOTYPE] = TypedArrayPrototype;
+      if (!LIBRARY) TypedArrayPrototype.constructor = TypedArray;
+    }
+    var $nativeIterator = TypedArrayPrototype[ITERATOR];
+    var CORRECT_ITER_NAME = !!$nativeIterator
+      && ($nativeIterator.name == 'values' || $nativeIterator.name == undefined);
+    var $iterator = $iterators.values;
+    hide(TypedArray, TYPED_CONSTRUCTOR, true);
+    hide(TypedArrayPrototype, TYPED_ARRAY, NAME);
+    hide(TypedArrayPrototype, VIEW, true);
+    hide(TypedArrayPrototype, DEF_CONSTRUCTOR, TypedArray);
+
+    if (CLAMPED ? new TypedArray(1)[TAG] != NAME : !(TAG in TypedArrayPrototype)) {
+      dP(TypedArrayPrototype, TAG, {
+        get: function () { return NAME; }
+      });
+    }
+
+    O[NAME] = TypedArray;
+
+    $export($export.G + $export.W + $export.F * (TypedArray != Base), O);
+
+    $export($export.S, NAME, {
+      BYTES_PER_ELEMENT: BYTES
+    });
+
+    $export($export.S + $export.F * fails(function () { Base.of.call(TypedArray, 1); }), NAME, {
+      from: $from,
+      of: $of
+    });
+
+    if (!(BYTES_PER_ELEMENT in TypedArrayPrototype)) hide(TypedArrayPrototype, BYTES_PER_ELEMENT, BYTES);
+
+    $export($export.P, NAME, proto);
+
+    setSpecies(NAME);
+
+    $export($export.P + $export.F * FORCED_SET, NAME, { set: $set });
+
+    $export($export.P + $export.F * !CORRECT_ITER_NAME, NAME, $iterators);
+
+    if (!LIBRARY && TypedArrayPrototype.toString != arrayToString) TypedArrayPrototype.toString = arrayToString;
+
+    $export($export.P + $export.F * fails(function () {
+      new TypedArray(1).slice();
+    }), NAME, { slice: $slice });
+
+    $export($export.P + $export.F * (fails(function () {
+      return [1, 2].toLocaleString() != new TypedArray([1, 2]).toLocaleString();
+    }) || !fails(function () {
+      TypedArrayPrototype.toLocaleString.call([1, 2]);
+    })), NAME, { toLocaleString: $toLocaleString });
+
+    Iterators[NAME] = CORRECT_ITER_NAME ? $nativeIterator : $iterator;
+    if (!LIBRARY && !CORRECT_ITER_NAME) hide(TypedArrayPrototype, ITERATOR, $iterator);
+  };
+} else module.exports = function () { /* empty */ };
+
+
+/***/ }),
+
+/***/ "ed0b":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var global = __webpack_require__("7726");
+var DESCRIPTORS = __webpack_require__("9e1e");
+var LIBRARY = __webpack_require__("2d00");
+var $typed = __webpack_require__("0f88");
+var hide = __webpack_require__("32e9");
+var redefineAll = __webpack_require__("dcbc");
+var fails = __webpack_require__("79e5");
+var anInstance = __webpack_require__("f605");
+var toInteger = __webpack_require__("4588");
+var toLength = __webpack_require__("9def");
+var toIndex = __webpack_require__("09fa");
+var gOPN = __webpack_require__("9093").f;
+var dP = __webpack_require__("86cc").f;
+var arrayFill = __webpack_require__("36bd");
+var setToStringTag = __webpack_require__("7f20");
+var ARRAY_BUFFER = 'ArrayBuffer';
+var DATA_VIEW = 'DataView';
+var PROTOTYPE = 'prototype';
+var WRONG_LENGTH = 'Wrong length!';
+var WRONG_INDEX = 'Wrong index!';
+var $ArrayBuffer = global[ARRAY_BUFFER];
+var $DataView = global[DATA_VIEW];
+var Math = global.Math;
+var RangeError = global.RangeError;
+// eslint-disable-next-line no-shadow-restricted-names
+var Infinity = global.Infinity;
+var BaseBuffer = $ArrayBuffer;
+var abs = Math.abs;
+var pow = Math.pow;
+var floor = Math.floor;
+var log = Math.log;
+var LN2 = Math.LN2;
+var BUFFER = 'buffer';
+var BYTE_LENGTH = 'byteLength';
+var BYTE_OFFSET = 'byteOffset';
+var $BUFFER = DESCRIPTORS ? '_b' : BUFFER;
+var $LENGTH = DESCRIPTORS ? '_l' : BYTE_LENGTH;
+var $OFFSET = DESCRIPTORS ? '_o' : BYTE_OFFSET;
+
+// IEEE754 conversions based on https://github.com/feross/ieee754
+function packIEEE754(value, mLen, nBytes) {
+  var buffer = new Array(nBytes);
+  var eLen = nBytes * 8 - mLen - 1;
+  var eMax = (1 << eLen) - 1;
+  var eBias = eMax >> 1;
+  var rt = mLen === 23 ? pow(2, -24) - pow(2, -77) : 0;
+  var i = 0;
+  var s = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
+  var e, m, c;
+  value = abs(value);
+  // eslint-disable-next-line no-self-compare
+  if (value != value || value === Infinity) {
+    // eslint-disable-next-line no-self-compare
+    m = value != value ? 1 : 0;
+    e = eMax;
+  } else {
+    e = floor(log(value) / LN2);
+    if (value * (c = pow(2, -e)) < 1) {
+      e--;
+      c *= 2;
+    }
+    if (e + eBias >= 1) {
+      value += rt / c;
+    } else {
+      value += rt * pow(2, 1 - eBias);
+    }
+    if (value * c >= 2) {
+      e++;
+      c /= 2;
+    }
+    if (e + eBias >= eMax) {
+      m = 0;
+      e = eMax;
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * pow(2, mLen);
+      e = e + eBias;
+    } else {
+      m = value * pow(2, eBias - 1) * pow(2, mLen);
+      e = 0;
+    }
+  }
+  for (; mLen >= 8; buffer[i++] = m & 255, m /= 256, mLen -= 8);
+  e = e << mLen | m;
+  eLen += mLen;
+  for (; eLen > 0; buffer[i++] = e & 255, e /= 256, eLen -= 8);
+  buffer[--i] |= s * 128;
+  return buffer;
+}
+function unpackIEEE754(buffer, mLen, nBytes) {
+  var eLen = nBytes * 8 - mLen - 1;
+  var eMax = (1 << eLen) - 1;
+  var eBias = eMax >> 1;
+  var nBits = eLen - 7;
+  var i = nBytes - 1;
+  var s = buffer[i--];
+  var e = s & 127;
+  var m;
+  s >>= 7;
+  for (; nBits > 0; e = e * 256 + buffer[i], i--, nBits -= 8);
+  m = e & (1 << -nBits) - 1;
+  e >>= -nBits;
+  nBits += mLen;
+  for (; nBits > 0; m = m * 256 + buffer[i], i--, nBits -= 8);
+  if (e === 0) {
+    e = 1 - eBias;
+  } else if (e === eMax) {
+    return m ? NaN : s ? -Infinity : Infinity;
+  } else {
+    m = m + pow(2, mLen);
+    e = e - eBias;
+  } return (s ? -1 : 1) * m * pow(2, e - mLen);
+}
+
+function unpackI32(bytes) {
+  return bytes[3] << 24 | bytes[2] << 16 | bytes[1] << 8 | bytes[0];
+}
+function packI8(it) {
+  return [it & 0xff];
+}
+function packI16(it) {
+  return [it & 0xff, it >> 8 & 0xff];
+}
+function packI32(it) {
+  return [it & 0xff, it >> 8 & 0xff, it >> 16 & 0xff, it >> 24 & 0xff];
+}
+function packF64(it) {
+  return packIEEE754(it, 52, 8);
+}
+function packF32(it) {
+  return packIEEE754(it, 23, 4);
+}
+
+function addGetter(C, key, internal) {
+  dP(C[PROTOTYPE], key, { get: function () { return this[internal]; } });
+}
+
+function get(view, bytes, index, isLittleEndian) {
+  var numIndex = +index;
+  var intIndex = toIndex(numIndex);
+  if (intIndex + bytes > view[$LENGTH]) throw RangeError(WRONG_INDEX);
+  var store = view[$BUFFER]._b;
+  var start = intIndex + view[$OFFSET];
+  var pack = store.slice(start, start + bytes);
+  return isLittleEndian ? pack : pack.reverse();
+}
+function set(view, bytes, index, conversion, value, isLittleEndian) {
+  var numIndex = +index;
+  var intIndex = toIndex(numIndex);
+  if (intIndex + bytes > view[$LENGTH]) throw RangeError(WRONG_INDEX);
+  var store = view[$BUFFER]._b;
+  var start = intIndex + view[$OFFSET];
+  var pack = conversion(+value);
+  for (var i = 0; i < bytes; i++) store[start + i] = pack[isLittleEndian ? i : bytes - i - 1];
+}
+
+if (!$typed.ABV) {
+  $ArrayBuffer = function ArrayBuffer(length) {
+    anInstance(this, $ArrayBuffer, ARRAY_BUFFER);
+    var byteLength = toIndex(length);
+    this._b = arrayFill.call(new Array(byteLength), 0);
+    this[$LENGTH] = byteLength;
+  };
+
+  $DataView = function DataView(buffer, byteOffset, byteLength) {
+    anInstance(this, $DataView, DATA_VIEW);
+    anInstance(buffer, $ArrayBuffer, DATA_VIEW);
+    var bufferLength = buffer[$LENGTH];
+    var offset = toInteger(byteOffset);
+    if (offset < 0 || offset > bufferLength) throw RangeError('Wrong offset!');
+    byteLength = byteLength === undefined ? bufferLength - offset : toLength(byteLength);
+    if (offset + byteLength > bufferLength) throw RangeError(WRONG_LENGTH);
+    this[$BUFFER] = buffer;
+    this[$OFFSET] = offset;
+    this[$LENGTH] = byteLength;
+  };
+
+  if (DESCRIPTORS) {
+    addGetter($ArrayBuffer, BYTE_LENGTH, '_l');
+    addGetter($DataView, BUFFER, '_b');
+    addGetter($DataView, BYTE_LENGTH, '_l');
+    addGetter($DataView, BYTE_OFFSET, '_o');
+  }
+
+  redefineAll($DataView[PROTOTYPE], {
+    getInt8: function getInt8(byteOffset) {
+      return get(this, 1, byteOffset)[0] << 24 >> 24;
+    },
+    getUint8: function getUint8(byteOffset) {
+      return get(this, 1, byteOffset)[0];
+    },
+    getInt16: function getInt16(byteOffset /* , littleEndian */) {
+      var bytes = get(this, 2, byteOffset, arguments[1]);
+      return (bytes[1] << 8 | bytes[0]) << 16 >> 16;
+    },
+    getUint16: function getUint16(byteOffset /* , littleEndian */) {
+      var bytes = get(this, 2, byteOffset, arguments[1]);
+      return bytes[1] << 8 | bytes[0];
+    },
+    getInt32: function getInt32(byteOffset /* , littleEndian */) {
+      return unpackI32(get(this, 4, byteOffset, arguments[1]));
+    },
+    getUint32: function getUint32(byteOffset /* , littleEndian */) {
+      return unpackI32(get(this, 4, byteOffset, arguments[1])) >>> 0;
+    },
+    getFloat32: function getFloat32(byteOffset /* , littleEndian */) {
+      return unpackIEEE754(get(this, 4, byteOffset, arguments[1]), 23, 4);
+    },
+    getFloat64: function getFloat64(byteOffset /* , littleEndian */) {
+      return unpackIEEE754(get(this, 8, byteOffset, arguments[1]), 52, 8);
+    },
+    setInt8: function setInt8(byteOffset, value) {
+      set(this, 1, byteOffset, packI8, value);
+    },
+    setUint8: function setUint8(byteOffset, value) {
+      set(this, 1, byteOffset, packI8, value);
+    },
+    setInt16: function setInt16(byteOffset, value /* , littleEndian */) {
+      set(this, 2, byteOffset, packI16, value, arguments[2]);
+    },
+    setUint16: function setUint16(byteOffset, value /* , littleEndian */) {
+      set(this, 2, byteOffset, packI16, value, arguments[2]);
+    },
+    setInt32: function setInt32(byteOffset, value /* , littleEndian */) {
+      set(this, 4, byteOffset, packI32, value, arguments[2]);
+    },
+    setUint32: function setUint32(byteOffset, value /* , littleEndian */) {
+      set(this, 4, byteOffset, packI32, value, arguments[2]);
+    },
+    setFloat32: function setFloat32(byteOffset, value /* , littleEndian */) {
+      set(this, 4, byteOffset, packF32, value, arguments[2]);
+    },
+    setFloat64: function setFloat64(byteOffset, value /* , littleEndian */) {
+      set(this, 8, byteOffset, packF64, value, arguments[2]);
+    }
+  });
+} else {
+  if (!fails(function () {
+    $ArrayBuffer(1);
+  }) || !fails(function () {
+    new $ArrayBuffer(-1); // eslint-disable-line no-new
+  }) || fails(function () {
+    new $ArrayBuffer(); // eslint-disable-line no-new
+    new $ArrayBuffer(1.5); // eslint-disable-line no-new
+    new $ArrayBuffer(NaN); // eslint-disable-line no-new
+    return $ArrayBuffer.name != ARRAY_BUFFER;
+  })) {
+    $ArrayBuffer = function ArrayBuffer(length) {
+      anInstance(this, $ArrayBuffer);
+      return new BaseBuffer(toIndex(length));
+    };
+    var ArrayBufferProto = $ArrayBuffer[PROTOTYPE] = BaseBuffer[PROTOTYPE];
+    for (var keys = gOPN(BaseBuffer), j = 0, key; keys.length > j;) {
+      if (!((key = keys[j++]) in $ArrayBuffer)) hide($ArrayBuffer, key, BaseBuffer[key]);
+    }
+    if (!LIBRARY) ArrayBufferProto.constructor = $ArrayBuffer;
+  }
+  // iOS Safari 7.x bug
+  var view = new $DataView(new $ArrayBuffer(2));
+  var $setInt8 = $DataView[PROTOTYPE].setInt8;
+  view.setInt8(0, 2147483648);
+  view.setInt8(1, 2147483649);
+  if (view.getInt8(0) || !view.getInt8(1)) redefineAll($DataView[PROTOTYPE], {
+    setInt8: function setInt8(byteOffset, value) {
+      $setInt8.call(this, byteOffset, value << 24 >> 24);
+    },
+    setUint8: function setUint8(byteOffset, value) {
+      $setInt8.call(this, byteOffset, value << 24 >> 24);
+    }
+  }, true);
+}
+setToStringTag($ArrayBuffer, ARRAY_BUFFER);
+setToStringTag($DataView, DATA_VIEW);
+hide($DataView[PROTOTYPE], $typed.VIEW, true);
+exports[ARRAY_BUFFER] = $ArrayBuffer;
+exports[DATA_VIEW] = $DataView;
+
+
+/***/ }),
+
 /***/ "f3e2":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6533,6 +7745,18 @@ $export($export.P + $export.F * !STRICT, 'Array', {
     return $forEach(this, callbackfn, arguments[1]);
   }
 });
+
+
+/***/ }),
+
+/***/ "f605":
+/***/ (function(module, exports) {
+
+module.exports = function (it, Constructor, name, forbiddenField) {
+  if (!(it instanceof Constructor) || (forbiddenField !== undefined && forbiddenField in it)) {
+    throw TypeError(name + ': incorrect invocation!');
+  } return it;
+};
 
 
 /***/ }),
@@ -6653,12 +7877,15 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"7cf9d108-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=template&id=c6ee9288&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{ dropzone: _vm.includeStyling }},[(this.$slots && this.$slots.default && this.$slots.default.length)?[(_vm.includeStyling)?_c('div',{class:{ 'dz-message': _vm.includeStyling }},[_vm._t("default",[_vm._v("Drop files here to upload")])],2):_vm._t("default",[_vm._v("Drop files here to upload")])]:_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"7cf9d108-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=template&id=72c2b3dd&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-auto-dropzone",class:{ dropzone: _vm.includeStyling }},[(!_vm.instance)?_c('div',{staticClass:"dz-default dz-message"},[_vm._v("\n    "+_vm._s(_vm.defaultMessage)+"\n  ")]):[(_vm.hasDefaultSlot)?_vm._t("default",null,null,_vm.slotScope):_vm._e(),_c('div',{class:{
+        'is-hidden': _vm.hasDefaultSlot,
+        'dz-default dz-message': _vm.includeStyling
+      }},[_vm._t("message",[_vm._v(_vm._s(_vm.defaultMessage))])],2)]],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=template&id=c6ee9288&
+// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=template&id=72c2b3dd&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/symbol/iterator.js
 var iterator = __webpack_require__("5d58");
@@ -6687,11 +7914,14 @@ function typeof_typeof(obj) {
 
   return typeof_typeof(obj);
 }
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.define-property.js
-var es6_object_define_property = __webpack_require__("1c01");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.assign.js
 var es6_object_assign = __webpack_require__("f751");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.filter.js
+var es6_array_filter = __webpack_require__("d25f");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.define-property.js
+var es6_object_define_property = __webpack_require__("1c01");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("ac6a");
@@ -7418,7 +8648,135 @@ function isPromise(obj) {
 var dropzone = __webpack_require__("79e3");
 var dropzone_default = /*#__PURE__*/__webpack_require__.n(dropzone);
 
+// CONCATENATED MODULE: ./src/component/DropzoneInstance.ts
+
+
+
+function getInstance(vm, element, options, hasSlots) {
+  var fragment = document.createDocumentFragment(); // Extend Dropzone to make certain values reactive
+  // Side note, I hope you enjoy this scoping hack
+
+  var DropzoneInstance =
+  /** @class */
+  function (_super) {
+    __extends(DropzoneInstance, _super);
+
+    function DropzoneInstance(element, options) {
+      var _this = this; // Make a copy since we need to modify properties internally
+
+
+      var internalOptions = JSON.parse(JSON.stringify(options)); // If no option is defined for the container, make it slottable
+
+      if (hasSlots && !options.previewsContainer) {
+        internalOptions.previewsContainer = fragment;
+      }
+
+      _this = _super.call(this, element, internalOptions) || this;
+      return _this;
+    }
+
+    DropzoneInstance.prototype.destroy = function () {
+      var retVal = _super.prototype.destroy.call(this);
+
+      fragment = undefined;
+      return retVal;
+    };
+
+    DropzoneInstance.prototype.useFragment = function (hasSlots) {
+      if (hasSlots) {
+        if (this.options.previewsContainer !== fragment) {
+          this.originalPreviewscontainer = this.options.previewsContainer;
+          this.options.previewsContainer = fragment;
+        }
+      } else {
+        if (this.originalPreviewscontainer) {
+          this.options.previewsContainer = this.originalPreviewscontainer;
+          this.originalPreviewscontainer = undefined;
+        }
+      }
+    };
+
+    Object.defineProperty(DropzoneInstance.prototype, "files", {
+      get: function get() {
+        return vm.files;
+      },
+      set: function set(value) {
+        var _a;
+
+        (_a = vm.files).splice.apply(_a, __spread([0, vm.files.length], value));
+      },
+      enumerable: true,
+      configurable: true
+    });
+    return DropzoneInstance;
+  }(dropzone_default.a);
+
+  return new DropzoneInstance(element, options);
+}
+// CONCATENATED MODULE: ./src/component/NoCache.ts
+
+var NoCache = createDecorator(function (options, key) {
+  if (!options.computed) return;
+  var field = options.computed[key];
+  field.cache = false;
+});
+/* harmony default export */ var component_NoCache = (NoCache);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.to-string.js
+var es6_regexp_to_string = __webpack_require__("6b54");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.date.to-string.js
+var es6_date_to_string = __webpack_require__("87b3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.typed.uint8-array.js
+var es6_typed_uint8_array = __webpack_require__("34ef");
+
+// CONCATENATED MODULE: ./src/component/fileUtil.ts
+
+
+
+function urltoFile(url, filename, mimeType) {
+  return fetch(url).then(function (response) {
+    return response.arrayBuffer();
+  }).then(function (buffer) {
+    // https://stackoverflow.com/a/29672957/1470607
+    if (!mimeType) {
+      var headerArray = new Uint8Array(buffer).subarray(0, 4);
+      var header = '';
+
+      for (var i = 0; i < headerArray.length; i++) {
+        header += headerArray[i].toString(16);
+      }
+
+      mimeType = headerToMime(header);
+    }
+
+    return new File([buffer], filename || '', {
+      type: mimeType
+    });
+  });
+} // https://stackoverflow.com/a/29672957/1470607
+
+function headerToMime(header) {
+  switch (header) {
+    case '89504e47':
+      return 'image/png';
+
+    case '47494638':
+      return 'image/gif';
+
+    case 'ffd8ffe0':
+    case 'ffd8ffe1':
+    case 'ffd8ffe2':
+    case 'ffd8ffe3':
+    case 'ffd8ffe8':
+      return 'image/jpeg';
+
+    default:
+      return 'unknown';
+  }
+}
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--14-1!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=script&lang=ts&
+
 
 
 
@@ -7427,9 +8785,13 @@ var dropzone_default = /*#__PURE__*/__webpack_require__.n(dropzone);
  // NB! THIS IS A GENERATED FILE. ANY MODIFICATIONS YOU MAKE HERE WILL BE LOST.
 
 
+
+
+
  // Only mount manually
 
 dropzone_default.a.autoDiscover = false;
+var uninitiatedInstanceMessage = 'Dropzone instance is uninitiated';
 
 var VueAutoDropzonevue_type_script_lang_ts_VueAutoDropzone =
 /** @class */
@@ -7439,6 +8801,9 @@ function (_super) {
   function VueAutoDropzone() {
     var _this = _super !== null && _super.apply(this, arguments) || this;
 
+    _this.instance = null;
+    _this.files = [];
+    _this.defaultMessage = 'Drop files here to upload';
     _this.hasBeenMounted = false;
     return _this;
   }
@@ -7449,8 +8814,9 @@ function (_super) {
 
     if (typeof window === 'undefined') return;
     if (this.$isServer && this.hasBeenMounted) return;
-    this.hasBeenMounted = true;
-    this.instance = new dropzone_default.a(this.$el, this.options); // Pass every configured event through
+    this.hasBeenMounted = true; // This isn't inferred correctly here yet
+
+    this.instance = getInstance(this, this.$el, this.options, this.hasDefaultSlot); // Pass every configured event through
 
     this.instance.events.forEach(function (eventName) {
       _this.instance.on(eventName, function () {
@@ -7458,7 +8824,11 @@ function (_super) {
 
         for (var _i = 0; _i < arguments.length; _i++) {
           args[_i] = arguments[_i];
-        } // eslint-disable-next-line no-useless-call
+        } // Dropzone is nigh unobservable, just manually fire updates when it fires events
+
+
+        _this.$forceUpdate(); // Reemit events on the Vue component
+        // eslint-disable-next-line no-useless-call
 
 
         _this.$emit.apply(_this, __spread([eventName], args));
@@ -7467,484 +8837,757 @@ function (_super) {
   };
 
   VueAutoDropzone.prototype.beforeDestroy = function () {
-    if (!(this.$props.destroyDropzone && this.instance)) return;
+    if (!this.instance) return;
     this.instance.destroy();
   };
 
+  Object.defineProperty(VueAutoDropzone.prototype, "hasDefaultSlot", {
+    get: function get() {
+      var hasDefaultSlot = Boolean(this.$slots && this.$slots.default || this.$scopedSlots && this.$scopedSlots.default); // NB! Update instance as a side-effect
+
+      if (this.instance) {
+        // TODO: Types
+        this.instance.useFragment(hasDefaultSlot);
+      }
+
+      return hasDefaultSlot;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(VueAutoDropzone.prototype, "slotScope", {
+    // Just mirror the whole instance through for the slot scope. I'm pretty sure this will come back to bite me.
+    get: function get() {
+      return this;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(VueAutoDropzone.prototype, "acceptedFiles", {
+    // Here and elsewhere, Dropzone uses direct assignment and mutations that we can't observe without a Proxy, cache nothing
+
+    /** Array of all accepted files */
+    get: function get() {
+      return this.files.filter(function (file) {
+        return file.accepted;
+      });
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(VueAutoDropzone.prototype, "rejectedFiles", {
+    /** Array of all rejected files */
+    get: function get() {
+      return this.files.filter(function (file) {
+        return !file.accepted;
+      });
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(VueAutoDropzone.prototype, "queuedFiles", {
+    /** Array of all files queued for upload */
+    get: function get() {
+      return this.files.filter(function (file) {
+        return file.status === dropzone_default.a.QUEUED;
+      });
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(VueAutoDropzone.prototype, "uploadingFiles", {
+    /** Array of all files currently uploading */
+    get: function get() {
+      return this.files.filter(function (file) {
+        return file.status === dropzone_default.a.UPLOADING;
+      });
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(VueAutoDropzone.prototype, "addedFiles", {
+    /** Array of all added files */
+    get: function get() {
+      return this.files.filter(function (file) {
+        return file.status === dropzone_default.a.ADDED;
+      });
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(VueAutoDropzone.prototype, "activeFiles", {
+    /** Array of all queued or currently uploading files */
+    get: function get() {
+      return this.files.filter(function (file) {
+        return file.status === dropzone_default.a.QUEUED || file.status === dropzone_default.a.UPLOADING;
+      });
+    },
+    enumerable: true,
+    configurable: true
+  });
+  /** Manually add a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type */
+
+  VueAutoDropzone.prototype.addFile = function (fileOrDataString, fileName, mimeType) {
+    return __awaiter(this, void 0, void 0, function () {
+      var file;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            if (!(typeof fileOrDataString === 'string')) return [3
+            /*break*/
+            , 2];
+            return [4
+            /*yield*/
+            , urltoFile(fileOrDataString, fileName, mimeType)];
+
+          case 1:
+            file = _a.sent();
+            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage); // The missing fields get added internally
+            // eslint-disable-next-line no-useless-call
+
+            return [2
+            /*return*/
+            , this.instance.addFile.call(this.instance, file)];
+
+          case 2:
+            // Manual check to let the user know they can't set the name and mime for File instances
+            if (fileName || mimeType) {
+              throw new TypeError('File.name and File.type are readonly properties');
+            }
+
+            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage); // eslint-disable-next-line no-useless-call
+
+            return [2
+            /*return*/
+            , this.instance.addFile.call(this.instance, fileOrDataString)];
+        }
+      });
+    });
+  };
+  /** Get all Dropzone options */
+
+
   VueAutoDropzone.prototype.getOptions = function () {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
     return this.instance.options;
   };
+  /** Overwrite multiple Dropzone options at once via `Object.assign()` */
+
 
   VueAutoDropzone.prototype.setOptions = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
     Object.assign(this.instance.options, value);
   };
+  /** Get a single Dropzone option by key */
+
 
   VueAutoDropzone.prototype.getOption = function (key) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
     return this.instance.options[key];
   };
+  /** Set a single Dropzone option */
+
 
   VueAutoDropzone.prototype.setOption = function (key, value) {
-    // @ts-ignore
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
     this.instance.options[key] = value;
   };
 
-  Object.defineProperty(VueAutoDropzone.prototype, "Emitter", {
-    get: function get() {
-      return this.instance.Emitter;
-    },
-    set: function set(value) {
-      this.instance.Emitter = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "URL", {
-    get: function get() {
-      return this.instance.URL;
-    },
-    set: function set(value) {
-      this.instance.URL = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "accept", {
-    get: function get() {
-      return this.instance.accept;
-    },
-    set: function set(value) {
-      this.instance.accept = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "addFile", {
-    get: function get() {
-      return this.instance.addFile;
-    },
-    set: function set(value) {
-      this.instance.addFile = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "cancelUpload", {
-    get: function get() {
-      return this.instance.cancelUpload;
-    },
-    set: function set(value) {
-      this.instance.cancelUpload = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "createThumbnail", {
-    get: function get() {
-      return this.instance.createThumbnail;
-    },
-    set: function set(value) {
-      this.instance.createThumbnail = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "createThumbnailFromUrl", {
-    get: function get() {
-      return this.instance.createThumbnailFromUrl;
-    },
-    set: function set(value) {
-      this.instance.createThumbnailFromUrl = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "destroy", {
-    get: function get() {
-      return this.instance.destroy;
-    },
-    set: function set(value) {
-      this.instance.destroy = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "disable", {
-    get: function get() {
-      return this.instance.disable;
-    },
-    set: function set(value) {
-      this.instance.disable = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "drop", {
-    get: function get() {
-      return this.instance.drop;
-    },
-    set: function set(value) {
-      this.instance.drop = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "emit", {
-    get: function get() {
-      return this.instance.emit;
-    },
-    set: function set(value) {
-      this.instance.emit = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "enable", {
-    get: function get() {
-      return this.instance.enable;
-    },
-    set: function set(value) {
-      this.instance.enable = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "enqueueFile", {
-    get: function get() {
-      return this.instance.enqueueFile;
-    },
-    set: function set(value) {
-      this.instance.enqueueFile = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "enqueueFiles", {
-    get: function get() {
-      return this.instance.enqueueFiles;
-    },
-    set: function set(value) {
-      this.instance.enqueueFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "filesize", {
-    get: function get() {
-      return this.instance.filesize;
-    },
-    set: function set(value) {
-      this.instance.filesize = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getAcceptedFiles", {
-    get: function get() {
-      return this.instance.getAcceptedFiles;
-    },
-    set: function set(value) {
-      this.instance.getAcceptedFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getActiveFiles", {
-    get: function get() {
-      return this.instance.getActiveFiles;
-    },
-    set: function set(value) {
-      this.instance.getActiveFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getAddedFiles", {
-    get: function get() {
-      return this.instance.getAddedFiles;
-    },
-    set: function set(value) {
-      this.instance.getAddedFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getExistingFallback", {
-    get: function get() {
-      return this.instance.getExistingFallback;
-    },
-    set: function set(value) {
-      this.instance.getExistingFallback = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getFallbackForm", {
-    get: function get() {
-      return this.instance.getFallbackForm;
-    },
-    set: function set(value) {
-      this.instance.getFallbackForm = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getFilesWithStatus", {
-    get: function get() {
-      return this.instance.getFilesWithStatus;
-    },
-    set: function set(value) {
-      this.instance.getFilesWithStatus = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getQueuedFiles", {
-    get: function get() {
-      return this.instance.getQueuedFiles;
-    },
-    set: function set(value) {
-      this.instance.getQueuedFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getRejectedFiles", {
-    get: function get() {
-      return this.instance.getRejectedFiles;
-    },
-    set: function set(value) {
-      this.instance.getRejectedFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "getUploadingFiles", {
-    get: function get() {
-      return this.instance.getUploadingFiles;
-    },
-    set: function set(value) {
-      this.instance.getUploadingFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "handleFiles", {
-    get: function get() {
-      return this.instance.handleFiles;
-    },
-    set: function set(value) {
-      this.instance.handleFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "init", {
-    get: function get() {
-      return this.instance.init;
-    },
-    set: function set(value) {
-      this.instance.init = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "off", {
-    get: function get() {
-      return this.instance.off;
-    },
-    set: function set(value) {
-      this.instance.off = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "on", {
-    get: function get() {
-      return this.instance.on;
-    },
-    set: function set(value) {
-      this.instance.on = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "paste", {
-    get: function get() {
-      return this.instance.paste;
-    },
-    set: function set(value) {
-      this.instance.paste = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "processFile", {
-    get: function get() {
-      return this.instance.processFile;
-    },
-    set: function set(value) {
-      this.instance.processFile = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "processFiles", {
-    get: function get() {
-      return this.instance.processFiles;
-    },
-    set: function set(value) {
-      this.instance.processFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "processQueue", {
-    get: function get() {
-      return this.instance.processQueue;
-    },
-    set: function set(value) {
-      this.instance.processQueue = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "removeAllFiles", {
-    get: function get() {
-      return this.instance.removeAllFiles;
-    },
-    set: function set(value) {
-      this.instance.removeAllFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "removeEventListeners", {
-    get: function get() {
-      return this.instance.removeEventListeners;
-    },
-    set: function set(value) {
-      this.instance.removeEventListeners = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "removeFile", {
-    get: function get() {
-      return this.instance.removeFile;
-    },
-    set: function set(value) {
-      this.instance.removeFile = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "resizeImage", {
-    get: function get() {
-      return this.instance.resizeImage;
-    },
-    set: function set(value) {
-      this.instance.resizeImage = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "resolveOption", {
-    get: function get() {
-      return this.instance.resolveOption;
-    },
-    set: function set(value) {
-      this.instance.resolveOption = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "setupEventListeners", {
-    get: function get() {
-      return this.instance.setupEventListeners;
-    },
-    set: function set(value) {
-      this.instance.setupEventListeners = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "submitRequest", {
-    get: function get() {
-      return this.instance.submitRequest;
-    },
-    set: function set(value) {
-      this.instance.submitRequest = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "updateTotalUploadProgress", {
-    get: function get() {
-      return this.instance.updateTotalUploadProgress;
-    },
-    set: function set(value) {
-      this.instance.updateTotalUploadProgress = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "uploadFile", {
-    get: function get() {
-      return this.instance.uploadFile;
-    },
-    set: function set(value) {
-      this.instance.uploadFile = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "uploadFiles", {
-    get: function get() {
-      return this.instance.uploadFiles;
-    },
-    set: function set(value) {
-      this.instance.uploadFiles = value;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "clickableElements", {
-    get: function get() {
-      return this.instance.clickableElements;
-    },
-    enumerable: true,
-    configurable: true
-  });
+  VueAutoDropzone.prototype.accept = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.accept.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `accept()` method */
+
+
+  VueAutoDropzone.prototype.setAccept = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.accept = value;
+  };
+
+  VueAutoDropzone.prototype.cancelUpload = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.cancelUpload.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `cancelUpload()` method */
+
+
+  VueAutoDropzone.prototype.setCancelUpload = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.cancelUpload = value;
+  };
+
+  VueAutoDropzone.prototype.createThumbnail = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.createThumbnail.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `createThumbnail()` method */
+
+
+  VueAutoDropzone.prototype.setCreateThumbnail = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.createThumbnail = value;
+  };
+
+  VueAutoDropzone.prototype.createThumbnailFromUrl = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.createThumbnailFromUrl.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `createThumbnailFromUrl()` method */
+
+
+  VueAutoDropzone.prototype.setCreateThumbnailFromUrl = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.createThumbnailFromUrl = value;
+  };
+
+  VueAutoDropzone.prototype.destroy = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.destroy.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `destroy()` method */
+
+
+  VueAutoDropzone.prototype.setDestroy = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.destroy = value;
+  };
+
+  VueAutoDropzone.prototype.disable = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.disable.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `disable()` method */
+
+
+  VueAutoDropzone.prototype.setDisable = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.disable = value;
+  };
+
+  VueAutoDropzone.prototype.drop = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.drop.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `drop()` method */
+
+
+  VueAutoDropzone.prototype.setDrop = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.drop = value;
+  };
+
+  VueAutoDropzone.prototype.emit = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.emit.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `emit()` method */
+
+
+  VueAutoDropzone.prototype.setEmit = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.emit = value;
+  };
+
+  VueAutoDropzone.prototype.enable = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.enable.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `enable()` method */
+
+
+  VueAutoDropzone.prototype.setEnable = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.enable = value;
+  };
+
+  VueAutoDropzone.prototype.enqueueFile = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.enqueueFile.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `enqueueFile()` method */
+
+
+  VueAutoDropzone.prototype.setEnqueueFile = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.enqueueFile = value;
+  };
+
+  VueAutoDropzone.prototype.enqueueFiles = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.enqueueFiles.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `enqueueFiles()` method */
+
+
+  VueAutoDropzone.prototype.setEnqueueFiles = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.enqueueFiles = value;
+  };
+
+  VueAutoDropzone.prototype.filesize = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.filesize.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `filesize()` method */
+
+
+  VueAutoDropzone.prototype.setFilesize = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.filesize = value;
+  };
+
+  VueAutoDropzone.prototype.getExistingFallback = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.getExistingFallback.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `getExistingFallback()` method */
+
+
+  VueAutoDropzone.prototype.setGetExistingFallback = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.getExistingFallback = value;
+  };
+
+  VueAutoDropzone.prototype.getFallbackForm = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.getFallbackForm.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `getFallbackForm()` method */
+
+
+  VueAutoDropzone.prototype.setGetFallbackForm = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.getFallbackForm = value;
+  };
+
+  VueAutoDropzone.prototype.getFilesWithStatus = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.getFilesWithStatus.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `getFilesWithStatus()` method */
+
+
+  VueAutoDropzone.prototype.setGetFilesWithStatus = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.getFilesWithStatus = value;
+  };
+
+  VueAutoDropzone.prototype.handleFiles = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.handleFiles.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `handleFiles()` method */
+
+
+  VueAutoDropzone.prototype.setHandleFiles = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.handleFiles = value;
+  };
+
+  VueAutoDropzone.prototype.off = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.off.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `off()` method */
+
+
+  VueAutoDropzone.prototype.setOff = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.off = value;
+  };
+
+  VueAutoDropzone.prototype.on = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.on.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `on()` method */
+
+
+  VueAutoDropzone.prototype.setOn = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.on = value;
+  };
+
+  VueAutoDropzone.prototype.paste = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.paste.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `paste()` method */
+
+
+  VueAutoDropzone.prototype.setPaste = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.paste = value;
+  };
+
+  VueAutoDropzone.prototype.processFile = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.processFile.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `processFile()` method */
+
+
+  VueAutoDropzone.prototype.setProcessFile = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.processFile = value;
+  };
+
+  VueAutoDropzone.prototype.processFiles = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.processFiles.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `processFiles()` method */
+
+
+  VueAutoDropzone.prototype.setProcessFiles = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.processFiles = value;
+  };
+
+  VueAutoDropzone.prototype.processQueue = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.processQueue.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `processQueue()` method */
+
+
+  VueAutoDropzone.prototype.setProcessQueue = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.processQueue = value;
+  };
+
+  VueAutoDropzone.prototype.removeAllFiles = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.removeAllFiles.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `removeAllFiles()` method */
+
+
+  VueAutoDropzone.prototype.setRemoveAllFiles = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.removeAllFiles = value;
+  };
+
+  VueAutoDropzone.prototype.removeEventListeners = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.removeEventListeners.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `removeEventListeners()` method */
+
+
+  VueAutoDropzone.prototype.setRemoveEventListeners = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.removeEventListeners = value;
+  };
+
+  VueAutoDropzone.prototype.removeFile = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.removeFile.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `removeFile()` method */
+
+
+  VueAutoDropzone.prototype.setRemoveFile = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.removeFile = value;
+  };
+
+  VueAutoDropzone.prototype.resizeImage = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.resizeImage.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `resizeImage()` method */
+
+
+  VueAutoDropzone.prototype.setResizeImage = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.resizeImage = value;
+  };
+
+  VueAutoDropzone.prototype.resolveOption = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.resolveOption.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `resolveOption()` method */
+
+
+  VueAutoDropzone.prototype.setResolveOption = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.resolveOption = value;
+  };
+
+  VueAutoDropzone.prototype.setupEventListeners = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.setupEventListeners.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `setupEventListeners()` method */
+
+
+  VueAutoDropzone.prototype.setSetupEventListeners = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.setupEventListeners = value;
+  };
+
+  VueAutoDropzone.prototype.submitRequest = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.submitRequest.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `submitRequest()` method */
+
+
+  VueAutoDropzone.prototype.setSubmitRequest = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.submitRequest = value;
+  };
+
+  VueAutoDropzone.prototype.updateTotalUploadProgress = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.updateTotalUploadProgress.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `updateTotalUploadProgress()` method */
+
+
+  VueAutoDropzone.prototype.setUpdateTotalUploadProgress = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.updateTotalUploadProgress = value;
+  };
+
+  VueAutoDropzone.prototype.uploadFile = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.uploadFile.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `uploadFile()` method */
+
+
+  VueAutoDropzone.prototype.setUploadFile = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.uploadFile = value;
+  };
+
+  VueAutoDropzone.prototype.uploadFiles = function () {
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    return this.instance.uploadFiles.apply(this.instance, args);
+  };
+  /** Overwrite Dropzone's internal `uploadFiles()` method */
+
+
+  VueAutoDropzone.prototype.setUploadFiles = function (value) {
+    if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+    this.instance.uploadFiles = value;
+  };
+
   Object.defineProperty(VueAutoDropzone.prototype, "defaultOptions", {
     get: function get() {
+      if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
       return this.instance.defaultOptions;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "element", {
-    get: function get() {
-      return this.instance.element;
     },
     enumerable: true,
     configurable: true
   });
   Object.defineProperty(VueAutoDropzone.prototype, "events", {
     get: function get() {
+      if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
       return this.instance.events;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "files", {
-    get: function get() {
-      return this.instance.files;
     },
     enumerable: true,
     configurable: true
   });
   Object.defineProperty(VueAutoDropzone.prototype, "hiddenFileInput", {
     get: function get() {
+      if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
       return this.instance.hiddenFileInput;
     },
     enumerable: true,
@@ -7952,20 +9595,15 @@ function (_super) {
   });
   Object.defineProperty(VueAutoDropzone.prototype, "listeners", {
     get: function get() {
+      if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
       return this.instance.listeners;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  Object.defineProperty(VueAutoDropzone.prototype, "previewsContainer", {
-    get: function get() {
-      return this.instance.previewsContainer;
     },
     enumerable: true,
     configurable: true
   });
   Object.defineProperty(VueAutoDropzone.prototype, "version", {
     get: function get() {
+      if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
       return this.instance.version;
     },
     enumerable: true,
@@ -7986,11 +9624,27 @@ function (_super) {
     default: true
   })], VueAutoDropzone.prototype, "includeStyling", void 0);
 
-  __decorate([Prop({
-    type: Boolean,
-    required: false,
-    default: true
-  })], VueAutoDropzone.prototype, "destroyDropzone", void 0);
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "acceptedFiles", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "rejectedFiles", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "queuedFiles", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "uploadingFiles", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "addedFiles", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "activeFiles", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "defaultOptions", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "events", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "hiddenFileInput", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "listeners", null);
+
+  __decorate([component_NoCache], VueAutoDropzone.prototype, "version", null);
 
   VueAutoDropzone = __decorate([vue_class_component_esm], VueAutoDropzone);
   return VueAutoDropzone;
@@ -8001,6 +9655,9 @@ function (_super) {
  /* harmony default export */ var component_VueAutoDropzonevue_type_script_lang_ts_ = (VueAutoDropzonevue_type_script_lang_ts_); 
 // EXTERNAL MODULE: ./src/component/vueAutoDropzone.css?vue&type=style&index=0&lang=css&
 var vueAutoDropzonevue_type_style_index_0_lang_css_ = __webpack_require__("c4d2");
+
+// EXTERNAL MODULE: ./src/component/VueAutoDropzone.vue?vue&type=style&index=1&id=72c2b3dd&lang=scss&scoped=true&
+var VueAutoDropzonevue_type_style_index_1_id_72c2b3dd_lang_scss_scoped_true_ = __webpack_require__("77c3");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -8104,6 +9761,7 @@ function normalizeComponent (
 
 
 
+
 /* normalize component */
 
 var component = normalizeComponent(
@@ -8112,7 +9770,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  null,
+  "72c2b3dd",
   null
   
 )

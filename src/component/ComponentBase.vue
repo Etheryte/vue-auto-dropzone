@@ -180,14 +180,16 @@ export default class VueAutoDropzone extends Vue {
             const file = await urltoFile(fileOrDataString, fileName, mimeType);
             if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
             // The missing fields get added internally
-            return this.instance.addFile(file as DropzoneFile);
+            // eslint-disable-next-line no-useless-call
+            return this.instance.addFile.call(this.instance, file as DropzoneFile);
         } else {
             // Manual check to let the user know they can't set the name and mime for File instances
             if (fileName || mimeType) {
                 throw new TypeError('File.name and File.type are readonly properties');
             }
             if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-            return this.instance.addFile(fileOrDataString as DropzoneFile);
+            // eslint-disable-next-line no-useless-call
+            return this.instance.addFile.call(this.instance, fileOrDataString as DropzoneFile);
         }
     }
 

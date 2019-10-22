@@ -39,7 +39,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import VueAutoDropzone from '@/component/VueAutoDropzone.vue';
+import VueAutoDropzone, { IDropzoneOptions } from '@/component/VueAutoDropzone.vue';
 
 @Component({
     components: {
@@ -61,7 +61,10 @@ export default class App extends Vue {
 
     options = {
         url: 'https://httpbin.org/anything',
-    };
+        headers: {
+            'X-CSRF-Token': 'foobar',
+        },
+    } as IDropzoneOptions;
 
     log(...args) {
         console.log.apply(console, args as any);
