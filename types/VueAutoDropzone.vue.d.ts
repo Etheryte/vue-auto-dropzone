@@ -7,7 +7,7 @@ export interface IDropzoneInstance extends Dropzone {
     options: IDropzoneOptions;
     events: string[];
 }
-interface IUpload {
+export interface IUpload {
     uuid: string;
     /** File upload progress, number `0..100` */
     progress: number;
@@ -17,7 +17,7 @@ interface IUpload {
     chunked: boolean;
     totalChunkCount: number;
 }
-interface IDropzoneFile extends DropzoneFile {
+export interface IDropzoneFile extends DropzoneFile {
     dataURL?: string;
     upload: IUpload;
 }

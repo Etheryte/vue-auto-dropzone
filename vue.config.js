@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 
 // TODO: Use author from package instead
 const banner = `

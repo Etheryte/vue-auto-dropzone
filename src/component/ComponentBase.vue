@@ -37,7 +37,7 @@ export interface IDropzoneInstance extends Dropzone {
     events: string[];
 }
 
-interface IUpload {
+export interface IUpload {
     uuid: string;
     /** File upload progress, number `0..100` */
     progress: number;
@@ -48,7 +48,7 @@ interface IUpload {
     totalChunkCount: number;
 }
 
-interface IDropzoneFile extends DropzoneFile {
+export interface IDropzoneFile extends DropzoneFile {
     dataURL?: string;
     upload: IUpload;
 }
@@ -176,21 +176,22 @@ export default class VueAutoDropzone extends Vue {
         fileName?: T extends string ? string : never,
         mimeType?: T extends string ? string : never,
     ) {
+        let inputFile;
         if (typeof fileOrDataString === 'string') {
-            const file = await urltoFile(fileOrDataString, fileName, mimeType);
-            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-            // The missing fields get added internally
-            // eslint-disable-next-line no-useless-call
-            return this.instance.addFile.call(this.instance, file as DropzoneFile);
+            inputFile = await urltoFile(fileOrDataString, fileName, mimeType);
         } else {
             // Manual check to let the user know they can't set the name and mime for File instances
             if (fileName || mimeType) {
                 throw new TypeError('File.name and File.type are readonly properties');
             }
-            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-            // eslint-disable-next-line no-useless-call
-            return this.instance.addFile.call(this.instance, fileOrDataString as DropzoneFile);
+            inputFile = fileOrDataString;
         }
+        if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+
+        inputFile.$isManual = true;
+        // The missing fields get added internally
+        // eslint-disable-next-line no-useless-call
+        return this.instance.addFile.call(this.instance, inputFile as DropzoneFile);
     }
 
     /** Get all Dropzone options */

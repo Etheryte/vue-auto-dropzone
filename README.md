@@ -114,7 +114,8 @@ The instance is available once the component is [mounted](https://vuejs.org/v2/g
 ```ts
 mounted() {
     const dz = this.$refs.dz;
-    dz.disable();
+    // Manually add a file
+    dz.addFile('data:image/png;...', 'image.png');
 }
 ```
 

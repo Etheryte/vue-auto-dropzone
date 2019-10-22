@@ -10,13 +10,13 @@ describe('configuration', () => {
         },
     };
 
-    it('mirrors method overwriting to internal instance', () => {
+    it('internal instance methods can be set', () => {
         const fn = () => { };
         const wrapper = shallowMount(Component, {
             propsData: loopbackConfig,
         });
         const vm = wrapper.vm as any;
-        vm.destroy = fn;
+        vm.setDestroy(fn);
         expect(vm.instance.destroy).to.equal(fn);
     });
 

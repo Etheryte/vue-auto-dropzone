@@ -1,6 +1,6 @@
 {
   "name": "vue-auto-dropzone",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "Karl Tarvas <info@karltarvas.com> (https://www.karltarvas.com)",
   "description": "Vue 2 Dropzone.js component",
   "repository": {
@@ -24,7 +24,9 @@
     "build:lib": "vue-cli-service build --target lib --name index src/component/VueAutoDropzone.vue",
     "build": "yarn build:component && yarn build:lib",
     "test:unit": "vue-cli-service test:unit",
-    "test": "yarn build:component && yarn test:unit"
+    "test:component": "yarn build:component && yarn test:unit",
+    "test": "yarn test:unit",
+    "prepublishOnly": "yarn build && yarn lint && yarn test"
   },
   "dependencies": {
     "@types/dropzone": "^5.0.6",

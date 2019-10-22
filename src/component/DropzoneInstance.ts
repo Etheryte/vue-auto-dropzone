@@ -1,6 +1,6 @@
 import Dropzone from 'dropzone';
 
-import VueAutoDropzone, { IDropzoneOptions, IDropzoneInstance } from './VueAutoDropzone.vue';
+import VueAutoDropzone, { IDropzoneOptions, IDropzoneInstance, IDropzoneFile, IUpload } from './VueAutoDropzone.vue';
 
 export default function getInstance(
     vm: VueAutoDropzone,
@@ -15,8 +15,10 @@ export default function getInstance(
     class DropzoneInstance extends Dropzone implements IDropzoneInstance {
         // Dropzone type definitions incorrectly identify this as static on instances
         options!: IDropzoneOptions;
-        // This field is missing from the official types
+        // These fields are missing from the official types
         events!: string[];
+        element!: HTMLElement;
+        hiddenFileInput?: Node | null;
 
         private originalPreviewscontainer;
 
@@ -33,9 +35,17 @@ export default function getInstance(
         }
 
         destroy() {
-            const retVal = super.destroy();
             fragment = undefined;
-            return retVal;
+            // The native destroy also removes all files from the server, reimplement without that logic
+            this.disable();
+
+            if (this.hiddenFileInput && this.hiddenFileInput.parentNode) {
+                this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);
+                this.hiddenFileInput = null;
+            }
+            delete this.element.dropzone;
+
+            return Dropzone.instances.splice(Dropzone.instances.indexOf(this), 1);
         }
 
         useFragment(hasSlots: boolean) {
@@ -58,6 +68,27 @@ export default function getInstance(
 
         set files(value: VueAutoDropzone['files']) {
             vm.files.splice(0, vm.files.length, ...value);
+        }
+
+        enqueueFile(file: IDropzoneFile) {
+            if (Object.prototype.hasOwnProperty.call(file, '$isManual')) {
+                // If we're manually adding a file, fill all values as done
+                file.status = Dropzone.SUCCESS;
+                Object.assign(file.upload, {
+                    progress: 100,
+                    total: file.size,
+                    bytesSent: file.size,
+                } as IUpload);
+
+                // And emit all relevant events with identical params
+                this.emit('uploadprogress', file, 100, file.size);
+                this.emit('success', file);
+                this.emit('complete', file);
+
+                // There is no clear singular reasonable return value here, just give the user something to work with
+                return Promise.resolve([file]);
+            }
+            return super.enqueueFile(file);
         }
     }
 

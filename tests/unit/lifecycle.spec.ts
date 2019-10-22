@@ -41,17 +41,7 @@ describe('lifecycle', () => {
                 default: '<div>slot content</div>',
             },
         });
-        expect(wrapper.text()).to.equal('slot content');
-    });
-
-    it('mirrors method overwriting to internal instance', () => {
-        const fn = () => {};
-        const wrapper = shallowMount(Component, {
-            propsData: loopbackConfig,
-        });
-        const vm = wrapper.vm as any;
-        vm.destroy = fn;
-        expect(vm.instance.destroy).to.equal(fn);
+        expect(wrapper.text()).to.contain('slot content');
     });
 
     it('destroys instance on unmount', () => {
@@ -59,7 +49,8 @@ describe('lifecycle', () => {
         const wrapper = shallowMount(Component, {
             propsData: loopbackConfig,
         });
-        (wrapper.vm as any).destroy = spy;
+        const vm = wrapper.vm as any;
+        vm.setDestroy(spy);
         wrapper.destroy();
         expect(spy.calledOnce).to.equal(true);
     });
