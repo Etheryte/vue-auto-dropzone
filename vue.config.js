@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 
-// TODO: Use author from package instead
 const banner = `
 vue-auto-dropzone
 
@@ -18,14 +17,6 @@ module.exports = {
     css: {
         extract: false,
     },
-    /*
-    plugins: [
-            new webpack.BannerPlugin({
-                banner: banner,
-                entryOnly: true,
-            }),
-        ],
-    */
     configureWebpack: config => {
         if (process.env.NODE_ENV !== 'production') return;
 
@@ -35,16 +26,25 @@ module.exports = {
                 if (idx !== -1) rule.use.splice(idx, 1);
             }
         });
-
-        // config.plugin(webpack.BannerPlugin);
     },
-    // Generate TS types, see https://github.com/vuejs/vue-cli/issues/1081#issuecomment-473530301
     chainWebpack: config => {
+        // Make dist available for tests
+        // See: https://webpack.js.org/configuration/resolve/
+        config.resolve.alias.set('dist', path.join(__dirname, 'dist'));
+
+        // The rest is production-only
         if (process.env.NODE_ENV !== 'production') return;
 
-        // TODO: Test. disable cache (not sure if this is actually useful...)
+        config.plugin('banner')
+            .use(webpack.BannerPlugin, [{
+                banner: banner,
+                entryOnly: true,
+            }]);
+
+        // TODO: Test: disable cache (not sure if this is actually useful...)
         config.module.rule('ts').uses.delete('cache-loader');
 
+        // Generate TS types, see https://github.com/vuejs/vue-cli/issues/1081#issuecomment-473530301
         config.module
             .rule('ts')
             .use('ts-loader')
