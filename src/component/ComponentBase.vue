@@ -16,8 +16,9 @@
 // $$HEADER
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
+// TODO: Only import Dropzone if we're in a browser environment since it requires 'window'
+// See: https://2ality.com/2017/01/import-operator.html
 import Dropzone, { DropzoneOptions, DropzoneFile } from 'dropzone';
-import { debounce } from 'underscore';
 
 import getInstance from './DropzoneInstance';
 import NoCache from './NoCache';
