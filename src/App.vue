@@ -61,6 +61,7 @@ export default class App extends Vue {
         const svg = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMSIgaGVpZ2h0PSIyMSIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJhcmNzIj48cG9seWxpbmUgcG9pbnRzPSIyMCA2IDkgMTcgNCAxMiI+PC9wb2x5bGluZT48L3N2Zz4=';
         // this.$refs.dz1.addFile(png, 'foo');
         this.$refs.dz1.addFile(svg, 'bar', 'image/svg+xml');
+        // this.$refs.dz1.processQueue();
         // this.$refs.dz2.addFile(data, 'foobar');
     }
 

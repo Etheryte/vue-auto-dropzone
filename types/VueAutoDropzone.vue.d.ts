@@ -90,6 +90,9 @@ export default class VueAutoDropzone extends Vue {
     readonly activeFiles: IDropzoneFile[];
     /** Manually add a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type */
     addFile<T extends FileOrDataString>(fileOrDataString: T, fileName?: T extends string ? string : never, mimeType?: T extends string ? string : never): Promise<void>;
+    /** Manually add and upload a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type */
+    addAndUploadFile<T extends FileOrDataString>(fileOrDataString: T, fileName?: T extends string ? string : never, mimeType?: T extends string ? string : never): Promise<void>;
+    private processManualInputFile;
     /** Get all Dropzone options */
     getOptions(): IDropzoneOptions;
     /** Overwrite multiple Dropzone options at once via `Object.assign()` */

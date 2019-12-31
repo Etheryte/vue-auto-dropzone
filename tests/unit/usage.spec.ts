@@ -16,6 +16,16 @@ describe('usage', () => {
         // TODO: Implement
     });
 
+    it('files can be manually added (no upload)', () => {
+        // https://vue-test-utils.vuejs.org/api/wrapper/#trigger
+        // TODO: Implement
+    });
+
+    it('files can be manually added (with upload)', () => {
+        // https://vue-test-utils.vuejs.org/api/wrapper/#trigger
+        // TODO: Implement
+    });
+
     it('emits basic events', () => {
         // https://vue-test-utils.vuejs.org/api/wrapper/#emitted
         // TODO: Implement

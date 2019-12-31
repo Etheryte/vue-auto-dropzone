@@ -71,8 +71,8 @@ export default function getInstance(
         }
 
         enqueueFile(file: IDropzoneFile) {
-            if (Object.prototype.hasOwnProperty.call(file, '$isManual')) {
-                // If we're manually adding a file, fill all values as done
+            if (Object.prototype.hasOwnProperty.call(file, '$autocompleteUpload')) {
+                // If we're manually adding a file without uploading, fill all values as done
                 file.status = Dropzone.SUCCESS;
                 Object.assign(file.upload, {
                     progress: 100,

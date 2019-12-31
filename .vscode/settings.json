@@ -25,4 +25,7 @@
     "javascript.implicitProjectConfig.experimentalDecorators": true,
     "editor.tabSize": 4,
     "typescript.format.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
 }

@@ -6,8 +6,8 @@
  * Original licensing applies for dependencies, bundled and otherwise
  * 
  * More info available: https://github.com/Etheryte/vue-auto-dropzone
- * Build date: 2019-10-24T10:43:21.784Z
- * Build hash: 8f4e76c9469a0479907c
+ * Build date: 2019-12-31T18:57:04.485Z
+ * Build hash: e1779ef3cfd0844efa82
  * 
  */
 module.exports =
@@ -1733,6 +1733,21 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 /***/ }),
 
+/***/ "39e5":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".is-hidden[data-v-99a2bb4c]{display:block;width:0;height:0;margin:0;padding:0;overflow:hidden}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "3a38":
 /***/ (function(module, exports) {
 
@@ -2143,21 +2158,6 @@ module.exports = function (it) {
   return Object(defined(it));
 };
 
-
-/***/ }),
-
-/***/ "4e58":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("76ae");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("4b31acc4", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -3172,21 +3172,6 @@ module.exports = !$assign || __webpack_require__("79e5")(function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("6718")('observable');
-
-
-/***/ }),
-
-/***/ "76ae":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".is-hidden[data-v-0df377d1]{display:block;width:0;height:0;margin:0;padding:0;overflow:hidden}", ""]);
-
-// exports
 
 
 /***/ }),
@@ -7501,6 +7486,17 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "b866":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_99a2bb4c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d9ff");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_99a2bb4c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_99a2bb4c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_99a2bb4c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "b8e3":
 /***/ (function(module, exports) {
 
@@ -7961,6 +7957,21 @@ exports.f = __webpack_require__("8e60") ? Object.defineProperty : function defin
 
 /***/ }),
 
+/***/ "d9ff":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("39e5");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("418cdd72", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "dbdb":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7977,17 +7988,6 @@ var store = global[SHARED] || (global[SHARED] = {});
   copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 });
 
-
-/***/ }),
-
-/***/ "dca8":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_0df377d1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("4e58");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_0df377d1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_0df377d1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueAutoDropzone_vue_vue_type_style_index_1_id_0df377d1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -9107,7 +9107,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"26f28a2a-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=template&id=0df377d1&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"26f28a2a-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/component/VueAutoDropzone.vue?vue&type=template&id=99a2bb4c&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-auto-dropzone",class:{ dropzone: _vm.includeStyling }},[(!_vm.instance)?_c('div',{staticClass:"dz-default dz-message"},[_vm._v("\n    "+_vm._s(_vm.defaultMessage)+"\n  ")]):[(_vm.hasDefaultSlot)?_vm._t("default",null,null,_vm.slotScope):_vm._e(),_c('div',{class:{
         'is-hidden': _vm.hasDefaultSlot,
         'dz-default dz-message': _vm.includeStyling
@@ -9115,7 +9115,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=template&id=0df377d1&scoped=true&
+// CONCATENATED MODULE: ./src/component/VueAutoDropzone.vue?vue&type=template&id=99a2bb4c&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/symbol/iterator.js
 var iterator = __webpack_require__("5d58");
@@ -9956,8 +9956,8 @@ function getInstance(vm, element, options, hasSlots) {
     });
 
     DropzoneInstance.prototype.enqueueFile = function (file) {
-      if (Object.prototype.hasOwnProperty.call(file, '$isManual')) {
-        // If we're manually adding a file, fill all values as done
+      if (Object.prototype.hasOwnProperty.call(file, '$autocompleteUpload')) {
+        // If we're manually adding a file without uploading, fill all values as done
         file.status = dropzone_default.a.SUCCESS;
         Object.assign(file.upload, {
           progress: 100,
@@ -10227,6 +10227,55 @@ function (_super) {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
+            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+            return [4
+            /*yield*/
+            , this.processManualInputFile(fileOrDataString, fileName, mimeType)];
+
+          case 1:
+            inputFile = _a.sent();
+            inputFile.$autocompleteUpload = true; // The missing fields get added internally
+            // eslint-disable-next-line no-useless-call
+
+            return [2
+            /*return*/
+            , this.instance.addFile.call(this.instance, inputFile)];
+        }
+      });
+    });
+  };
+  /** Manually add and upload a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type */
+
+
+  VueAutoDropzone.prototype.addAndUploadFile = function (fileOrDataString, fileName, mimeType) {
+    return __awaiter(this, void 0, void 0, function () {
+      var inputFile;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+            return [4
+            /*yield*/
+            , this.processManualInputFile(fileOrDataString, fileName, mimeType)];
+
+          case 1:
+            inputFile = _a.sent(); // The missing fields get added internally
+            // eslint-disable-next-line no-useless-call
+
+            return [2
+            /*return*/
+            , this.instance.addFile.call(this.instance, inputFile)];
+        }
+      });
+    });
+  };
+
+  VueAutoDropzone.prototype.processManualInputFile = function (fileOrDataString, fileName, mimeType) {
+    return __awaiter(this, void 0, void 0, function () {
+      var inputFile;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
             if (!(typeof fileOrDataString === 'string')) return [3
             /*break*/
             , 2];
@@ -10250,13 +10299,9 @@ function (_super) {
             _a.label = 3;
 
           case 3:
-            if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-            inputFile.$isManual = true; // The missing fields get added internally
-            // eslint-disable-next-line no-useless-call
-
             return [2
             /*return*/
-            , this.instance.addFile.call(this.instance, inputFile)];
+            , inputFile];
         }
       });
     });
@@ -10959,8 +11004,8 @@ function (_super) {
 // EXTERNAL MODULE: ./src/component/vueAutoDropzone.css?vue&type=style&index=0&lang=css&
 var vueAutoDropzonevue_type_style_index_0_lang_css_ = __webpack_require__("c4d2");
 
-// EXTERNAL MODULE: ./src/component/VueAutoDropzone.vue?vue&type=style&index=1&id=0df377d1&lang=scss&scoped=true&
-var VueAutoDropzonevue_type_style_index_1_id_0df377d1_lang_scss_scoped_true_ = __webpack_require__("dca8");
+// EXTERNAL MODULE: ./src/component/VueAutoDropzone.vue?vue&type=style&index=1&id=99a2bb4c&lang=scss&scoped=true&
+var VueAutoDropzonevue_type_style_index_1_id_99a2bb4c_lang_scss_scoped_true_ = __webpack_require__("b866");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -11073,7 +11118,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "0df377d1",
+  "99a2bb4c",
   null
   
 )

@@ -184,6 +184,34 @@ export default class VueAutoDropzone extends Vue {
         fileName?: T extends string ? string : never,
         mimeType?: T extends string ? string : never,
     ) {
+        if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+        const inputFile = await this.processManualInputFile(fileOrDataString, fileName, mimeType);
+
+        inputFile.$autocompleteUpload = true;
+        // The missing fields get added internally
+        // eslint-disable-next-line no-useless-call
+        return this.instance.addFile.call(this.instance, inputFile as DropzoneFile);
+    }
+
+    /** Manually add and upload a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type */
+    async addAndUploadFile<T extends FileOrDataString>(
+        fileOrDataString: T,
+        fileName?: T extends string ? string : never,
+        mimeType?: T extends string ? string : never,
+    ) {
+        if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+        const inputFile = await this.processManualInputFile(fileOrDataString, fileName, mimeType);
+
+        // The missing fields get added internally
+        // eslint-disable-next-line no-useless-call
+        return this.instance.addFile.call(this.instance, inputFile as DropzoneFile);
+    }
+
+    private async processManualInputFile<T extends FileOrDataString>(
+        fileOrDataString: T,
+        fileName?: T extends string ? string : never,
+        mimeType?: T extends string ? string : never,
+    ) {
         let inputFile;
         if (typeof fileOrDataString === 'string') {
             inputFile = await urltoFile(fileOrDataString, fileName, mimeType);
@@ -194,12 +222,7 @@ export default class VueAutoDropzone extends Vue {
             }
             inputFile = fileOrDataString;
         }
-        if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-
-        inputFile.$isManual = true;
-        // The missing fields get added internally
-        // eslint-disable-next-line no-useless-call
-        return this.instance.addFile.call(this.instance, inputFile as DropzoneFile);
+        return inputFile;
     }
 
     /** Get all Dropzone options */
