@@ -45,6 +45,16 @@ describe('configuration', () => {
         expect(vm.getOption('url')).to.equal('new value');
     });
 
+    it('sets individual function options', () => {
+        const wrapper = shallowMount(Component, {
+            propsData: loopbackConfig,
+        });
+        const vm = wrapper.vm as any;
+        const value = () => {};
+        vm.setOption('sending', value);
+        expect(vm.getOption('sending')).to.equal(value);
+    });
+
     it('sets multiple options', () => {
         const wrapper = shallowMount(Component, {
             propsData: loopbackConfig,

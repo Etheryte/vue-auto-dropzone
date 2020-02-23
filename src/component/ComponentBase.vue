@@ -77,7 +77,6 @@ export default class VueAutoDropzone extends Vue {
     @Prop({
         type: Object,
         required: true,
-        validator: (value) => typeof value === 'object' && !!value.url,
     })
     options!: IDropzoneOptions;
 
@@ -231,10 +230,12 @@ export default class VueAutoDropzone extends Vue {
         return this.instance.options;
     }
 
-    /** Overwrite multiple Dropzone options at once via `Object.assign()` */
+    /** Overwrite multiple Dropzone options at once */
     setOptions(value: Partial<IDropzoneOptions>) {
         if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-        Object.assign(this.instance.options, value);
+        for (const key in value) {
+            Vue.set(this.instance.options, key, value[key]);
+        }
     }
 
     /** Get a single Dropzone option by key */
@@ -246,7 +247,17 @@ export default class VueAutoDropzone extends Vue {
     /** Set a single Dropzone option */
     setOption<T extends keyof IDropzoneOptions>(key: T, value: IDropzoneOptions[T]) {
         if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-        this.instance.options[key] = value;
+
+        // If there's an old listener, remove it and add a new one
+        if (this.instance.events.indexOf(key) !== -1) {
+            if (this.instance.options[key]) {
+                this.instance.off(key, this.instance.options[key] as any);
+            }
+            if (typeof value === 'function') {
+                this.instance.on(key, value as any);
+            }
+        }
+        Vue.set(this.instance.options, key, value);
     }
 
     // $$COMBINED_PARTIALS

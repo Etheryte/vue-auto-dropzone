@@ -1,6 +1,6 @@
 {
   "name": "vue-auto-dropzone",
-  "version": "0.1.13",
+  "version": "0.2.0",
   "author": "Karl Tarvas <info@karltarvas.com> (https://www.karltarvas.com)",
   "description": "Vue 2 Dropzone.js component",
   "repository": {
@@ -14,15 +14,33 @@
   "private": false,
   "main": "./dist/index.umd.js",
   "types": "./types/VueAutoDropzone.vue.d.ts",
+  "watch": {
+    "build:component": {
+      "patterns": [ "src" ],
+      "extensions": "ts,vue,css",
+      "ignore": [
+        "src/component/VueAutoDropzone.vue",
+        "src/component/vueAutoDropzone.css"
+      ]
+    },
+    "build": {
+      "patterns": [ "src" ],
+      "extensions": "ts,vue,css",
+      "ignore": [
+        "src/component/VueAutoDropzone.vue",
+        "src/component/vueAutoDropzone.css"
+      ]
+    }
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:build": "yarn build:component && yarn serve",
     "lint": "vue-cli-service lint --fix",
     "build:component": "ts-node src/node/index.ts && yarn lint",
-    "build:comments": "ts-node src/node/comments.ts",
-    "build:component:watch": "TODO: implement",
+    "build:component:watch": "npm-watch build:component",
     "build:lib": "vue-cli-service build --target lib --name index src/component/VueAutoDropzone.vue",
     "build": "yarn build:component && yarn build:lib",
+    "build:watch": "npm-watch build",
     "test:unit": "vue-cli-service test:unit",
     "test:component": "yarn build:component && yarn test:unit",
     "test": "yarn test:unit",
@@ -30,7 +48,8 @@
   },
   "dependencies": {
     "@types/dropzone": "^5.0.6",
-    "dropzone": "^5.5.1",
+    "dropzone": "^5.7.0",
+    "npm-watch": "^0.6.0",
     "typescript": "3.6.4",
     "vue": "^2.6.10"
   },
@@ -51,14 +70,14 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
+    "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
-    "eslint": "^5.16.0",
-    "jsdom-global": "^3.0.2",
     "jsdom": "^15.1.1",
+    "jsdom-global": "^3.0.2",
     "prettier": "^1.18.2",
-    "sass-loader": "^7.1.0",
     "sass": "^1.18.0",
+    "sass-loader": "^7.1.0",
     "sinon": "^7.5.0",
     "ts-node": "^8.4.1",
     "vue-class-component": "^7.0.2",

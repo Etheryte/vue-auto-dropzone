@@ -17,16 +17,6 @@ describe('lifecycle', () => {
         }).to.throw();
     });
 
-    it('throws without URL config', () => {
-        expect(() => {
-            shallowMount(Component, {
-                propsData: {
-                    options: {},
-                },
-            });
-        }).to.throw('No URL provided.');
-    });
-
     it('mounts with basic config', () => {
         const wrapper = shallowMount(Component, {
             propsData: loopbackConfig,

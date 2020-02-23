@@ -70,6 +70,7 @@ interface TypeHints {
   defaultOptions: object;
   destroy: (...args: any[]) => any;
   disable: (...args: any[]) => any;
+  displayExistingFile: (...args: any[]) => any;
   drop: (...args: any[]) => any;
   emit: (...args: any[]) => any;
   enable: (...args: any[]) => any;
@@ -118,7 +119,6 @@ export default class VueAutoDropzone extends Vue {
   @Prop({
       type: Object,
       required: true,
-      validator: value => typeof value === 'object' && !!value.url,
   })
   options!: IDropzoneOptions;
 
@@ -288,10 +288,12 @@ export default class VueAutoDropzone extends Vue {
       return this.instance.options;
   }
 
-  /** Overwrite multiple Dropzone options at once via `Object.assign()` */
+  /** Overwrite multiple Dropzone options at once */
   setOptions(value: Partial<IDropzoneOptions>) {
       if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-      Object.assign(this.instance.options, value);
+      for (const key in value) {
+          Vue.set(this.instance.options, key, value[key]);
+      }
   }
 
   /** Get a single Dropzone option by key */
@@ -306,7 +308,17 @@ export default class VueAutoDropzone extends Vue {
       value: IDropzoneOptions[T]
   ) {
       if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
-      this.instance.options[key] = value;
+
+      // If there's an old listener, remove it and add a new one
+      if (this.instance.events.indexOf(key) !== -1) {
+          if (this.instance.options[key]) {
+              this.instance.off(key, this.instance.options[key] as any);
+          }
+          if (typeof value === 'function') {
+              this.instance.on(key, value as any);
+          }
+      }
+      Vue.set(this.instance.options, key, value);
   }
 
   accept(...args: Parameters<CombinedInstance['accept']>) {
@@ -375,6 +387,19 @@ export default class VueAutoDropzone extends Vue {
   setDisable(value: CombinedInstance['disable']) {
       if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
       this.instance.disable = value;
+  }
+
+  displayExistingFile(
+      ...args: Parameters<CombinedInstance['displayExistingFile']>
+  ) {
+      if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+      return this.instance.displayExistingFile.apply(this.instance, args);
+  }
+
+  /** Overwrite Dropzone's internal `displayExistingFile()` method */
+  setDisplayExistingFile(value: CombinedInstance['displayExistingFile']) {
+      if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
+      this.instance.displayExistingFile = value;
   }
 
   drop(...args: Parameters<CombinedInstance['drop']>) {

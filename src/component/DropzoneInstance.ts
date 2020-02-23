@@ -5,7 +5,7 @@ import VueAutoDropzone, { IDropzoneOptions, IDropzoneInstance, IDropzoneFile, IU
 export default function getInstance(
     vm: VueAutoDropzone,
     element: HTMLElement,
-    options: IDropzoneOptions,
+    instanceOptions: IDropzoneOptions,
     hasSlots: boolean
 ): any {
     let fragment: DocumentFragment | undefined = document.createDocumentFragment();
@@ -23,8 +23,8 @@ export default function getInstance(
         private originalPreviewscontainer;
 
         constructor(element: HTMLElement, options: IDropzoneOptions) {
-            // Make a copy since we need to modify properties internally
-            const internalOptions = JSON.parse(JSON.stringify(options));
+            // Spread since we need to modify properties internally
+            const internalOptions = { ...options };
 
             // If no option is defined for the container, make it slottable
             if (hasSlots && !options.previewsContainer) {
@@ -92,5 +92,5 @@ export default function getInstance(
         }
     }
 
-    return new DropzoneInstance(element, options);
+    return new DropzoneInstance(element, instanceOptions);
 }

@@ -30,6 +30,7 @@ interface TypeHints {
     defaultOptions: object;
     destroy: (...args: any[]) => any;
     disable: (...args: any[]) => any;
+    displayExistingFile: (...args: any[]) => any;
     drop: (...args: any[]) => any;
     emit: (...args: any[]) => any;
     enable: (...args: any[]) => any;
@@ -95,7 +96,7 @@ export default class VueAutoDropzone extends Vue {
     private processManualInputFile;
     /** Get all Dropzone options */
     getOptions(): IDropzoneOptions;
-    /** Overwrite multiple Dropzone options at once via `Object.assign()` */
+    /** Overwrite multiple Dropzone options at once */
     setOptions(value: Partial<IDropzoneOptions>): void;
     /** Get a single Dropzone option by key */
     getOption(key: keyof IDropzoneOptions): string | number | boolean | {} | HTMLElement | (string | HTMLElement)[] | ((name: string) => string) | Dropzone.DropzoneDictFileSizeUnits | ((file: Dropzone.DropzoneFile, done: (error?: string | Error | undefined) => void) => void) | ((file: Dropzone.DropzoneFile, done: (error?: string | Error | undefined) => void) => void) | ((this: Dropzone) => void) | (() => void) | ((file: Dropzone.DropzoneFile, width?: number | undefined, height?: number | undefined, resizeMethod?: string | undefined) => Dropzone.DropzoneResizeInfo) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | (() => void) | ((file: Dropzone.DropzoneFile) => void) | ((files: Dropzone.DropzoneFile[]) => void) | ((file: Dropzone.DropzoneFile) => void) | ((file: Dropzone.DropzoneFile, dataUrl: string) => void) | ((file: Dropzone.DropzoneFile, message: string | Error, xhr: XMLHttpRequest) => void) | ((files: Dropzone.DropzoneFile[], message: string | Error, xhr: XMLHttpRequest) => void) | ((file: Dropzone.DropzoneFile) => void) | ((files: Dropzone.DropzoneFile[]) => void) | ((file: Dropzone.DropzoneFile, progress: number, bytesSent: number) => void) | ((totalProgress: number, totalBytes: number, totalBytesSent: number) => void) | ((file: Dropzone.DropzoneFile, xhr: XMLHttpRequest, formData: FormData) => void) | ((files: Dropzone.DropzoneFile[], xhr: XMLHttpRequest, formData: FormData) => void) | ((file: Dropzone.DropzoneFile, response: string | Object) => void) | ((files: Dropzone.DropzoneFile[], responseText: string) => void) | ((file: Dropzone.DropzoneFile) => void) | ((file: Dropzone.DropzoneFile[]) => void) | ((file: Dropzone.DropzoneFile) => void) | ((file: Dropzone.DropzoneFile[]) => void) | ((file: Dropzone.DropzoneFile) => void) | ((files: Dropzone.DropzoneFile[]) => void) | (() => void) | ((file: Dropzone.DropzoneFile, done: (file: string | Blob) => void) => void) | undefined;
@@ -119,6 +120,9 @@ export default class VueAutoDropzone extends Vue {
     disable(...args: Parameters<CombinedInstance['disable']>): void;
     /** Overwrite Dropzone's internal `disable()` method */
     setDisable(value: CombinedInstance['disable']): void;
+    displayExistingFile(...args: Parameters<CombinedInstance['displayExistingFile']>): any;
+    /** Overwrite Dropzone's internal `displayExistingFile()` method */
+    setDisplayExistingFile(value: CombinedInstance['displayExistingFile']): void;
     drop(...args: Parameters<CombinedInstance['drop']>): any;
     /** Overwrite Dropzone's internal `drop()` method */
     setDrop(value: CombinedInstance['drop']): void;
