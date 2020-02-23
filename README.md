@@ -148,5 +148,11 @@ All exposed internals come with corresponding setters similar to those shown abo
 
 ## Contributing
 
-Currently, this repo is iterating reasonably fast and the style is subject to change over time.  
-Pull requests are discouraged, but issue reports and feature requests are very welcome.  
+Pull requests are welcome, same for issue reports and feature requests.  
+For issues, please include a clear repro sample.  
+
+For development, most of the logic resides in `src/component/ComponentBase.vue`.  
+`VueAutoDropzone.vue` is a generated file, do **not** make your modifications there.  
+
+To run the dev build, run `yarn build:component:watch` and `yarn serve` in separate sessions.  
+Before making a PR, be sure to run `yarn test` and `yarn build`.
