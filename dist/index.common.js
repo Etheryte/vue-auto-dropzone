@@ -6,7 +6,7 @@
  * Original licensing applies for dependencies, bundled and otherwise
  * 
  * More info available: https://github.com/Etheryte/vue-auto-dropzone
- * Build date: 2020-02-23T17:54:22.943Z
+ * Build date: 2020-02-23T17:58:41.182Z
  * Build hash: 5a1c1f265ef10c2cbb55
  * 
  */
