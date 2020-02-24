@@ -139,12 +139,12 @@ export default class VueAutoDropzone extends Vue {
   private hasBeenMounted = false;
 
   mounted() {
-      // Dropzone requires window to mount
-      if (typeof window === 'undefined') return;
+      // Dropzone requires window and document to mount
+      if (typeof window === 'undefined' || typeof document === 'undefined') { return; }
       if (this.$isServer && this.hasBeenMounted) return;
       this.hasBeenMounted = true;
 
-      // This isn't inferred correctly here yet
+      // `this` isn't inferred correctly here, it will be in the generated file
       this.instance = getInstance(
       this as any,
       this.$el as HTMLElement,

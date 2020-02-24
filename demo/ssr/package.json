@@ -11,8 +11,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt": "^2.11.0",
-    "vue-auto-dropzone": "^0.1.11"
+    "nuxt": "^2.0.0",
+    "vue-auto-dropzone": "file:../.."
   },
   "devDependencies": {}
 }

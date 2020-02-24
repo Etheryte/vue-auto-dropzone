@@ -4,7 +4,6 @@
 
 <script>
 import VueAutoDropzone from 'vue-auto-dropzone';
-
 export default {
     components: {
         VueAutoDropzone,
