@@ -18,19 +18,16 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 // TODO: Only import Dropzone if we're in a browser environment since it requires 'window'
 // See: https://2ality.com/2017/01/import-operator.html
-import Dropzone, { DropzoneOptions, DropzoneFile } from 'dropzone';
+// NB! Use this import only as a type!
+import DropzoneType, { DropzoneOptions, DropzoneFile } from 'dropzone';
 
 import getInstance from './DropzoneInstance';
 import NoCache from './NoCache';
 import urltoFile from './fileUtil';
 
-// Only mount manually
-Dropzone.autoDiscover = false;
-
 export interface IDropzoneOptions extends DropzoneOptions {
     url: string;
 }
-
 export interface IDropzoneInstance extends Dropzone {
     // Dropzone type definitions incorrectly identify this as static on instances
     options: IDropzoneOptions;
@@ -53,6 +50,21 @@ export interface IDropzoneFile extends DropzoneFile {
     dataURL?: string;
     upload: IUpload;
 }
+
+let Dropzone: typeof DropzoneType;
+
+// SSR hacks ahoy
+if (typeof window === 'undefined' || typeof document === 'undefined') {
+    Dropzone = { } as unknown as typeof DropzoneType;
+} else {
+    Dropzone = require('dropzone');
+}
+
+// Reexport for others to use
+export { Dropzone };
+
+// Only mount manually
+Dropzone.autoDiscover = false;
 
 type FileOrDataString = Dropzone.DropzoneFile | File | string;
 
@@ -189,7 +201,7 @@ export default class VueAutoDropzone extends Vue {
         inputFile.$autocompleteUpload = true;
         // The missing fields get added internally
         // eslint-disable-next-line no-useless-call
-        return this.instance.addFile.call(this.instance, inputFile as DropzoneFile);
+        return this.instance.addFile.call(this.instance, inputFile as IDropzoneFile);
     }
 
     /** Manually add and upload a new file, input is either a `File` or a data string (`"data:image/..."`) with a file name and optional mime type */
@@ -203,7 +215,7 @@ export default class VueAutoDropzone extends Vue {
 
         // The missing fields get added internally
         // eslint-disable-next-line no-useless-call
-        return this.instance.addFile.call(this.instance, inputFile as DropzoneFile);
+        return this.instance.addFile.call(this.instance, inputFile as IDropzoneFile);
     }
 
     private async processManualInputFile<T extends FileOrDataString>(
@@ -238,8 +250,9 @@ export default class VueAutoDropzone extends Vue {
         }
     }
 
+    // TODO: Fix types
     /** Get a single Dropzone option by key */
-    getOption(key: keyof IDropzoneOptions) {
+    getOption(key: keyof IDropzoneOptions | any) {
         if (!this.instance) throw new TypeError(uninitiatedInstanceMessage);
         return this.instance.options[key];
     }

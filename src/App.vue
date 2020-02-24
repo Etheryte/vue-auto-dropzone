@@ -64,10 +64,8 @@ export default class App extends Vue {
 
         // console.log(this.$refs.dz2.getOption('sending'));
         this.$refs.dz2.setOption('sending', function override(file, xhr) {
-            debugger;
             var _send = xhr.send;
             xhr.send = function() {
-                debugger;
                 _send.call(xhr, file);
             };
         });

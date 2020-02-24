@@ -1,5 +1,5 @@
 import { Vue } from 'vue-property-decorator';
-import Dropzone, { DropzoneOptions, DropzoneFile } from 'dropzone';
+import DropzoneType, { DropzoneOptions, DropzoneFile } from 'dropzone';
 export interface IDropzoneOptions extends DropzoneOptions {
     url: string;
 }
@@ -21,6 +21,8 @@ export interface IDropzoneFile extends DropzoneFile {
     dataURL?: string;
     upload: IUpload;
 }
+declare let Dropzone: typeof DropzoneType;
+export { Dropzone };
 declare type FileOrDataString = Dropzone.DropzoneFile | File | string;
 interface TypeHints {
     accept: (...args: any[]) => any;
@@ -99,7 +101,7 @@ export default class VueAutoDropzone extends Vue {
     /** Overwrite multiple Dropzone options at once */
     setOptions(value: Partial<IDropzoneOptions>): void;
     /** Get a single Dropzone option by key */
-    getOption(key: keyof IDropzoneOptions): string | number | boolean | {} | HTMLElement | (string | HTMLElement)[] | ((name: string) => string) | Dropzone.DropzoneDictFileSizeUnits | ((file: Dropzone.DropzoneFile, done: (error?: string | Error | undefined) => void) => void) | ((file: Dropzone.DropzoneFile, done: (error?: string | Error | undefined) => void) => void) | ((this: Dropzone) => void) | (() => void) | ((file: Dropzone.DropzoneFile, width?: number | undefined, height?: number | undefined, resizeMethod?: string | undefined) => Dropzone.DropzoneResizeInfo) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | ((e: DragEvent) => void) | (() => void) | ((file: Dropzone.DropzoneFile) => void) | ((files: Dropzone.DropzoneFile[]) => void) | ((file: Dropzone.DropzoneFile) => void) | ((file: Dropzone.DropzoneFile, dataUrl: string) => void) | ((file: Dropzone.DropzoneFile, message: string | Error, xhr: XMLHttpRequest) => void) | ((files: Dropzone.DropzoneFile[], message: string | Error, xhr: XMLHttpRequest) => void) | ((file: Dropzone.DropzoneFile) => void) | ((files: Dropzone.DropzoneFile[]) => void) | ((file: Dropzone.DropzoneFile, progress: number, bytesSent: number) => void) | ((totalProgress: number, totalBytes: number, totalBytesSent: number) => void) | ((file: Dropzone.DropzoneFile, xhr: XMLHttpRequest, formData: FormData) => void) | ((files: Dropzone.DropzoneFile[], xhr: XMLHttpRequest, formData: FormData) => void) | ((file: Dropzone.DropzoneFile, response: string | Object) => void) | ((files: Dropzone.DropzoneFile[], responseText: string) => void) | ((file: Dropzone.DropzoneFile) => void) | ((file: Dropzone.DropzoneFile[]) => void) | ((file: Dropzone.DropzoneFile) => void) | ((file: Dropzone.DropzoneFile[]) => void) | ((file: Dropzone.DropzoneFile) => void) | ((files: Dropzone.DropzoneFile[]) => void) | (() => void) | ((file: Dropzone.DropzoneFile, done: (file: string | Blob) => void) => void) | undefined;
+    getOption(key: keyof IDropzoneOptions | any): any;
     /** Set a single Dropzone option */
     setOption<T extends keyof IDropzoneOptions>(key: T, value: IDropzoneOptions[T]): void;
     accept(...args: Parameters<CombinedInstance['accept']>): void;
@@ -114,7 +116,7 @@ export default class VueAutoDropzone extends Vue {
     createThumbnailFromUrl(...args: Parameters<CombinedInstance['createThumbnailFromUrl']>): any;
     /** Overwrite Dropzone's internal `createThumbnailFromUrl()` method */
     setCreateThumbnailFromUrl(value: CombinedInstance['createThumbnailFromUrl']): void;
-    destroy(...args: Parameters<CombinedInstance['destroy']>): Dropzone;
+    destroy(...args: Parameters<CombinedInstance['destroy']>): DropzoneType;
     /** Overwrite Dropzone's internal `destroy()` method */
     setDestroy(value: CombinedInstance['destroy']): void;
     disable(...args: Parameters<CombinedInstance['disable']>): void;
@@ -126,7 +128,7 @@ export default class VueAutoDropzone extends Vue {
     drop(...args: Parameters<CombinedInstance['drop']>): any;
     /** Overwrite Dropzone's internal `drop()` method */
     setDrop(value: CombinedInstance['drop']): void;
-    emit(...args: Parameters<CombinedInstance['emit']>): Dropzone;
+    emit(...args: Parameters<CombinedInstance['emit']>): DropzoneType;
     /** Overwrite Dropzone's internal `emit()` method */
     setEmit(value: CombinedInstance['emit']): void;
     enable(...args: Parameters<CombinedInstance['enable']>): void;
@@ -147,16 +149,16 @@ export default class VueAutoDropzone extends Vue {
     getFallbackForm(...args: Parameters<CombinedInstance['getFallbackForm']>): any;
     /** Overwrite Dropzone's internal `getFallbackForm()` method */
     setGetFallbackForm(value: CombinedInstance['getFallbackForm']): void;
-    getFilesWithStatus(...args: Parameters<CombinedInstance['getFilesWithStatus']>): Dropzone.DropzoneFile[];
+    getFilesWithStatus(...args: Parameters<CombinedInstance['getFilesWithStatus']>): DropzoneType.DropzoneFile[];
     /** Overwrite Dropzone's internal `getFilesWithStatus()` method */
     setGetFilesWithStatus(value: CombinedInstance['getFilesWithStatus']): void;
     handleFiles(...args: Parameters<CombinedInstance['handleFiles']>): any;
     /** Overwrite Dropzone's internal `handleFiles()` method */
     setHandleFiles(value: CombinedInstance['handleFiles']): void;
-    off(...args: Parameters<CombinedInstance['off']>): Dropzone;
+    off(...args: Parameters<CombinedInstance['off']>): DropzoneType;
     /** Overwrite Dropzone's internal `off()` method */
     setOff(value: CombinedInstance['off']): void;
-    on(...args: Parameters<CombinedInstance['on']>): Dropzone;
+    on(...args: Parameters<CombinedInstance['on']>): DropzoneType;
     /** Overwrite Dropzone's internal `on()` method */
     setOn(value: CombinedInstance['on']): void;
     paste(...args: Parameters<CombinedInstance['paste']>): any;
@@ -201,10 +203,9 @@ export default class VueAutoDropzone extends Vue {
     uploadFiles(...args: Parameters<CombinedInstance['uploadFiles']>): void;
     /** Overwrite Dropzone's internal `uploadFiles()` method */
     setUploadFiles(value: CombinedInstance['uploadFiles']): void;
-    readonly defaultOptions: Dropzone.DropzoneOptions;
+    readonly defaultOptions: DropzoneType.DropzoneOptions;
     readonly events: string[];
     readonly hiddenFileInput: object;
     readonly listeners: any[];
     readonly version: string;
 }
-export {};

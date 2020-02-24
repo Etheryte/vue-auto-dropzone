@@ -1,6 +1,4 @@
-import Dropzone from 'dropzone';
-
-import VueAutoDropzone, { IDropzoneOptions, IDropzoneInstance, IDropzoneFile, IUpload } from './VueAutoDropzone.vue';
+import VueAutoDropzone, { Dropzone, IDropzoneOptions, IDropzoneInstance, IDropzoneFile, IUpload } from './VueAutoDropzone.vue';
 
 export default function getInstance(
     vm: VueAutoDropzone,
@@ -17,8 +15,13 @@ export default function getInstance(
         options!: IDropzoneOptions;
         // These fields are missing from the official types
         events!: string[];
-        element!: HTMLElement;
+        // TODO: Types
+        element?: HTMLElement & { dropzone: IDropzoneInstance };
         hiddenFileInput?: Node | null;
+
+        // These exist but are not inferred
+        emit!: (eventName: string, ...args: any[]) => DropzoneInstance;
+        disable!: () => void;
 
         private originalPreviewscontainer;
 
@@ -43,7 +46,9 @@ export default function getInstance(
                 this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);
                 this.hiddenFileInput = null;
             }
-            delete this.element.dropzone;
+            if (this.element) {
+                delete this.element.dropzone;
+            }
 
             return Dropzone.instances.splice(Dropzone.instances.indexOf(this), 1);
         }

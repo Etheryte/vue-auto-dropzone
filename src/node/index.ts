@@ -13,6 +13,9 @@
     const comments = require(path.resolve(process.env.PWD, 'src/component/comments.ts'));
     const stylePath = require.resolve('dropzone/dist/min/dropzone.min.css');
     const styleOutputPath = path.resolve(process.env.PWD, 'src/component/vueAutoDropzone.css');
+    // TODO: Use minified instead?
+    const libraryPath = require.resolve('dropzone/dist/dropzone.js');
+    const libraryOutputPath = path.resolve(process.env.PWD, 'src/component/dropzone.js');
     const componentBasePath = path.resolve(process.env.PWD, 'src/component/ComponentBase.vue');
     const componentOutputPath = path.resolve(process.env.PWD, 'src/component/VueAutoDropzone.vue');
 
@@ -133,6 +136,19 @@
         // Mirror styles at the time of bundling to avoid release-out-of-sync issues
         const styles = await fs.readFile(stylePath, 'utf8');
         await fs.writeFile(styleOutputPath, styles, 'utf8');
+
+        // Monkeypatch Dropzone for SSR
+        const baseLib = await fs.readFile(libraryPath, 'utf8');
+        const rawLib = baseLib.substring('"use strict";'.length);
+        const lib = [
+            '/* eslint-disable */',
+            '/// <reference path="dropzone" />',
+            // '"use strict";',
+            // rawLib,
+            // 'Dropzone.autoDiscover = false;', // Only mount manually
+            baseLib,
+        ].join('\n');
+        await fs.writeFile(libraryOutputPath, lib, 'utf8');
     } catch (e) {
         console.error(e);
         (process as any).exit(1);

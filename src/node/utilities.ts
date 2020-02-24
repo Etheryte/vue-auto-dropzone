@@ -11,7 +11,7 @@ module.exports = {
 
         return [...properties.keys()];
     },
-    capitalizeFirstLetter(string) {
+    capitalizeFirstLetter(string: string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     },
     lexicographicCompare(a: string, b: string) {
