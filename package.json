@@ -16,7 +16,9 @@
   "types": "./types/VueAutoDropzone.vue.d.ts",
   "watch": {
     "build:component": {
-      "patterns": [ "src" ],
+      "patterns": [
+        "src"
+      ],
       "extensions": "ts,vue,css",
       "ignore": [
         "src/component/VueAutoDropzone.vue",
@@ -24,7 +26,9 @@
       ]
     },
     "build": {
-      "patterns": [ "src" ],
+      "patterns": [
+        "src"
+      ],
       "extensions": "ts,vue,css",
       "ignore": [
         "src/component/VueAutoDropzone.vue",
@@ -64,7 +68,7 @@
     "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-plugin-typescript": "^3.11.0",
     "@vue/cli-plugin-unit-mocha": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
+    "@vue/cli-service": "~4.2.2",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/eslint-config-typescript": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
