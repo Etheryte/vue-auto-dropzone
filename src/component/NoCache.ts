@@ -1,5 +1,5 @@
-import { createDecorator } from 'vue-class-component';
 import { ComputedOptions } from 'vue';
+import { createDecorator } from 'vue-class-component';
 
 const NoCache = createDecorator((options, key) => {
     if (!options.computed) return;

@@ -22,8 +22,6 @@ export interface IDropzoneFile extends DropzoneFile {
     dataURL?: string;
     upload: IUpload;
 }
-declare let Dropzone: typeof DropzoneType;
-export { Dropzone };
 declare type FileOrDataString = Dropzone.DropzoneFile | File | string;
 interface TypeHints {
     accept: (...args: any[]) => any;
@@ -210,3 +208,4 @@ export default class VueAutoDropzone extends Vue {
     readonly listeners: any[];
     readonly version: string;
 }
+export {};

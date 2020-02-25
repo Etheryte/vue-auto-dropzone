@@ -1,18 +1,73 @@
 {
   "name": "vue-auto-dropzone",
   "version": "0.2.0",
-  "author": "Karl Tarvas <info@karltarvas.com> (https://www.karltarvas.com)",
+  "private": false,
   "description": "Vue 2 Dropzone.js component",
+  "author": "Karl Tarvas <info@karltarvas.com> (https://www.karltarvas.com)",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "yarn build:component && yarn build:lib",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint --fix",
+    "build:component": "ts-node src/node/index.ts && yarn lint",
+    "build:component:watch": "npm-watch build:component",
+    "build:lib": "vue-cli-service build --target lib --name index src/component/VueAutoDropzone.vue",
+    "build:watch": "npm-watch build",
+    "prepublishOnly": "yarn build && yarn test",
+    "serve:build": "yarn build:component && yarn serve",
+    "test": "yarn test:unit",
+    "test:component": "yarn build:component && yarn test:unit"
+  },
+  "main": "./dist/index.umd.js",
+  "dependencies": {
+    "@types/dropzone": "^5.0.6",
+    "core-js": "^3.6.4",
+    "dropzone": "^5.7.0",
+    "extract-css-chunks-webpack-plugin": "^4.7.4",
+    "npm-watch": "^0.6.0",
+    "null-loader": "^3.0.0",
+    "typescript": "3.6.4",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.6.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/traverse": "^7.6.3",
+    "@types/chai": "^4.1.0",
+    "@types/mocha": "^5.2.4",
+    "@vue/cli-plugin-babel": "~4.2.2",
+    "@vue/cli-plugin-e2e-cypress": "~4.2.2",
+    "@vue/cli-plugin-eslint": "~4.2.2",
+    "@vue/cli-plugin-typescript": "^3.11.0",
+    "@vue/cli-plugin-unit-mocha": "^3.11.0",
+    "@vue/cli-service": "~4.2.2",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-eslint": "^10.0.1",
+    "chai": "^4.1.2",
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "jsdom": "^15.1.1",
+    "jsdom-global": "^3.0.2",
+    "prettier": "^1.18.2",
+    "sass": "^1.18.0",
+    "sass-loader": "^7.1.0",
+    "sinon": "^7.5.0",
+    "ts-node": "^8.4.1",
+    "vue-class-component": "^7.0.2",
+    "vue-property-decorator": "^8.2.2",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "bugs": {
+    "url": "https://github.com/Etheryte/vue-auto-dropzone/issues"
+  },
+  "homepage": "https://github.com/Etheryte/vue-auto-dropzone",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Etheryte/vue-auto-dropzone.git"
   },
-  "homepage": "https://github.com/Etheryte/vue-auto-dropzone",
-  "bugs": {
-    "url": "https://github.com/Etheryte/vue-auto-dropzone/issues"
-  },
-  "private": false,
-  "main": "./dist/index.umd.js",
   "types": "./types/VueAutoDropzone.vue.d.ts",
   "watch": {
     "build:component": {
@@ -35,59 +90,5 @@
         "src/component/vueAutoDropzone.css"
       ]
     }
-  },
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "serve:build": "yarn build:component && yarn serve",
-    "lint": "vue-cli-service lint --fix",
-    "build:component": "ts-node src/node/index.ts && yarn lint",
-    "build:component:watch": "npm-watch build:component",
-    "build:lib": "vue-cli-service build --target lib --name index src/component/VueAutoDropzone.vue",
-    "build": "yarn build:component && yarn build:lib",
-    "build:watch": "npm-watch build",
-    "test:unit": "vue-cli-service test:unit",
-    "test:component": "yarn build:component && yarn test:unit",
-    "test": "yarn test:unit",
-    "prepublishOnly": "yarn build && yarn test"
-  },
-  "dependencies": {
-    "@types/dropzone": "^5.0.6",
-    "dropzone": "^5.7.0",
-    "extract-css-chunks-webpack-plugin": "^4.7.4",
-    "npm-watch": "^0.6.0",
-    "null-loader": "^3.0.0",
-    "typescript": "3.6.4",
-    "vue": "^2.6.10"
-  },
-  "devDependencies": {
-    "@babel/parser": "^7.6.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/traverse": "^7.6.3",
-    "@types/chai": "^4.1.0",
-    "@types/mocha": "^5.2.4",
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-e2e-cypress": "^3.11.0",
-    "@vue/cli-plugin-eslint": "^3.11.0",
-    "@vue/cli-plugin-typescript": "^3.11.0",
-    "@vue/cli-plugin-unit-mocha": "^3.11.0",
-    "@vue/cli-service": "~4.2.2",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "@vue/eslint-config-typescript": "^4.0.0",
-    "@vue/test-utils": "1.0.0-beta.29",
-    "babel-eslint": "^10.0.1",
-    "chai": "^4.1.2",
-    "eslint": "^5.16.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "jsdom": "^15.1.1",
-    "jsdom-global": "^3.0.2",
-    "prettier": "^1.18.2",
-    "sass": "^1.18.0",
-    "sass-loader": "^7.1.0",
-    "sinon": "^7.5.0",
-    "ts-node": "^8.4.1",
-    "vue-class-component": "^7.0.2",
-    "vue-property-decorator": "^8.2.2",
-    "vue-template-compiler": "^2.6.10"
   }
 }
