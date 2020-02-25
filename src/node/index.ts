@@ -135,7 +135,10 @@
 
         // Mirror styles at the time of bundling to avoid release-out-of-sync issues
         const styles = await fs.readFile(stylePath, 'utf8');
-        await fs.writeFile(styleOutputPath, styles, 'utf8');
+        await fs.writeFile(styleOutputPath, [
+            styles,
+            `.vue-auto-dropzone.is-hidden {display: block;width: 0;height: 0;margin: 0;padding: 0;overflow: hidden;}`,
+        ].join(''), 'utf8');
 
         // Monkeypatch Dropzone for SSR
         const baseLib = await fs.readFile(libraryPath, 'utf8');

@@ -53,7 +53,9 @@
   "dependencies": {
     "@types/dropzone": "^5.0.6",
     "dropzone": "^5.7.0",
+    "extract-css-chunks-webpack-plugin": "^4.7.4",
     "npm-watch": "^0.6.0",
+    "null-loader": "^3.0.0",
     "typescript": "3.6.4",
     "vue": "^2.6.10"
   },

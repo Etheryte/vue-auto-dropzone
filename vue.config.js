@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const banner = `
 vue-auto-dropzone
@@ -15,9 +16,19 @@ Build hash: [hash]
 module.exports = {
     productionSourceMap: true,
     css: {
-        extract: false,
+        // extract: false, // TODO: This breaks ssr but is needed for lib packaging?
     },
     configureWebpack: config => {
+        /*
+        config.optimization = {
+            splitChunks: {
+                name: 'vue-auto-dropzone',
+            },
+        };
+        */
+
+        // config.plugins.push(new ExtractCssChunks());
+
         if (process.env.NODE_ENV !== 'production') return;
 
         config.module.rules.forEach(rule => {
@@ -31,6 +42,28 @@ module.exports = {
         // Make dist available for tests
         // See: https://webpack.js.org/configuration/resolve/
         config.resolve.alias.set('dist', path.join(__dirname, 'dist'));
+
+        // See https://stackoverflow.com/a/58763829/1470607
+        // config.resolve.symlinks(false);
+
+        /*
+        // TODO: Inspect for SSR
+        ['css', 'postcss', 'scss', 'sass', 'less', 'stylus'].forEach(rule => {
+            ['vue-modules', 'vue', 'normal-modules', 'normal'].forEach(oneOf => {
+                config.module.rule(rule).oneOf(oneOf).uses.delete('vue-style-loader');
+                config.module.rule(rule).oneOf(oneOf)
+                    .use('extract-css-chunks-loader')
+                    .loader(ExtractCssChunks.loader);
+            });
+        });
+        */
+        /*
+        const cssRule = config.module.rule('css');
+        cssRule.uses.clear();
+        cssRule
+            .use('extract-css-chunks-loader')
+            .loader('extract-css-chunks-loader');
+            */
 
         // The rest is production-only
         if (process.env.NODE_ENV !== 'production') return;
@@ -56,5 +89,16 @@ module.exports = {
                 opts.onlyCompileBundledFiles = true;
                 return opts;
             });
+
+        // config.module.rule('css').oneOf('vue-modules').use('vue-style-loader').clear();
+
+        // config.module.rule('css').uses.delete('')
+
+        /*
+        config.module
+            .rule('css')
+            .test(/\.(sa|sc|c)ss$/,)
+            .use('null-loader');
+            */
     },
 };

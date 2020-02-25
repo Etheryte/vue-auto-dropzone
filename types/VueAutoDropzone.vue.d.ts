@@ -1,5 +1,6 @@
 import { Vue } from 'vue-property-decorator';
 import DropzoneType, { DropzoneOptions, DropzoneFile } from 'dropzone';
+import './vueAutoDropzone.css';
 export interface IDropzoneOptions extends DropzoneOptions {
     url: string;
 }

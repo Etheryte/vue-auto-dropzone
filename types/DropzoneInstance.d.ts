@@ -1,2 +1,5 @@
-import VueAutoDropzone, { IDropzoneOptions } from './VueAutoDropzone.vue';
-export default function getInstance(vm: VueAutoDropzone, element: HTMLElement, instanceOptions: IDropzoneOptions, hasSlots: boolean): any;
+import Vue from 'vue';
+import { IDropzoneOptions } from './VueAutoDropzone.vue';
+export default function getInstance<T extends Vue & {
+    files: any;
+}>(vm: T, element: HTMLElement, instanceOptions: IDropzoneOptions, hasSlots: boolean): any;

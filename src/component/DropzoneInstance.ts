@@ -1,7 +1,8 @@
-import VueAutoDropzone, { Dropzone, IDropzoneOptions, IDropzoneInstance, IDropzoneFile, IUpload } from './VueAutoDropzone.vue';
+import Vue from 'vue';
+import { Dropzone, IDropzoneOptions, IDropzoneInstance, IDropzoneFile, IUpload } from './VueAutoDropzone.vue';
 
-export default function getInstance(
-    vm: VueAutoDropzone,
+export default function getInstance<T extends Vue & { files: any }>(
+    vm: T,
     element: HTMLElement,
     instanceOptions: IDropzoneOptions,
     hasSlots: boolean
@@ -71,7 +72,7 @@ export default function getInstance(
             return vm.files;
         }
 
-        set files(value: VueAutoDropzone['files']) {
+        set files(value: T['files']) {
             vm.files.splice(0, vm.files.length, ...value);
         }
 

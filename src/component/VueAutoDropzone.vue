@@ -30,6 +30,8 @@ import getInstance from './DropzoneInstance';
 import NoCache from './NoCache';
 import urltoFile from './fileUtil';
 
+import './vueAutoDropzone.css';
+
 export interface IDropzoneOptions extends DropzoneOptions {
   url: string;
 }
@@ -750,14 +752,3 @@ export default class VueAutoDropzone extends Vue {
   }
 }
 </script>
-<style src="./vueAutoDropzone.css"></style>
-<style lang="scss" scoped>
-.is-hidden {
-  display: block;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-</style>
