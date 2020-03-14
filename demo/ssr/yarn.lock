@@ -1168,8 +1168,8 @@ acorn-walk@^6.1.1:
   resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-6.2.0.tgz#123cb8f3b84c2171f1f7fb252615b1c78a6b1a8c"
 
 acorn@^6.0.7, acorn@^6.2.1:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.0.tgz#b659d2ffbafa24baf5db1cdbb2c94a983ecd2784"
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.1.tgz#531e58ba3f51b9dacb9a6646ca4debf5b14ca474"
 
 aggregate-error@^3.0.0:
   version "3.0.1"
@@ -2014,6 +2014,10 @@ core-js@^2.6.5:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
 
+core-js@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.4.tgz#440a83536b458114b9cb2ac1580ba377dc470647"
+
 core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -2715,7 +2719,7 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-css-chunks-webpack-plugin@^4.7.1:
+extract-css-chunks-webpack-plugin@^4.7.1, extract-css-chunks-webpack-plugin@^4.7.4:
   version "4.7.4"
   resolved "https://registry.yarnpkg.com/extract-css-chunks-webpack-plugin/-/extract-css-chunks-webpack-plugin-4.7.4.tgz#db6465ca18d1fe8a89bad3dc72803127638fb477"
   dependencies:
@@ -4140,6 +4144,13 @@ nth-check@^1.0.2, nth-check@~1.0.1:
   resolved "https://registry.yarnpkg.com/nth-check/-/nth-check-1.0.2.tgz#b2bd295c37e3dd58a3bf0700376663ba4d9cf05c"
   dependencies:
     boolbase "~1.0.0"
+
+null-loader@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/null-loader/-/null-loader-3.0.0.tgz#3e2b6c663c5bda8c73a54357d8fa0708dc61b245"
+  dependencies:
+    loader-utils "^1.2.3"
+    schema-utils "^1.0.0"
 
 num2fraction@^1.2.2:
   version "1.2.2"
@@ -6230,8 +6241,11 @@ vm-browserify@^1.0.1:
   version "0.2.0"
   dependencies:
     "@types/dropzone" "^5.0.6"
+    core-js "^3.6.4"
     dropzone "^5.7.0"
+    extract-css-chunks-webpack-plugin "^4.7.4"
     npm-watch "^0.6.0"
+    null-loader "^3.0.0"
     typescript "3.6.4"
     vue "^2.6.10"
 
