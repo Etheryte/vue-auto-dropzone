@@ -1,5 +1,9 @@
 # vue-auto-dropzone
 
+**NB!** This repository is **archived** and will receive no further updates. I recommend using Filepond via [`vue-filepond`](https://github.com/pqina/vue-filepond) for new projects.
+
+<hr>
+
 A [Dropzone.js](https://www.dropzonejs.com) component for Vue.  
 Typescript support, native slots, and more.
 
